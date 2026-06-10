@@ -1,0 +1,450 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Atmayana - Kailash Mansarovar{% endblock %}
+
+{% block nav_packages %}active{% endblock %}
+
+{% block content %}
+
+<a href="#" id="back-to-top"></a>
+<div id="de-loader"></div>
+
+<main>
+
+    <!-- ============================================================ -->
+    <!-- SUBHEADER BANNER                                              -->
+    <!-- ============================================================ -->
+    <section id="subheader" class="relative jarallax text-light"
+        style="background-image: url('{% static 'images/background/sb5.webp' %}'); background-size: cover; background-position: center;">
+        <div class="de-gradient-edge-top"></div>
+        <div class="container relative z-2">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="subtitle s2 text-light wow fadeInUp mb-2">Lets Talk</div>
+                    <div class="clearfix"></div>
+                    <h1 class="cam-style">{{package.name}}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="crumb-wrapper">
+            <ul class="crumb">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Kailash Mansarovar</li>
+            </ul>
+        </div>
+        <img src="{% static 'images/misc/d2.webp' %}" class="abs w-20 end-0 bottom-min-100 z-2" alt="">
+        <div class="sw-overlay op-4"></div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- OVERVIEW SECTION                                              -->
+    <!-- ============================================================ -->
+    <section>
+        <div class="container relative z-2">
+            <div class="row g-4 gx-5 align-items-center relative">
+                <div class="col-md-6">
+                    {% if detail and detail.main_image %}
+                    <img src="{{ detail.main_image.url }}" class="w-100 rounded-1" alt="{{ package.name }}">
+                    {% else %}
+                    <img src="{% static 'images/misc/s5.webp' %}" class="w-100 rounded-1" alt="Kailash Mansarovar">
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <h2 class="split">{{package.name}} – Overview</h2>
+                    <p class="wow fadeInUp" data-wow-delay=".4s" style="text-align: justify;">
+                        {{ detail.maindescription }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PACKAGE ITINERARIES — ACCORDION                               -->
+    <!-- ============================================================ -->
+    <section class="bg-color-op-1">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <div class="subtitle wow fadeInUp">Atmayana Experiences</div>
+                    <h2 class="split">Package Itineraries</h2>
+                </div>
+            </div>
+
+            <div class="row g-custom-4">
+
+                <!-- Column 1 -->
+                <div class="col-lg-6 wow fadeInUp">
+                    <div class="accordion secondary">
+                        <div class="accordion-section">
+
+
+
+                            {% for itinerary in itineraries %}
+
+                            <div class="accordion-section">
+
+                                <div class="accordion-section-title" data-tab="#accordion-{{ forloop.counter }}">
+
+                                    {{ itinerary.heading }}
+
+                                </div>
+
+                                <div class="accordion-section-content" id="accordion-{{ forloop.counter }}">
+
+                                    <p>
+                                        {{ itinerary.description }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="col-lg-6 wow fadeInUp">
+                    <div class="accordion secondary">
+                        <div class="accordion-section">
+
+                            <div class="accordion-section-title" data-tab="#accordion-8">
+                                Day 08 - Lake Manasarovar – Darchen
+                            </div>
+                            <div class="accordion-section-content" id="accordion-8">
+                                <p>Drive from Lake Manasarovar to Darchen, the base camp for the Kailash Parikrama. Rest
+                                    and prepare for the sacred circumambulation of Mount Kailash.</p>
+                            </div>
+
+                            <div class="accordion-section-title" data-tab="#accordion-9">
+                                Day 09 - Darchen – Yamadwar – Derapuk
+                            </div>
+                            <div class="accordion-section-content" id="accordion-9">
+                                <p>Begin the Kailash Parikrama. Trek from Darchen through Yamadwar (Gate of God of
+                                    Death) to Derapuk, with spectacular views of the north face of Mount Kailash.</p>
+                            </div>
+
+                            <div class="accordion-section-title" data-tab="#accordion-10">
+                                Day 10 - Derapuk – Drolma La Pass – Zutul Puk
+                            </div>
+                            <div class="accordion-section-content" id="accordion-10">
+                                <p>The most challenging day — crossing the Drolma La Pass at 5,630 m, the highest point
+                                    of the Parikrama. Descend to Zutul Puk for overnight stay.</p>
+                            </div>
+
+                            <div class="accordion-section-title" data-tab="#accordion-11">
+                                Day 11 - Zutul Puk – Darchen – Saga
+                            </div>
+                            <div class="accordion-section-content" id="accordion-11">
+                                <p>Complete the Kailash Parikrama and drive back to Saga for overnight rest. A day of
+                                    spiritual fulfilment and physical recovery.</p>
+                            </div>
+
+                            <div class="accordion-section-title" data-tab="#accordion-12">
+                                Day 12 - Saga – Kerung (Drive)
+                            </div>
+                            <div class="accordion-section-content" id="accordion-12">
+                                <p>Return drive from Saga to Kerung. Begin the journey back towards Nepal through the
+                                    scenic Tibetan plateau.</p>
+                            </div>
+
+                            <div class="accordion-section-title" data-tab="#accordion-13">
+                                Day 13 - Kerung – Kathmandu (Drive)
+                            </div>
+                            <div class="accordion-section-content" id="accordion-13">
+                                <p>Cross back into Nepal at Rasuwagadhi and drive to Kathmandu. Evening free for
+                                    shopping or personal time.</p>
+                            </div>
+
+                            <div class="accordion-section-title" data-tab="#accordion-14">
+                                Day 14 - Departure from Kathmandu
+                            </div>
+                            <div class="accordion-section-content" id="accordion-14">
+                                <p>Transfer to Tribhuvan International Airport for departure. Carry back the blessings
+                                    and divine memories of Kailash Mansarovar Yatra.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PACKAGE ITINERARY CARDS GRID                                  -->
+    <!-- ============================================================ -->
+    <section style="background-size: cover; background-repeat: no-repeat;">
+        <div class="container relative z-2" style="background-size: cover; background-repeat: no-repeat;">
+            <div class="row g-4" style="background-size: cover; background-repeat: no-repeat;">
+                <div class="col-lg-12" style="background-size: cover; background-repeat: no-repeat;">
+                    <h2>Package itineraries</h2>
+                </div>
+
+
+
+
+
+                <div class="col-lg-4 col-sm-6 mb-4" style="background-size: cover; background-repeat: no-repeat;">
+                    <div class="relative p-4 pb-0 text-center bg-grey mt-5 h-100 rounded-10px"
+                        style="background-size: cover; background-repeat: no-repeat;">
+                        <div class="alt-font absolute end-0 pe-4 fw-bold fs-24 id-color"
+                            style="background-size: cover; background-repeat: no-repeat;">01</div>
+                        <img src="{% static 'images/services/1.webp' %}"
+                            class="circle w-40 mt-min-50 mb-30 shadow-soft wow scaleIn animated animated animated animated"
+                            alt="" style="visibility: visible;">
+                        <h4>Day 1</h4>
+                        <p class="no-bottom">Arrival in Kathmandu</p>
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TOUR HIGHLIGHTS SLIDER                                        -->
+    <!-- ============================================================ -->
+    <section class="relative">
+        <div class="container relative z-2">
+            <div class="row g-4 align-items-end justify-content-between">
+                <div class="col-lg-6">
+                    <div class="subtitle">Atmayana Experiences</div>
+                    <h2 class="split">Tour Highlights</h2>
+                </div>
+                <div class="col-lg-6">
+                    <div class="relative">
+                        <div class="de-custom-nav d-flex flex-end">
+                            <div class="d-prev circle wow zoomIn" data-wow-delay=".2s" id="vlxPrevBtn"></div>
+                            <div class="d-next circle wow zoomIn" data-wow-delay=".3s" id="vlxNextBtn"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spacer-single"></div>
+
+            <div class="vlx-slider-wrapper">
+                <div id="vlxTrack" class="vlx-slider-track">
+
+
+                    {% for highlight in highlights %}
+                    <div class="vlx-card">
+                        <div class="vlx-icon-circle">
+                            {% if highlight.icon %}
+                            <img src="{{ highlight.icon.url }}" alt="{{ highlight.name }}">
+                            {% endif %}
+                        </div>
+                        <h3>{{ highlight.name }}</h3>
+                    </div>
+                    {% endfor %}
+
+                    <!-- <div class="vlx-card">
+                        <div class="vlx-icon-circle">
+                            <svg fill="#ffffff" viewBox="-1.64 0 31.402 31.402" xmlns="http://www.w3.org/2000/svg">
+                                <path id="Path_11"
+                                    d="M94.616,129.825H93.244v-8.41a.924.924,0,0,0-.451-.8,6,6,0,0,0-2.117-.694c-.831-.134-2.714-.681-9.657-.681h-.012c-6.943,0-8.826.547-9.657.681a6.017,6.017,0,0,0-2.12.694.931.931,0,0,0-.452.8v8.41H67.409a.459.459,0,0,0-.459.461v5.042a.459.459,0,0,0,.459.46h1.369v11.755a.46.46,0,0,0,.461.46h.484v1.1c0,1.629,1.212,1.543,2.735,1.543s2.781.086,2.781-1.543v-1.023H86.787V149.1c0,1.629,1.254,1.543,2.781,1.543s2.738.086,2.738-1.543V148h.481a.458.458,0,0,0,.457-.46V135.788h1.372a.46.46,0,0,0,.46-.46v-5.042A.46.46,0,0,0,94.616,129.825Zm-19.287-7.68H86.695v3.676H75.329Zm1.237,21.7a.554.554,0,0,1-.556.548H71.252a.553.553,0,0,1-.552-.548V142.19a.556.556,0,0,1,.552-.555H76.01a.557.557,0,0,1,.556.555Zm14.759,0a.553.553,0,0,1-.551.548H86.017a.555.555,0,0,1-.557-.548V142.19a.557.557,0,0,1,.557-.555h4.757a.556.556,0,0,1,.551.555Zm0-6.236a.46.46,0,0,1-.459.46H71.16a.46.46,0,0,1-.46-.46v-8.565a.459.459,0,0,1,.46-.46H90.866a.459.459,0,0,1,.459.46Z"
+                                    transform="translate(-66.95 -119.243)" />
+                            </svg>
+                        </div>
+                        <h3>Transportation Facilities</h3>
+                    </div> -->
+
+                    <!-- <div class="vlx-card">
+                        <div class="vlx-icon-circle">
+                            <svg fill="#ffffff" viewBox="0 -24.48 122.88 122.88" xmlns="http://www.w3.org/2000/svg">
+                                <path class="st0"
+                                    d="M97.31,36.95c0,9.92-3.49,18.39-10.48,25.38c-7,7-15.46,10.5-25.38,10.5c-9.88,0-18.34-3.49-25.35-10.5 c-7-6.99-10.52-15.46-10.52-25.38c0-9.89,3.51-18.32,10.52-25.34c7.03-7,15.48-10.52,25.35-10.52c9.92,0,18.38,3.51,25.38,10.52 C93.81,18.63,97.31,27.06,97.31,36.95z" />
+                            </svg>
+                        </div>
+                        <h3>Vegetarian Meals</h3>
+                    </div> -->
+
+                    <!-- <div class="vlx-card">
+                        <div class="vlx-icon-circle">
+                            <svg height="200px" width="200px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+                                fill="#ffffff">
+                                <path
+                                    d="M419.658,343.388c-1.905-24.596-18.412-45.015-40.776-52.961V245.76c0-56.463-45.937-102.4-102.4-102.4h-61.44h-20.48 h-20.48v-24.248c6.431,2.294,13.251,3.768,20.48,3.768c33.874,0,61.44-27.566,61.44-61.44S228.436,0,194.562,0 c-15.79,0-30.065,6.144-40.96,15.974C142.707,6.144,128.432,0,112.642,0c-33.894,0-61.44,27.566-61.44,61.44 s27.546,61.44,61.44,61.44c7.209,0,14.029-1.475,20.48-3.768v24.248h-20.48h-20.48c-11.325,0-20.48,9.175-20.48,20.48 c0,11.305,9.155,20.48,20.48,20.48v44.38c-23.818,8.376-40.96,31.109-40.96,57.774v0.246h204.8v-0.246 c0-26.665-17.142-49.398-40.96-57.774v-44.38h61.44c33.874,0,61.44,27.566,61.44,61.44v44.667 c-22.385,7.946-38.892,28.365-40.776,52.961c-12.984,11.53-20.664,28.14-20.664,45.732c0,17.592,7.68,34.202,20.664,45.732 c2.437,31.662,28.979,56.668,61.256,56.668s58.819-25.006,61.256-56.668c12.984-11.53,20.664-28.14,20.664-45.732 C440.322,371.528,432.642,354.918,419.658,343.388z" />
+                            </svg>
+                        </div>
+                        <h3>Sight Seeing</h3>
+                    </div>
+
+                    <div class="vlx-card">
+                        <div class="vlx-icon-circle">
+                            <svg fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2,7V21a1,1,0,0,0,1,1H13V6H3A1,1,0,0,0,2,7ZM5,9h5v2H5Zm0,4h5v2H5Zm0,4h5v2H5ZM22,3V21a1,1,0,0,1-1,1H15V4H10V3a1,1,0,0,1,1-1H21A1,1,0,0,1,22,3Z" />
+                            </svg>
+                        </div>
+                        <h3>Hotels</h3>
+                    </div> -->
+
+                    <!-- <div class="vlx-card">
+                        <div class="vlx-icon-circle">
+                            <svg fill="#ffffff" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M448,362.7l-117.3-21.3C320,320,320,310.7,320,298.7c10.7-10.7,32-21.3,32-32c10.7-32,10.7-53.3,10.7-53.3 c5.5-8,21.3-21.3,21.3-42.7s-21.3-42.7-21.3-53.3C362.7,32,319.2,0,256,0c-60.5,0-106.7,32-106.7,117.3c0,10.7-21.3,32-21.3,53.3 s15.2,35.4,21.3,42.7c0,0,0,21.3,10.7,53.3c0,10.7,21.3,21.3,32,32c0,10.7,0,21.3-10.7,42.7L64,362.7C21.3,373.3,0,448,0,512h512 C512,448,490.7,373.3,448,362.7z" />
+                            </svg>
+                        </div>
+                        <h3>Guidance</h3>
+                    </div>
+
+                    <div class="vlx-card">
+                        <div class="vlx-icon-circle">
+                            <svg fill="#ffffff" viewBox="0 0 491.52 491.52" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M419.658,343.388c-1.905-24.596-18.412-45.015-40.776-52.961V245.76c0-56.463-45.937-102.4-102.4-102.4h-61.44h-20.48 h-20.48v-24.248c6.431,2.294,13.251,3.768,20.48,3.768c33.874,0,61.44-27.566,61.44-61.44S228.436,0,194.562,0 c-15.79,0-30.065,6.144-40.96,15.974C142.707,6.144,128.432,0,112.642,0c-33.894,0-61.44,27.566-61.44,61.44 s27.546,61.44,61.44,61.44c7.209,0,14.029-1.475,20.48-3.768v24.248h-20.48h-20.48c-11.325,0-20.48,9.175-20.48,20.48 c0,11.305,9.155,20.48,20.48,20.48v44.38c-23.818,8.376-40.96,31.109-40.96,57.774v0.246h204.8v-0.246 c0-26.665-17.142-49.398-40.96-57.774v-44.38h61.44c33.874,0,61.44,27.566,61.44,61.44v44.667 c-22.385,7.946-38.892,28.365-40.776,52.961c-12.984,11.53-20.664,28.14-20.664,45.732c0,17.592,7.68,34.202,20.664,45.732 c2.437,31.662,28.979,56.668,61.256,56.668s58.819-25.006,61.256-56.668c12.984-11.53,20.664-28.14,20.664-45.732 C440.322,371.528,432.642,354.918,419.658,343.388z" />
+                            </svg>
+                        </div>
+                        <h3>Emergency Oxygen Support</h3>
+                    </div> -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .vlx-icon-circle {
+        width: 170px;
+        height: 170px;
+        margin: auto;
+        margin-bottom: 20px;
+        border-radius: 50%;
+        background: #eaa68b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .4s;
+    }
+
+    .vlx-icon-circle svg {
+        width: 70px;
+        height: 70px;
+        transition: .4s;
+    }
+
+    .vlx-card:hover .vlx-icon-circle {
+        transform: translateY(-5px);
+    }
+
+    .vlx-card:hover .vlx-icon-circle svg {
+        transform: scale(1.1);
+    }
+
+    .vlx-slider-wrapper {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .vlx-slider-track {
+        display: flex;
+        gap: 20px;
+        transition: transform .5s ease;
+    }
+
+    .vlx-card {
+        flex: 0 0 calc(100% / 6 - 17px);
+        text-align: center;
+    }
+
+    .vlx-card h3 {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+    @media(max-width: 1199px) {
+        .vlx-card {
+            flex: 0 0 calc(100% / 3 - 14px);
+        }
+    }
+
+    @media(max-width: 767px) {
+        .vlx-card {
+            flex: 0 0 calc(100% - 10px);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const vlxTrack = document.getElementById("vlxTrack");
+    const vlxCards = document.querySelectorAll(".vlx-card");
+    const nextBtn = document.getElementById("vlxNextBtn");
+    const prevBtn = document.getElementById("vlxPrevBtn");
+    let currentIndex = 0;
+
+    function getCardsPerView() {
+        if (window.innerWidth < 768) return 2;
+        if (window.innerWidth < 1200) return 3;
+        return 6;
+    }
+
+    function updateSlider() {
+        const cardsPerView = getCardsPerView();
+        const cardWidth = vlxCards[0].offsetWidth + 20;
+        const maxIndex = vlxCards.length - cardsPerView;
+        currentIndex = Math.min(Math.max(currentIndex, 0), maxIndex);
+        vlxTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    }
+
+    nextBtn.addEventListener("click", () => {
+        if (currentIndex < vlxCards.length - getCardsPerView()) { currentIndex++; updateSlider(); }
+    });
+    prevBtn.addEventListener("click", () => {
+        if (currentIndex > 0) { currentIndex--; updateSlider(); }
+    });
+    window.addEventListener("resize", updateSlider);
+    updateSlider();
+</script>
+{% endblock %}

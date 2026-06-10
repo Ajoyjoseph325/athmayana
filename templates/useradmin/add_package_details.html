@@ -1,0 +1,453 @@
+{% extends 'useradmin/base_admin.html' %}
+{% load static %}
+
+{% block title %}Add Package Details{% endblock %}
+
+{% block nav_packagedetails %}active{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'assets/css/filepond-plugin-image-preview.css' %}">
+<style>
+    .gxq_wrap_91 {
+        width: 350px;
+        position: relative;
+    }
+
+    #rtx_select_84 {
+        display: none;
+    }
+
+    .jkp_box_33 {
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        cursor: pointer;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .zxc_tag_72 {
+        background: #222;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 30px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .zxc_tag_72 span {
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .qwe_drop_19 {
+        position: absolute;
+        width: 100%;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 8px;
+        overflow: hidden;
+        display: none;
+        z-index: 99;
+    }
+
+    .qwe_drop_19.active {
+        display: block;
+    }
+
+    #bnm_search_55 {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-bottom: 1px solid #eee;
+        outline: none;
+    }
+
+    .poi_list_88 {
+        max-height: 220px;
+        overflow-y: auto;
+    }
+
+    .poi_item_44 {
+        padding: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .poi_item_44:hover {
+        background: #f1f1f1;
+    }
+
+    .poi_item_44.active {
+        background: #222;
+        color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 position-relative">
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="gap-2 page-heading mb-3 flex-column flex-md-row">
+                <h6 class="flex-grow-1 mb-0">Add Package Details</h6>
+                <ul class="breadcrumb flex-shrink-0 mb-0">
+                    <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Package Details</li>
+                </ul>
+            </div>
+
+            <div class="row">
+
+                <!-- LEFT: Form -->
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                           {% if edit_detail %}
+<form method="post" enctype="multipart/form-data" action="{% url 'edit_package_detail' edit_detail.id %}">
+{% else %}
+<form method="post" enctype="multipart/form-data" action="{% url 'add_package_details' %}">
+{% endif %}
+    {% csrf_token %}
+    <div class="row gy-2 gx-5">
+
+        <!-- Select Package -->
+        <div class="col-md-12">
+            <select class="form-select form-control" name="package" style="height: 55px;">
+                <option disabled>Select Package</option>
+                {% for package in packages %}
+                    {% if edit_detail and edit_detail.package.id == package.id %}
+                    <option value="{{ package.id }}" selected>{{ package.name }}</option>
+                    {% else %}
+                    <option value="{{ package.id }}">{{ package.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- About Package -->
+        <div class="col-md-12">
+            <textarea class="form-control" name="about_package" rows="3"
+                placeholder="About Package">{{ edit_detail.about_package|default:'' }}</textarea>
+        </div>
+
+        <!-- Main Image -->
+        <div class="col-md-12">
+            <div class="card card-h-100">
+                <div class="card-header">
+                    <h6 class="mb-0 card-title">Select Main Image</h6>
+                </div>
+                <div class="card-body">
+                    {% if edit_detail and edit_detail.main_image %}
+                    <img src="{{ edit_detail.main_image.url }}" height="50" class="mb-2">
+                    {% endif %}
+                    <input type="file" class="filepond" name="main_image"
+                        data-allow-reorder="true" data-max-file-size="3MB">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tour Highlights Multi-Select -->
+        <!-- <div class="col-md-12">
+            <div class="gxq_wrap_91">
+                <select id="rtx_select_84" name="tour_highlights" multiple>
+                    <option value="" disabled>Transportation Facilities</option>
+                    {% for highlight in highlights %}
+                    <option value="{{ highlight.id }}">{{ highlight.name }}</option>
+                    {% endfor %}
+                </select>
+                <div class="jkp_box_33" id="asd_box_11">Select Tour Highlights</div>
+                <div class="qwe_drop_19" id="dropdown_77">
+                    <input type="text" id="bnm_search_55" placeholder="Search here...">
+                    <div class="poi_list_88" id="list_66"></div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <!-- Tour Highlights Multi-Select -->
+<div class="col-md-12">
+    <div class="gxq_wrap_91">
+        <select id="rtx_select_84" name="tour_highlights" multiple>
+            {% for highlight in highlights %}
+                {% if edit_detail %}
+                    {% if highlight in edit_detail.tour_highlights.all %}
+                    <option value="{{ highlight.id }}" selected>{{ highlight.name }}</option>
+                    {% else %}
+                    <option value="{{ highlight.id }}">{{ highlight.name }}</option>
+                    {% endif %}
+                {% else %}
+                <option value="{{ highlight.id }}">{{ highlight.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <div class="jkp_box_33" id="asd_box_11">Select Tour Highlights</div>
+        <div class="qwe_drop_19" id="dropdown_77">
+            <input type="text" id="bnm_search_55" placeholder="Search here...">
+            <div class="poi_list_88" id="list_66"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+        <!-- Map Name -->
+        <div class="col-md-12 mt-2">
+            <div class="form-floating">
+                <input type="text" class="form-control" name="map_name" id="mapName"
+                    placeholder="Map Name" value="{{ edit_detail.map_name|default:'' }}">
+                <label for="mapName" class="text-dark">Map Name</label>
+            </div>
+        </div>
+
+        <!-- Map Details -->
+        <div class="col-md-12">
+            <textarea class="form-control editor" name="map_details" rows="3"
+                placeholder="Map Details">{{ edit_detail.map_details|default:'' }}</textarea>
+        </div>
+
+        <!-- Map Image -->
+        <div class="col-md-12">
+            <div class="card card-h-100">
+                <div class="card-header">
+                    <h6 class="mb-0 card-title">Select Map Image</h6>
+                </div>
+                <div class="card-body">
+                    {% if edit_detail and edit_detail.map_image %}
+                    <img src="{{ edit_detail.map_image.url }}" height="50" class="mb-2">
+                    {% endif %}
+                    <input type="file" class="filepond" name="map_image"
+                        data-allow-reorder="true" data-max-file-size="3MB">
+                </div>
+            </div>
+        </div>
+
+        <!-- Rich Text Editors -->
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="included" rows="3"
+                placeholder="Whats Included">{{ edit_detail.included|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="not_included" rows="3"
+                placeholder="Whats Not Included">{{ edit_detail.not_included|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="eligible" rows="3"
+                placeholder="Who's Eligible">{{ edit_detail.eligible|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="tibet_visa" rows="3"
+                placeholder="Tibet Visa & Travel Guides">{{ edit_detail.tibet_visa|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="payment_terms" rows="3"
+                placeholder="Payment Terms">{{ edit_detail.payment_terms|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="regular_clothing" rows="3"
+                placeholder="Regular Clothing">{{ edit_detail.regular_clothing|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="trekking_gear" rows="3"
+                placeholder="Trekking & Cold-Weather Gear">{{ edit_detail.trekking_gear|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="bath_kit" rows="3"
+                placeholder="Personal & Bath Kit">{{ edit_detail.bath_kit|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="health_essentials" rows="3"
+                placeholder="High-Altitude & Health Essentials">{{ edit_detail.health_essentials|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="travel_utility" rows="3"
+                placeholder="Travel & Utility Items">{{ edit_detail.travel_utility|default:'' }}</textarea>
+        </div>
+        <div class="col-md-12 mb-3">
+            <textarea class="form-control editor" name="documents_money" rows="3"
+                placeholder="Documents & Money">{{ edit_detail.documents_money|default:'' }}</textarea>
+        </div>
+
+        <!-- Submit -->
+        <div class="col-md-12 mt-5">
+            <button type="submit" class="btn btn-dark w-100">
+                {% if edit_detail %}Update{% else %}Submit{% endif %}
+            </button>
+        </div>
+
+    </div>
+</form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Table -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                               <table class="table text-nowrap mb-0">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detail in package_details %}
+        <tr>
+            <td>{{ detail.package.name }}</td>
+            <td>
+                <a href="{% url 'edit_package_detail' detail.id %}" class="link link-warning">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                <a href="{% url 'delete_package_detail' detail.id %}" class="link link-danger"
+                    onclick="return confirm('Are you sure you want to delete this?')">
+                    <i class="bi bi-trash3"></i>
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2" class="text-center">No records found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="d-flex flex-end w-100 mt-2">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if package_details.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="?page={{ package_details.previous_page_number }}">Previous</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">Previous</span>
+                                </li>
+                                {% endif %}
+
+                                {% for num in package_details.paginator.page_range %}
+                                <li class="page-item {% if package_details.number == num %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                                {% endfor %}
+
+                                {% if package_details.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ package_details.next_page_number }}">Next</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">Next</span>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Tour Highlights Custom Multi-Select -->
+<script>
+    const selectEl = document.getElementById("rtx_select_84");
+    const boxEl = document.getElementById("asd_box_11");
+    const dropdownEl = document.getElementById("dropdown_77");
+    const searchEl = document.getElementById("bnm_search_55");
+    const listEl = document.getElementById("list_66");
+
+    let selectedValues = [];
+
+    function renderOptions(filter = "") {
+        listEl.innerHTML = "";
+        [...selectEl.options].forEach(option => {
+            if (option.text.toLowerCase().includes(filter.toLowerCase())) {
+                const item = document.createElement("div");
+                item.className = "poi_item_44";
+                if (selectedValues.includes(option.value)) {
+                    item.classList.add("active");
+                }
+                item.textContent = option.text;
+                item.onclick = () => toggleOption(option.value, option.text);
+                listEl.appendChild(item);
+            }
+        });
+    }
+
+    function toggleOption(value, text) {
+        if (selectedValues.includes(value)) {
+            selectedValues = selectedValues.filter(v => v !== value);
+        } else {
+            selectedValues.push(value);
+        }
+        [...selectEl.options].forEach(opt => {
+            opt.selected = selectedValues.includes(opt.value);
+        });
+        renderTags();
+        renderOptions(searchEl.value);
+    }
+
+    function renderTags() {
+        boxEl.innerHTML = "";
+        if (selectedValues.length === 0) {
+            boxEl.innerHTML = "Select Tour Highlights";
+            return;
+        }
+        selectedValues.forEach(value => {
+            const option = [...selectEl.options].find(o => o.value === value);
+            const tag = document.createElement("div");
+            tag.className = "zxc_tag_72";
+            tag.innerHTML = `${option.text} <span data-val="${value}">&times;</span>`;
+            tag.querySelector("span").onclick = (e) => {
+                e.stopPropagation();
+                toggleOption(value, option.text);
+            };
+            boxEl.appendChild(tag);
+        });
+    }
+
+    boxEl.onclick = () => dropdownEl.classList.toggle("active");
+
+    searchEl.addEventListener("keyup", () => renderOptions(searchEl.value));
+
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".gxq_wrap_91")) {
+            dropdownEl.classList.remove("active");
+        }
+    });
+
+    renderOptions();
+</script>
+
+<!-- CKEditor -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script>
+    document.querySelectorAll('.editor').forEach((el) => {
+        ClassicEditor.create(el).catch(error => console.error(error));
+    });
+</script>
+{% endblock %}

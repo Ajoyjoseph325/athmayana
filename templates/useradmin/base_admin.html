@@ -1,0 +1,307 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-layout="modern" data-theme="default" data-bs-theme="light" data-sidebar-colors="dark"
+    data-sidebar="large" data-topbar-colors="light" data-nav-type="default" dir="ltr" data-colors="default"
+    data-profile-sidebar>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Atmayana Admin{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS Files (local) -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/admin.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/filepond-plugin-image-preview.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/virtual-select.css' %}">
+
+    <!-- RTL CSS (disabled by default) -->
+    <link href="{% static 'assets/css/bootstrap.rtl.css' %}" rel="stylesheet" type="text/css" disabled>
+    <link href="{% static 'assets/css/app.rtl.css' %}" rel="stylesheet" type="text/css" disabled>
+
+    <!-- Theme JS Bundles — must be in <head> as type="module" -->
+    <script type="module" crossorigin src="{% static 'assets/admin.bundle-BD84ghkN.js' %}"></script>
+    <script type="module" crossorigin src="{% static 'assets/main-dpGOw9z9.js' %}"></script>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="sidebar-hidden">
+    <div class="body-effect-img"></div>
+
+    <!-- ============================================================ -->
+    <!-- SIDEBAR                                                       -->
+    <!-- ============================================================ -->
+    <div id="main-sidebar" class="main-sidebar">
+        <div class="sidebar-wrapper">
+
+            <!-- Sidebar Logo -->
+            <a href="" class="navbar-brand">
+                <div class="logo-lg">
+                    <img src="{% static 'assets/images/main-logo.webp' %}" loading="lazy" alt="Logo" height="26"
+                        class="mx-auto logo-dark">
+                    <img src="{% static 'assets/images/logo-white.webp' %}" loading="lazy" alt="Logo" height="26"
+                        class="mx-auto logo-light">
+                </div>
+                <div class="logo-sm">
+                    <img src="{% static 'assets/images/logo-sm-dark.webp' %}" loading="lazy" alt="Logo" height="26"
+                        class="mx-auto logo-dark">
+                    <img src="{% static 'assets/images/logo-sm-dark.webp' %}" loading="lazy" alt="Logo" height="26"
+                        class="mx-auto logo-light">
+                </div>
+            </a>
+
+            <!-- Sidebar Profile Dropdown -->
+            <div class="dropdown profile-dropdown">
+                <a href="#!" class="btn d-flex align-items-center w-100 gap-2 p-4 text-start" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="{% static 'assets/images/user-56.webp' %}" loading="lazy" alt="" class="size-10 rounded">
+                    <div class="flex-grow-1 content">
+                        <h6 class="fw-medium text-truncate mb-0">
+                            {% if request.user.is_authenticated %}
+                            {{ request.user.get_full_name|default:request.user.username }}
+                            {% else %}
+                            Admin User
+                            {% endif %}
+                        </h6>
+                        <p class="fs-14">
+                            {% if request.user.is_authenticated %}
+                            {{ request.user.email }}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="arrow">
+                        <i class="mgc_down_line"></i>
+                    </div>
+                </a>
+                <div class="dropdown-menu p-4 profile-dropdown-menu">
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="{% static 'assets/images/user-56.webp' %}" loading="lazy" alt=""
+                            class="rounded-circle size-10 flex-shrink-0">
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h6 class="mb-0 text-truncate">
+                                {% if request.user.is_authenticated %}
+                                {{ request.user.get_full_name|default:request.user.username }}
+                                {% endif %}
+                            </h6>
+                            <p class="mb-0 text-truncate">
+                                <a href="#!" class="link link-primary text-dark fw-medium">
+                                    {% if request.user.is_authenticated %}{{ request.user.email }}{% endif %}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="pt-2 mt-3 border-top">
+                        <ul class="list-unstyled mb-0">
+                            <li><a class="profile-link" href="#"><i
+                                        class="mgc_notification_newdot_line d-inline-block me-2"></i> Profile
+                                    Activity</a></li>
+                            <li><a class="profile-link" href="#"><i
+                                        class="mgc_presentation_3_line d-inline-block me-2"></i> Manage Projects</a>
+                            </li>
+                            <li><a class="profile-link" href="#"><i class="mgc_settings_3_line d-inline-block me-2"></i>
+                                    Account Settings</a></li>
+                            <li><a class="profile-link" href="#"><i
+                                        class="mgc_headphone_line d-inline-block me-2 size-4"></i> Help Center</a></li>
+                            <li><a class="profile-link" href="#"><i
+                                        class="mgc_diamond_2_line d-inline-block me-2 size-4"></i> Upgrade Plan</a></li>
+                        </ul>
+                    </div>
+                    <div class="pt-3 mt-2 border-top">
+                        <a class="profile-link pb-0" href="">
+                            <i class="mgc_directory_fill inline-block me-2 size-4"></i> Log Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Navigation -->
+            <div class="navbar-menu px-5" id="navbar-menu-list" data-simplebar>
+                <ul class="list-unstyled p-0 navbar-nav-menu">
+
+                    <li class="nav-menu-title">Dashboards</li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_dashboard %}{% endblock %}" href="">
+                            <span class="icons"><i class="mgc_dashboard_line"></i></span>
+                            <span class="content">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-menu-title">Manage</li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_category %}{% endblock %}" href="{% url 'add_category' %}">
+                            <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
+                            <span class="content">Add Category</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_packages %}{% endblock %}" href="{% url 'view_packages' %}">
+                            <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
+                            <span class="content">Add Packages</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_highlights %}{% endblock %}"
+                            href="{% url 'package_highlights' %}">
+                            <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
+                            <span class="content">Add Tour Highlights</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_packagedetails %}{% endblock %}"
+                            href="{% url 'add_package_details' %}">
+                            <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
+                            <span class="content">Add Package Details</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_gallery %}{% endblock %}" href="{% url 'add_package_itinerary' %}">
+                            <span class="icons"><i class="bi bi-images"></i></span>
+                            <span class="content">Add package itneraries</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-menu-title">Account</li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            <span class="icons"><i class="bi bi-box-arrow-right"></i></span>
+                            <span class="content">Logout</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+    <!-- SIDEBAR END -->
+
+    <!-- ============================================================ -->
+    <!-- HEADER / TOPBAR                                               -->
+    <!-- ============================================================ -->
+    <header class="main-topbar" id="main-topbar">
+        <div class="navbar-brand">
+            <div class="logos">
+                <a href="{% url 'home' %}" aria-label="Topbar Logo">
+                    <img src="{% static 'assets/images/main-logo.webp' %}" loading="lazy" height="24" alt="Main Logo"
+                        class="logo-dark">
+                    <img src="{% static 'assets/images/logo-white.webp' %}" loading="lazy" height="24" alt="Logo White"
+                        class="logo-light">
+                </a>
+            </div>
+            <button type="button" id="toggleSidebar" class="sidebar-toggle btn p-0" aria-label="sidebar-toggle">
+                <i class="mgc_layout_rightbar_open_line"></i>
+            </button>
+        </div>
+
+        <div class="align-items-center d-none d-lg-flex">
+            <div class="position-relative navbar-search">
+                <i class="mgc_search_ai_line icon"></i>
+                <input type="search" class="form-control border-0 shadow-none" placeholder="Search...">
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 ms-auto">
+
+            <!-- Dark Mode Toggle -->
+            <button type="button" id="darkModeButton" class="topbar-link topbar-mode btn" aria-label="topbar-link">
+                <i class="mgc_moon_line fs-lg dark"></i>
+                <i class="mgc_brightness_line fs-lg light"></i>
+            </button>
+
+            <!-- Profile Dropdown -->
+            <div class="dropdown profile-dropdown">
+                <button class="btn topbar-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{% static 'assets/images/user-56.webp' %}" loading="lazy" alt="User"
+                        class="object-fit-cover rounded size-8">
+                </button>
+                <div class="dropdown-menu p-2 profile-dropdown-menu">
+                    <div class="p-4 bg-dark rounded-1 text-center">
+                        <img src="{% static 'assets/images/user-56.webp' %}" loading="lazy" alt=""
+                            class="rounded-circle size-12 flex-shrink-0">
+                        <div class="mt-2">
+                            <h6 class="mb-0 text-white text-truncate">
+                                {% if request.user.is_authenticated %}
+                                {{ request.user.get_full_name|default:request.user.username }}
+                                {% else %}
+                                Admin User
+                                {% endif %}
+                            </h6>
+                            <p class="mb-0 text-truncate">
+                                <a href="#!" class="link link-primary fw-medium">
+                                    {% if request.user.is_authenticated %}{{ request.user.email }}{% endif %}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <ul class="list-unstyled mb-0">
+                            <li><a class="dropdown-item align-items-center d-flex" href="#"><i
+                                        class="mgc_bell_ringing_line d-inline-block me-2"></i> Profile Activity</a></li>
+                            <li><a class="dropdown-item align-items-center d-flex" href="#"><i
+                                        class="mgc_settings_3_line d-inline-block me-2"></i> Account Settings</a></li>
+                            <li><a class="dropdown-item align-items-center d-flex" href="#"><i
+                                        class="mgc_settings_7_line d-inline-block me-2"></i> Help &amp; Support</a></li>
+                            <li><a class="dropdown-item align-items-center d-flex" href="#"><i
+                                        class="mgc_command_line d-inline-block me-2"></i> Keyboard Shortcut</a></li>
+                            <li><a class="dropdown-item align-items-center d-flex" href=""><i
+                                        class="mgc_key_2_line d-inline-block me-2"></i> Log Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    <!-- HEADER END -->
+
+    <!-- ============================================================ -->
+    <!-- MAIN CONTENT                                                  -->
+    <!-- ============================================================ -->
+    <div class="main-content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!-- MAIN CONTENT END -->
+
+    <!-- ============================================================ -->
+    <!-- FOOTER                                                        -->
+    <!-- ============================================================ -->
+    <div class="main-footer">
+        <div class="w-100">
+            <div class="row align-items-center">
+                <div class="col-md-6"></div>
+                <div class="col-lg-6 text-muted text-center text-lg-end">
+                    &copy; {% now "Y" %} Designed &amp; Developed By
+                    <a href="" target="_blank" class="fw-semibold text-reset">PROGRAMERS.in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FOOTER END -->
+
+    <!-- ============================================================ -->
+    <!-- ADDITIONAL JS                                                 -->
+    <!-- ============================================================ -->
+    <script src="{% static 'assets/libs/virtual-select-plugin/virtual-select.min.js' %}"></script>
+    <script src="{% static 'assets/js/src/form-file-input.js' %}" type="module"></script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+
+</html>

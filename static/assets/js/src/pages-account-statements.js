@@ -1,0 +1,1 @@
+import"../../admin.bundle-BD84ghkN.js";/* empty css          *//* empty css      *//* empty css    */import{I as o}from"../../index-yFKSUj0c.js";import"../../main-dpGOw9z9.js";const t=document.getElementById("accountNumberInput");o(t,{mask:"0000 0000 0000 0000 000",placeholderChar:"_",lazy:!1,blocks:{0:{mask:o.MaskedRange,from:0,to:9}}});

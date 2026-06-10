@@ -1,0 +1,180 @@
+{% extends 'useradmin/base_admin.html' %}
+{% load static %}
+
+{% block title %}Add Tour Highlights{% endblock %}
+
+{% block nav_highlights %}active{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 position-relative">
+    <div class="page-wrapper">
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="gap-2 page-heading mb-3 flex-column flex-md-row">
+                <h6 class="flex-grow-1 mb-0">Add Tour Highlights</h6>
+                <ul class="breadcrumb flex-shrink-0 mb-0">
+                    <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Tour Highlights</li>
+                </ul>
+            </div>
+
+            <div class="row">
+
+                <!-- LEFT: Form -->
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" enctype="multipart/form-data"
+                                action="{% if edit_highlight %}{% url 'edit_highlight' edit_highlight.id %}{% else %}{% url 'add_package_highlights' %}{% endif %}">
+                                {% csrf_token %}
+                                <div class="row gy-2 gx-5">
+
+                                    <!-- <div class="col-md-12">
+                                        <select class="form-select form-control" name="package" style="height: 55px;">
+                                            <option selected disabled>Select Package</option>
+                                            {% for package in packages %}
+                                            <option value="{{ package.id }}" {% if edit_highlight %}{% if
+                                                edit_highlight.package.id==package.id %}selected{% endif %}{% endif %}>
+                                                {{ package.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div> -->
+
+                                    <div class="col-md-12">
+                                        <select class="form-select form-control" name="package" style="height: 55px;">
+                                            <option selected disabled>Select Package</option>
+                                            {% for package in packages %}
+                                            <option value="{{ package.id }}" {% if edit_highlight and
+                                                edit_highlight.package.id==package.id %}selected{% endif %}>
+                                                {{ package.name }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Name -->
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" name="name" id="Name"
+                                                placeholder="Name" value="{{ edit_highlight.name|default:'' }}">
+                                            <label for="Name" class="text-dark">Name</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Icon Image -->
+                                    <div class="col-md-12">
+                                        <h6 class="mb-0 card-title">Select Icon</h6>
+                                        {% if edit_highlight %}{% if edit_highlight.icon %}<img
+                                            src="{{ edit_highlight.icon.url }}" alt="Current Icon" height="40"
+                                            class="mb-2">{% endif %}{% endif %}
+                                        <input type="file" class="filepond" name="icon" data-allow-reorder="true"
+                                            data-max-file-size="3MB">
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <select class="form-select form-control" name="status" style="height: 55px;">
+                                            <option selected disabled>Select Status</option>
+                                            <option value="Active" {% if edit_highlight %}{% if
+                                                edit_highlight.status=='Active' %}selected{% endif %}{% endif %}>Active
+                                            </option>
+                                            <option value="Inactive" {% if edit_highlight %}{% if
+                                                edit_highlight.status=='Inactive' %}selected{% endif %}{% endif %}>
+                                                Inactive</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Submit -->
+                                    <div class="col-md-12 mt-5">
+                                        <button type="submit" class="btn btn-dark w-100">{% if edit_highlight %}Update{%
+                                            else %}Submit{% endif %}</button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Table -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table text-nowrap mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Image</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for highlight in highlights %}
+                                        <tr>
+                                            <td>{{ highlight.name }}</td>
+                                            <td>
+                                                {% if highlight.icon %}
+                                                <a href="{{ highlight.icon.url }}" target="_blank">
+                                                    <img src="{{ highlight.icon.url }}" alt="{{ highlight.name }}"
+                                                        height="30">
+                                                </a>
+                                                {% else %}
+                                                —
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ highlight.status }}</td>
+                                            <td>
+                                                <a href="{% url 'edit_highlight' highlight.id %}"
+                                                    class="link link-warning"><i class="bi bi-pencil-square"></i></a>
+                                                <a href="{% url 'delete_highlight' highlight.id %}"
+                                                    class="link link-danger"
+                                                    onclick="return confirm('Are you sure you want to delete this?')"><i
+                                                        class="bi bi-trash3"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="4" class="text-center">No records found.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="d-flex flex-end w-100 mt-2">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if highlights.has_previous %}
+                                <li class="page-item"><a class="page-link"
+                                        href="?page={{ highlights.previous_page_number }}">Previous</a></li>
+                                {% else %}
+                                <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                {% endif %}
+
+                                {% for num in highlights.paginator.page_range %}
+                                <li class="page-item {% if highlights.number == num %}active{% endif %}"><a
+                                        class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+
+                                {% if highlights.has_next %}
+                                <li class="page-item"><a class="page-link"
+                                        href="?page={{ highlights.next_page_number }}">Next</a></li>
+                                {% else %}
+                                <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

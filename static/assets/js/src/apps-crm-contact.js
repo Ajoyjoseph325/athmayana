@@ -1,0 +1,1 @@
+import"../../admin.bundle-BD84ghkN.js";/* empty css                               *//* empty css          *//* empty css      *//* empty css    */import"../../buttons.init-DKT3ezEF.js";import"../../main-dpGOw9z9.js";VirtualSelect.init({ele:"#statusSelect2",options:[{label:"Active",value:"1"},{label:"Inactive",value:"2"},{label:"Pending",value:"3"}],selectedValue:0});

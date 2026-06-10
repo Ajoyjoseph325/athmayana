@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Atmayana - Spiritual Packages{% endblock %}
+
+{% block nav_packages %}active{% endblock %}
+
+{% block content %}
+
+<a href="#" id="back-to-top"></a>
+<div id="de-loader"></div>
+
+<main>
+
+    <!-- ============================================================ -->
+    <!-- SUBHEADER / PAGE BANNER                                       -->
+    <!-- ============================================================ -->
+    <section id="subheader" class="relative jarallax text-light"
+        style="background-image: url('{% static 'images/background/sb5.webp' %}'); background-size: cover; background-position: center;">
+        <div class="de-gradient-edge-top"></div>
+        <div class="container relative z-2">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <div class="subtitle s2 text-light wow fadeInUp mb-2">What Do We</div>
+                    <div class="clearfix"></div>
+                    <h1 class="cam-style">{{ category.categoryname }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="crumb-wrapper">
+            <ul class="crumb">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Spiritual Packages</li>
+            </ul>
+        </div>
+        <img src="{% static 'images/misc/d2.webp' %}" class="abs w-20 end-0 bottom-min-100 z-2" alt="">
+        <div class="sw-overlay op-4"></div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PACKAGES GRID                                                 -->
+    <!-- ============================================================ -->
+    <section>
+        <div class="container relative z-2">
+            <div class="row g-4">
+
+                <!-- Package Card: Kailash Mansarovar Yatra -->
+            {% for package in packages %}
+
+<div class="col-lg-4 col-sm-6">
+
+    <div class="relative">
+
+        <a href="{% url 'kailash_detail' package.id %}" class="d-block hover">
+
+            <div class="relative overflow-hidden rounded-10px shadow-soft">
+
+                <div class="sw-overlay op-4 z-2"></div>
+
+                <div class="absolute start-0 w-100 hover-op-0 z-2 abs-middle text-center">
+
+                    <h3 class="text-white">
+                        {{ package.name }}
+                    </h3>
+
+                </div>
+
+                <div class="absolute start-0 w-100 hover-op-1 p-5 abs-middle z-2 text-center text-white z-3">
+
+                    <p class="no-bottom">
+                        {{ category.short_description }}
+                    </p>
+
+                </div>
+
+                <div class="absolute start-0 w-100 h-100 overlay-black-5 hover-op-1 z-2"></div>
+
+                {% if package.image %}
+
+                <img
+                    src="{{ package.image.url }}"
+                    class="w-100 hover-scale-1-2"
+                    alt="{{ package.name }}"
+                    style="height:350px;object-fit:cover;"
+                >
+
+                {% endif %}
+
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+                <!-- Add more package cards here as needed -->
+                <!-- Example:
+                <div class="col-lg-4 col-sm-6">
+                    <div class="relative">
+                            <div class="relative overflow-hidden rounded-10px shadow-soft">
+                                <div class="sw-overlay op-4 z-2"></div>
+                                <div class="absolute start-0 w-100 hover-op-0 z-2 abs-middle text-center">
+                                    <h3 class="text-white">Package Name</h3>
+                                </div>
+                                <div class="absolute start-0 w-100 hover-op-1 p-5 abs-middle z-2 text-center text-white z-3">
+                                    <p class="no-bottom">Package description here.</p>
+                                </div>
+                                <div class="absolute start-0 w-100 h-100 overlay-black-5 hover-op-1 z-2"></div>
+                                <img src="{% static 'images/services/2.webp' %}" class="w-100 hover-scale-1-2" alt="">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                -->
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+{% endblock %}

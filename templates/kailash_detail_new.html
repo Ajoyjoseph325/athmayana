@@ -1,0 +1,873 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Atmayana - Kailash Manasarovar Packages{% endblock %}
+
+{% block nav_packages %}active{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+    .equal-tabs { align-items: stretch; }
+    .custom-tab-btns {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .custom-tab-btns .nav-link {
+        flex: 1;
+        width: 100%;
+        text-align: left;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        color: #000;
+        margin-bottom: 10px;
+    }
+    .custom-tab-btns .nav-link:last-child { margin-bottom: 0; }
+    .custom-tab-btns .nav-link.active { background: #000; color: #fff; }
+    .tab-content-box { border: 1px solid #ddd; padding: 25px; height: 100%; }
+    .accordion-button:focus { box-shadow: none; }
+    @media (max-width: 767px) { .desktop-tabs { display: none; } .mobile-accordion { display: block; } }
+    @media (min-width: 768px) { .desktop-tabs { display: block; } .mobile-accordion { display: none; } }
+    .wrqpax12 .row { display: flex; flex-wrap: wrap; }
+    .wrqpax12 .col-md-6 { display: flex; margin-bottom: 20px; }
+    .wrqpax12 .card { width: 100%; height: 100%; }
+    .custom-list { list-style: none; padding-left: 0; }
+    .custom-list li { position: relative; padding-left: 30px; }
+    .custom-list li::before {
+        content: "\f26b";
+        font-family: "bootstrap-icons";
+        position: absolute;
+        left: 0; top: 2px;
+        color: #eaa68b;
+        font-size: 18px;
+    }
+    .custom-list2 { list-style: none; padding-left: 0; }
+    .custom-list2 li { position: relative; padding-left: 30px; }
+    .custom-list2 li::before {
+        content: "\F623";
+        font-family: "bootstrap-icons";
+        position: absolute;
+        left: 0; top: 2px;
+        color: #eaa68b;
+        font-size: 18px;
+    }
+    .vlx-icon-circle {
+        width: 170px; height: 170px;
+        margin: auto; margin-bottom: 20px;
+        border-radius: 50%;
+        background: #eaa68b;
+        display: flex; align-items: center; justify-content: center;
+        transition: .4s;
+    }
+    .vlx-icon-circle svg { width: 70px; height: 70px; color: #fff; transition: .4s; }
+    .vlx-card:hover .vlx-icon-circle { transform: translateY(-5px); }
+    .vlx-card:hover .vlx-icon-circle svg { transform: scale(1.1); }
+    .vlx-slider-wrapper { overflow: hidden; width: 100%; }
+    .vlx-slider-track { display: flex; gap: 20px; transition: transform .5s ease; }
+    .vlx-card { flex: 0 0 calc(100% / 6 - 17px); text-align: center; }
+    .vlx-card h3 { font-size: 18px; font-weight: 600; line-height: 1.5; }
+    @media(max-width: 1199px) { .vlx-card { flex: 0 0 calc(100% / 3 - 14px); } }
+    @media(max-width: 767px) { .vlx-card { flex: 0 0 calc(100% - 10px); } }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<a href="#" id="back-to-top"></a>
+<div id="de-loader"></div>
+
+<!-- SUBHEADER -->
+<section id="subheader" class="relative jarallax text-light" data-bgimage="url({% static 'images/background/sb5.webp' %})">
+    <div class="de-gradient-edge-top"></div>
+    <div class="container relative z-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="subtitle s2 text-light wow fadeInUp mb-2">Lets Talk</div>
+                <div class="clearfix"></div>
+                <h1 class="cam-style">Kailash Manasarovar</h1>
+            </div>
+        </div>
+    </div>
+    <div class="crumb-wrapper">
+        <ul class="crumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li class="active">Kailash Manasarovar</li>
+        </ul>
+    </div>
+    <img src="{% static 'images/misc/d2.webp' %}" class="abs w-20 end-0 bottom-min-100 z-2" alt="">
+    <div class="sw-overlay op-4"></div>
+</section>
+
+<!-- OVERVIEW -->
+<!-- <section>
+    <div class="container relative z-2">
+        <div class="row g-4 gx-5 align-items-center relative">
+            <div class="col-md-6">
+                <img src="{% static 'images/gallery46.png' %}" class="w-100 rounded-1" alt="Kailash Manasarovar">
+            </div>
+            <div class="col-md-6">
+                <h2 class="split">Kailash Manasarovar Overland Yatra – Overview</h2>
+                <p class="wow fadeInUp" data-wow-delay=".4s" style="text-align:justify;">
+                    The Kailash Manasarovar Overland Yatra is a sacred pilgrimage through the Nepal–Tibet route,
+                    offering devotees a spiritually enriching journey to Mount Kailash and Lake Manasarovar. This
+                    14-day yatra combines breathtaking Himalayan landscapes, cultural experiences, and high-altitude
+                    travel. Participants should be prepared for mountainous terrain, basic facilities in certain
+                    regions, and changing weather or road conditions. Designed mainly for Indian passport holders,
+                    the itinerary includes acclimatization support to help pilgrims experience the holy Kailash
+                    region safely and meaningfully.
+                </p>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+
+
+<section>
+    <div class="container relative z-2">
+        <div class="row g-4 gx-5 align-items-center relative">
+            <div class="col-md-6">
+                {% if details and details.main_image %}
+                <img src="{{ details.main_image.url }}" class="w-100 rounded-1" alt="{{ package.name }}">
+                {% else %}
+                <img src="{% static 'images/gallery46.png' %}" class="w-100 rounded-1" alt="Kailash Manasarovar">
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2 class="split">{{ package.name }} – Overview</h2>
+                <p class="wow fadeInUp" data-wow-delay=".4s" style="text-align:justify;">
+                    {% if details %}{{ details.about_package }}{% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- ITINERARIES -->
+<section class="wrqpax12">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <div class="subtitle text-center wow fadeInUp">Atmayana Experiences</div>
+                <h2 class="split">Package Itineraries</h2>
+            </div>
+            <div class="col-md-8">
+                <div class="xvtrqk91-pagination-wrap">
+                    <button class="mnlpza44-page-btn hsyqwe11-nav-btn" id="prevPageBtn">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M15 18L9 12L15 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="mnlpza44-page-btn active" data-page="1">1</button>
+                    <button class="mnlpza44-page-btn" data-page="2">2</button>
+                    <button class="mnlpza44-page-btn" data-page="3">3</button>
+                    <button class="mnlpza44-page-btn" data-page="4">4</button>
+                    <button class="mnlpza44-page-btn hsyqwe11-nav-btn" id="nextPageBtn">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M9 18L15 12L9 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tznvkl90">
+
+
+            {% for itinerary in itineraries %}
+<div class="itinerary-page {% if forloop.first %}active-page{% endif %}" data-page="{{ forloop.counter }}">
+    <div class="yhfqwe45">
+        <label class="lpqwer87">
+            <div class="mkjhgf66">
+                <div class="qazwsx33">
+                    <span class="poiuyt55">Day {{ forloop.counter }}</span>
+                    {% if itinerary.images %}
+                    <img src="{{ itinerary.images.url }}" alt="Day {{ forloop.counter }}">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200&auto=format&fit=crop" alt="Day {{ forloop.counter }}">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="fghjkl77">
+                {{ itinerary.itinerary|safe }}
+            </div>
+        </label>
+    </div>
+</div>
+{% endfor %}
+
+            <!-- DAY 1 -->
+            <!-- <div class="itinerary-page active-page" data-page="1">
+                <div class="yhfqwe45">
+                    <label class="lpqwer87">
+                        <div class="mkjhgf66">
+                            <div class="qazwsx33">
+                                <span class="poiuyt55">Day 01</span>
+                                <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200&auto=format&fit=crop" alt="Day 1">
+                            </div>
+                        </div>
+                        <div class="fghjkl77">
+                            <h2 class="uioplk67">Arrival at Kathmandu</h2>
+                            <p class="asdfgh54">
+                                Upon arrival at Tribhuvan International Airport, Kathmandu, participants will be
+                                transferred to the designated hotel by the local ground handling team. The remainder
+                                of the day is kept free for rest or independent exploration, subject to individual
+                                arrival times and personal preferences.
+                            </p>
+                            <hr style="margin-top:0; margin-bottom:10px; border:1px dotted #0000002b;">
+                            <p>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.24 16.24L12 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <b>Distance/Duration:</b> Approx. 30-minute drive from the airport
+                            </p>
+                            <p>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22V2M12 22L8 18M12 22L16 18M12 2L8 6M12 2L16 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <b>Altitude:</b> approx. 1,400 m
+                            </p>
+                            <p>
+                                <b>Accommodation:</b> 5-star hotel or similar category
+                            </p>
+                            <p><b>Meals:</b> Lunch and Dinner</p>
+                        </div>
+                    </label>
+                </div>
+            </div> -->
+
+            <!-- DAY 2 -->
+            <!-- <div class="itinerary-page" data-page="2">
+                <div class="yhfqwe45">
+                    <label class="lpqwer87">
+                        <div class="mkjhgf66">
+                            <div class="qazwsx33">
+                                <span class="poiuyt55">Day 02</span>
+                                <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200&auto=format&fit=crop" alt="Day 2">
+                            </div>
+                        </div>
+                        <div class="fghjkl77">
+                            <h2 class="uioplk67">Kathmandu Sightseeing & Trip Briefing</h2>
+                            <p class="asdfgh54">
+                                The day is dedicated to exploring some of the most important religious and cultural
+                                landmarks in and around Kathmandu, as part of the planned program.
+                            </p>
+                            <b><u>Places of Visit</u></b>
+                            <ul>
+                                <li><b>Pashupatinath Temple –</b> One of the most important Hindu temples dedicated to Lord Shiva, located on the banks of the Bagmati River.</li>
+                                <li><b>Bouddhanath Stupa –</b> A UNESCO World Heritage Site and one of the largest stupas in the world.</li>
+                                <li><b>Guhyeshwari Temple –</b> Situated near Pashupatinath, this temple is dedicated to Goddess Parvati.</li>
+                                <li><b>Jal Narayan (Budhanilkantha) –</b> A large reclining statue of Lord Vishnu located in a sacred pond.</li>
+                                <li><b>Optional Activity –</b> Participants may choose to take a scenic Everest Mountain Flight on this day.</li>
+                            </ul>
+                            <hr style="margin-top:0; margin-bottom:10px; border:1px dotted #0000002b;">
+                            <p>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.24 16.24L12 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <b>Distance/Duration:</b> Approx. 35 km round trip, 4–5 hours sightseeing
+                            </p>
+                            <p>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22V2M12 22L8 18M12 22L16 18M12 2L8 6M12 2L16 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <b>Altitude:</b> approx. 1,400 m
+                            </p>
+                            <p><b>Accommodation:</b> 5-star hotel or similar category</p>
+                            <p><b>Meals:</b> Breakfast, Lunch, and Dinner</p>
+                        </div>
+                    </label>
+                </div>
+            </div> -->
+
+            <!-- DAY 3 -->
+            <!-- <div class="itinerary-page" data-page="3">
+                <div class="yhfqwe45">
+                    <label class="lpqwer87">
+                        <div class="mkjhgf66">
+                            <div class="qazwsx33">
+                                <span class="poiuyt55">Day 03</span>
+                                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=1200&auto=format&fit=crop" alt="Day 3">
+                            </div>
+                        </div>
+                        <div class="fghjkl77">
+                            <h2 class="uioplk67">Kathmandu – Syabrubesi (Drive)</h2>
+                            <p class="asdfgh54">
+                                The day involves a road journey from Kathmandu to Syabrubesi, passing through hilly
+                                terrain, river valleys, and sections of Langtang National Park. Syabrubesi is a small
+                                town in the Langtang region and serves as a transit point for travellers heading
+                                towards the northern border.
+                            </p>
+                            <hr style="margin-top:0; margin-bottom:10px; border:1px dotted #0000002b;">
+                            <p>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.24 16.24L12 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <b>Distance/Duration:</b> Approx. 122 km, 5–8 hours drive
+                            </p>
+                            <p>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22V2M12 22L8 18M12 22L16 18M12 2L8 6M12 2L16 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <b>Altitude:</b> approx. 1,460 m
+                            </p>
+                            <p><b>Accommodation:</b> Tourist standard hotel or similar category</p>
+                            <p><b>Meals:</b> Breakfast, Lunch, and Dinner</p>
+                        </div>
+                    </label>
+                </div>
+            </div> -->
+
+            <!-- DAY 4 -->
+            <!-- <div class="itinerary-page" data-page="4">
+                <div class="yhfqwe45">
+                    <label class="lpqwer87">
+                        <div class="mkjhgf66">
+                            <div class="qazwsx33">
+                                <span class="poiuyt55">Day 04</span>
+                                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1200&auto=format&fit=crop" alt="Day 4">
+                            </div>
+                        </div>
+                        <div class="fghjkl77">
+                            <h2 class="uioplk67">Syabrubesi – Kerung (via Rasuwagadhi Border)</h2>
+                            <p class="asdfgh54">
+                                The day involves travel towards the Nepal–Tibet border at Rasuwagadhi, followed by
+                                completion of immigration and customs formalities. After clearance, the journey
+                                continues into Tibet towards Kerung (Kyirong), an important acclimatization stop
+                                for the onward journey.
+                            </p>
+                            <hr style="margin-top:0; margin-bottom:10px; border:1px dotted #0000002b;">
+                            <p>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6V12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.24 16.24L12 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <b>Distance/Duration:</b> Approx. 20 km to Rasuwagadhi (~2 hrs), then approx. 25 km to Kerung (~1.5 hrs)
+                            </p>
+                            <p>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22V2M12 22L8 18M12 22L16 18M12 2L8 6M12 2L16 6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <b>Altitude:</b> 2,800 m
+                            </p>
+                            <p><b>Accommodation:</b> Local guest house or similar category</p>
+                            <p><b>Meals:</b> Breakfast, Lunch, and Dinner</p>
+                        </div>
+                    </label>
+                </div>
+            </div> -->
+
+        </div>
+    </div>
+</section>
+
+<!-- TOUR HIGHLIGHTS -->
+<section class="relative">
+    <div class="container relative z-2">
+        <div class="row g-4 align-items-end justify-content-between">
+            <div class="col-lg-6">
+                <div class="subtitle">Atmayana Experiences</div>
+                <h2 class="split">Tour Highlights</h2>
+            </div>
+            <div class="col-lg-6">
+                <div class="relative">
+                    <div class="de-custom-nav d-flex flex-end">
+                        <div class="d-prev circle wow zoomIn" data-wow-delay=".2s" id="vlxPrevBtn"></div>
+                        <div class="d-next circle wow zoomIn" data-wow-delay=".3s" id="vlxNextBtn"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="spacer-single"></div>
+        <div class="vlx-slider-wrapper">
+            <div id="vlxTrack" class="vlx-slider-track">
+              
+         {% for highlight in highlights %}
+            <div class="vlx-card">
+                <div class="vlx-icon-circle">
+                    {% if highlight.icon %}
+                    <img src="{{ highlight.icon.url }}" alt="{{ highlight.name }}">
+                    {% endif %}
+                </div>
+            <h3>{{ highlight.name }}</h3>
+        </div>
+        {% endfor %}
+
+<!-- 
+
+                <div class="vlx-card">
+                    <div class="vlx-icon-circle">
+                        <svg fill="#ffffff" viewBox="0 -24.48 122.88 122.88" xmlns="http://www.w3.org/2000/svg"><path d="M97.31,36.95c0,9.92-3.49,18.39-10.48,25.38c-7,7-15.46,10.5-25.38,10.5c-9.88,0-18.34-3.49-25.35-10.5 c-7-6.99-10.52-15.46-10.52-25.38c0-9.89,3.51-18.32,10.52-25.34c7.03-7,15.48-10.52,25.35-10.52c9.92,0,18.38,3.51,25.38,10.52 C93.81,18.63,97.31,27.06,97.31,36.95z"/></svg>
+                    </div>
+                    <h3>Vegetarian Meals</h3>
+                </div>
+                <div class="vlx-card">
+                    <div class="vlx-icon-circle">
+                        <svg fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2,7V21a1,1,0,0,0,1,1H13V6H3A1,1,0,0,0,2,7ZM5,9h5v2H5Zm0,4h5v2H5Zm0,4h5v2H5ZM22,3V21a1,1,0,0,1-1,1H15V4H10V3a1,1,0,0,1,1-1H21A1,1,0,0,1,22,3Z"/></svg>
+                    </div>
+                    <h3>Hotels</h3>
+                </div>
+                <div class="vlx-card">
+                    <div class="vlx-icon-circle">
+                        <svg fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </div>
+                    <h3>Sight Seeing</h3>
+                </div>
+                <div class="vlx-card">
+                    <div class="vlx-icon-circle">
+                        <svg fill="#ffffff" height="200px" width="200px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M448,362.7l-117.3-21.3C320,320,320,310.7,320,298.7c10.7-10.7,32-21.3,32-32c10.7-32,10.7-53.3,10.7-53.3 c5.5-8,21.3-21.3,21.3-42.7s-21.3-42.7-21.3-53.3C362.7,32,319.2,0,256,0c-60.5,0-106.7,32-106.7,117.3c0,10.7-21.3,32-21.3,53.3 s15.2,35.4,21.3,42.7c0,0,0,21.3,10.7,53.3c0,10.7,21.3,21.3,32,32c0,10.7,0,21.3-10.7,42.7L64,362.7C21.3,373.3,0,448,0,512h512 C512,448,490.7,373.3,448,362.7z"/></svg>
+                    </div>
+                    <h3>Guidance</h3>
+                </div>
+                <div class="vlx-card">
+                    <div class="vlx-icon-circle">
+                        <svg fill="#ffffff" viewBox="0 0 491.52 491.52" xmlns="http://www.w3.org/2000/svg"><path d="M419.658,343.388c-1.905-24.596-18.412-45.015-40.776-52.961V245.76c0-56.463-45.937-102.4-102.4-102.4h-61.44h-20.48 h-20.48v-24.248c6.431,2.294,13.251,3.768,20.48,3.768c33.874,0,61.44-27.566,61.44-61.44S228.436,0,194.562,0 c-15.79,0-30.065,6.144-40.96,15.974C142.707,6.144,128.432,0,112.642,0c-33.894,0-61.44,27.566-61.44,61.44 s27.546,61.44,61.44,61.44c7.209,0,14.029-1.475,20.48-3.768v24.248h-20.48h-20.48c-11.325,0-20.48,9.175-20.48,20.48 c0,11.305,9.155,20.48,20.48,20.48v44.38c-23.818,8.376-40.96,31.109-40.96,57.774v0.246h204.8v-0.246 c0-26.665-17.142-49.398-40.96-57.774v-44.38h61.44c33.874,0,61.44,27.566,61.44,61.44v44.667 c-22.385,7.946-38.892,28.365-40.776,52.961c-12.984,11.53-20.664,28.14-20.664,45.732c0,17.592,7.68,34.202,20.664,45.732 c2.437,31.662,28.979,56.668,61.256,56.668s58.819-25.006,61.256-56.668c12.984-11.53,20.664-28.14,20.664-45.732 C440.322,371.528,432.642,354.918,419.658,343.388z"/></svg>
+                    </div>
+                    <h3>Emergency Oxygen Support</h3>
+                </div>  -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PARIKRAMA HIGHLIGHTS + MAP -->
+<!-- <section class="wrqpax12" style="background-color:rgba(var(--primary-color-rgb), .1) !important;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="fw-bold text-center mb-4">Kailash Parikrama Highlights</h5>
+                        <ul class="list-unstyled custom-list">
+                            <li class="mb-3"><strong>Outer Kora Trek:</strong> The complete sacred circumambulation covers approximately 52 km around Mount Kailash.</li>
+                            <li class="mb-3"><strong>Inner Kora Route:</strong> A spiritually significant and challenging 26 km trek near Nandi Parvat.</li>
+                            <li class="mb-3"><strong>Dolma La Pass:</strong> The highest point of the journey at 5630m offering breathtaking Himalayan views.</li>
+                            <li class="mb-3"><strong>Holy Sites:</strong> Visit sacred locations including Gauri Kund, Yam Dwar, Dirapuk, and Zuthulphuk.</li>
+                            <li class="mb-0"><strong>Lake Mansarovar:</strong> One of the holiest lakes in the world, believed to cleanse the soul and mind.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card" style="background-color:#fdfaf7; border-color:#eaa68b;">
+                    <div class="card-body">
+                        <img src="{% static 'images/map.webp' %}" alt="Route Map" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+
+
+<section class="wrqpax12" style="background-color:rgba(var(--primary-color-rgb), .1) !important;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="fw-bold text-center mb-4">
+                            {% if details %}{{ details.map_name }}{% endif %}
+                        </h5>
+                        <div>
+                            {% if details %}{{ details.map_details|safe }}{% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card" style="background-color:#fdfaf7; border-color:#eaa68b;">
+                    <div class="card-body">
+                        {% if details and details.map_image %}
+                        <img src="{{ details.map_image.url }}" alt="Route Map" class="img-fluid">
+                        {% else %}
+                        <img src="{% static 'images/map.webp' %}" alt="Route Map" class="img-fluid">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="wrqpax12">
+
+    <div class="container">
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">
+                        <i class="bi bi-check-circle-fill" style="color:#eaa68b;"></i> What's Included
+                    </h3>
+                    {% if details %}{{ details.included|safe }}{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card" style="background-color:#fdfaf7; border-color:#eaa68b;">
+                <div class="card-body">
+                    <h3 class="card-title text-center">
+                        <i class="bi bi-x-circle-fill" style="color:#eaa68b;"></i> What's Not Included
+                    </h3>
+                    {% if details %}{{ details.not_included|safe }}{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Who is Eligible</h3>
+                    {% if details %}{{ details.eligible|safe }}{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card" style="background-color:#fdfaf7; border-color:#eaa68b;">
+                <div class="card-body">
+                    <h3 class="card-title">Tibet Visa & Travel Guides</h3>
+                    {% if details %}{{ details.tibet_visa|safe }}{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Payment Terms</h3>
+                    {% if details %}{{ details.payment_terms|safe }}{% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+   
+</section>
+
+<!-- PACKING LIST -->
+<!-- <section class="wrqpax12" style="background-color:white;">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-lg-12 d-flex flex-column">
+                <div class="subtitle text-center">Atmayana Experiences</div>
+                <h2 class="split text-center" style="margin-bottom:0!important;">Recommended Packing List</h2>
+            </div>
+            <div class="col-md-12">
+                <div class="row align-items-center justify-content-center text-center">
+                    <div class="col-md-8">
+                        Participants are advised to pack light but adequately, keeping in mind the high-altitude conditions,
+                        cold climate, basic accommodation, and limited access to shops, especially during the Kailash sector.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Regular Clothing</h3>
+                        <ul>
+                            <li>Thermal vest and pyjama</li>
+                            <li>Undergarments and nightwear</li>
+                            <li>Full-sleeve cotton round-neck and polo-neck T-shirts</li>
+                            <li>Comfortable and warm pants/leggings/trousers</li>
+                            <li>Woollen sweater</li>
+                            <li>Cotton socks and woollen socks</li>
+                            <li>Balaclava (monkey cap) and shawl/scarf</li>
+                            <li>Gloves – cotton/woollen mittens and one pair of snow gloves</li>
+                            <li>Windcheater with hood</li>
+                            <li>Indoor footwear (to be worn with socks)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card" style="border-color:rgb(234, 166, 139);">
+                    <div class="card-body">
+                        <h3 class="card-title">Trekking & Cold-Weather Gear</h3>
+                        <ul>
+                            <li>Trekking shoes (waterproof recommended)</li>
+                            <li>Extra pair of shoe insoles</li>
+                            <li>Gaiters (useful for dust/snow during Kora)</li>
+                            <li>Thermal inner gloves</li>
+                            <li>Neck gaiter/buff</li>
+                            <li>Rain poncho or light waterproof jacket</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Personal & Bath Kit</h3>
+                        <ul>
+                            <li>Toothpaste and toothbrush</li>
+                            <li>Lip balm and sunscreen</li>
+                            <li>Deodorant/perfume</li>
+                            <li>Shampoo sachets</li>
+                            <li>Soap strips/body wash</li>
+                            <li>Skin moisturiser</li>
+                            <li>Toilet paper / personal hygiene wipes</li>
+                            <li>Small mirror</li>
+                            <li>Comb/hair brush</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">High-Altitude & Health Essentials</h3>
+                        <ul>
+                            <li>Personal prescription medicines (with doctor's prescription)</li>
+                            <li>Basic first-aid kit (band-aids, antiseptic cream, pain relief spray)</li>
+                            <li>ORS / electrolyte sachets</li>
+                            <li>Energy bars/glucose tablets</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card" style="border-color:rgb(234, 166, 139);">
+                    <div class="card-body">
+                        <h3 class="card-title">Travel & Utility Items</h3>
+                        <ul>
+                            <li>Torch or headlamp with spare batteries</li>
+                            <li>Power bank</li>
+                            <li>Universal travel adapter</li>
+                            <li>Small lock for duffel bag/day pack</li>
+                            <li>Reusable water bottle (insulated preferred)</li>
+                            <li>Thermos flask</li>
+                            <li>Neck pillow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Documents & Money</h3>
+                        <ul>
+                            <li>Multiple photocopies of passport and visa</li>
+                            <li>Digital copies stored on phone/email</li>
+                            <li>Passport cover / waterproof pouch</li>
+                            <li>Cash in small denominations (INR/Yuan/USD)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section> -->
+
+
+
+
+<section class="wrqpax12" style="background-color:white;">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-lg-12 d-flex flex-column">
+                <div class="subtitle text-center">Atmayana Experiences</div>
+                <h2 class="split text-center" style="margin-bottom:0!important;">Recommended Packing List</h2>
+            </div>
+            <div class="col-md-12">
+                <div class="row align-items-center justify-content-center text-center">
+                    <div class="col-md-8">
+                        Participants are advised to pack light but adequately, keeping in mind the high-altitude conditions,
+                        cold climate, basic accommodation, and limited access to shops, especially during the Kailash sector.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Regular Clothing</h3>
+                        {% if details %}{{ details.regular_clothing|safe }}{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card" style="border-color:rgb(234, 166, 139);">
+                    <div class="card-body">
+                        <h3 class="card-title">Trekking & Cold-Weather Gear</h3>
+                        {% if details %}{{ details.trekking_gear|safe }}{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Personal & Bath Kit</h3>
+                        {% if details %}{{ details.bath_kit|safe }}{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">High-Altitude & Health Essentials</h3>
+                        {% if details %}{{ details.health_essentials|safe }}{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card" style="border-color:rgb(234, 166, 139);">
+                    <div class="card-body">
+                        <h3 class="card-title">Travel & Utility Items</h3>
+                        {% if details %}{{ details.travel_utility|safe }}{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Documents & Money</h3>
+                        {% if details %}{{ details.documents_money|safe }}{% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- <script>
+    // Tour Highlights Slider
+    const vlxTrack = document.getElementById("vlxTrack");
+    const vlxCards = document.querySelectorAll(".vlx-card");
+    const vlxNext = document.getElementById("vlxNextBtn");
+    const vlxPrev = document.getElementById("vlxPrevBtn");
+    let currentIndex = 0;
+
+    function getCardsPerView() {
+        if (window.innerWidth < 768) return 2;
+        else if (window.innerWidth < 1200) return 3;
+        else return 6;
+    }
+
+    function updateSlider() {
+        const cardsPerView = getCardsPerView();
+        const cardWidth = vlxCards[0].offsetWidth + 20;
+        const maxIndex = vlxCards.length - cardsPerView;
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+        if (currentIndex < 0) currentIndex = 0;
+        vlxTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    }
+
+    if (vlxNext) vlxNext.addEventListener("click", () => {
+        if (currentIndex < vlxCards.length - getCardsPerView()) { currentIndex++; updateSlider(); }
+    });
+    if (vlxPrev) vlxPrev.addEventListener("click", () => {
+        if (currentIndex > 0) { currentIndex--; updateSlider(); }
+    });
+    window.addEventListener("resize", updateSlider);
+    if (vlxCards.length) updateSlider();
+</script>
+
+<script>
+    // Itinerary Pagination
+    document.addEventListener("DOMContentLoaded", function () {
+        const pages = document.querySelectorAll(".itinerary-page");
+        const pageButtons = document.querySelectorAll(".mnlpza44-page-btn[data-page]");
+        const prevBtn = document.getElementById("prevPageBtn");
+        const nextBtn = document.getElementById("nextPageBtn");
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function showPage(pageNumber) {
+            pages.forEach(p => p.classList.remove("active-page"));
+            pageButtons.forEach(b => b.classList.remove("active"));
+            const tp = document.querySelector(`.itinerary-page[data-page="${pageNumber}"]`);
+            const tb = document.querySelector(`.mnlpza44-page-btn[data-page="${pageNumber}"]`);
+            if (tp) tp.classList.add("active-page");
+            if (tb) tb.classList.add("active");
+            currentPage = pageNumber;
+        }
+
+        pageButtons.forEach(btn => {
+            btn.addEventListener("click", function () {
+                showPage(parseInt(this.getAttribute("data-page")));
+            });
+        });
+
+        if (prevBtn) prevBtn.addEventListener("click", () => { if (currentPage > 1) showPage(currentPage - 1); });
+        if (nextBtn) nextBtn.addEventListener("click", () => { if (currentPage < totalPages) showPage(currentPage + 1); });
+    });
+</script> -->
+
+
+
+<script>
+    // Tour Highlights Slider
+    const vlxTrack = document.getElementById("vlxTrack");
+    const vlxCards = document.querySelectorAll(".vlx-card");
+    const vlxNext = document.getElementById("vlxNextBtn");
+    const vlxPrev = document.getElementById("vlxPrevBtn");
+    let currentIndex = 0;
+
+    function getCardsPerView() {
+        if (window.innerWidth < 768) return 2;
+        else if (window.innerWidth < 1200) return 3;
+        else return 6;
+    }
+
+    function updateSlider() {
+        if (vlxCards.length === 0) return;
+        const cardsPerView = getCardsPerView();
+        const cardWidth = vlxCards[0].offsetWidth + 20;
+        const maxIndex = Math.max(0, vlxCards.length - cardsPerView);
+        if (currentIndex > maxIndex) currentIndex = maxIndex;
+        if (currentIndex < 0) currentIndex = 0;
+        vlxTrack.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+    }
+
+    if (vlxNext) vlxNext.addEventListener("click", () => {
+        const maxIndex = Math.max(0, vlxCards.length - getCardsPerView());
+        if (currentIndex < maxIndex) { currentIndex++; updateSlider(); }
+    });
+    if (vlxPrev) vlxPrev.addEventListener("click", () => {
+        if (currentIndex > 0) { currentIndex--; updateSlider(); }
+    });
+    window.addEventListener("resize", updateSlider);
+    if (vlxCards.length) updateSlider();
+</script>
+
+<script>
+    // Itinerary Pagination
+    document.addEventListener("DOMContentLoaded", function () {
+        const pages = document.querySelectorAll(".itinerary-page");
+        const pageButtons = document.querySelectorAll(".mnlpza44-page-btn[data-page]");
+        const prevBtn = document.getElementById("prevPageBtn");
+        const nextBtn = document.getElementById("nextPageBtn");
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function showPage(pageNumber) {
+            pages.forEach(p => p.classList.remove("active-page"));
+            pageButtons.forEach(b => b.classList.remove("active"));
+            const tp = document.querySelector(`.itinerary-page[data-page="${pageNumber}"]`);
+            const tb = document.querySelector(`.mnlpza44-page-btn[data-page="${pageNumber}"]`);
+            if (tp) tp.classList.add("active-page");
+            if (tb) tb.classList.add("active");
+            currentPage = pageNumber;
+        }
+
+        pageButtons.forEach(btn => {
+            btn.addEventListener("click", function () {
+                showPage(parseInt(this.getAttribute("data-page")));
+            });
+        });
+
+        if (prevBtn) prevBtn.addEventListener("click", () => { if (currentPage > 1) showPage(currentPage - 1); });
+        if (nextBtn) nextBtn.addEventListener("click", () => { if (currentPage < totalPages) showPage(currentPage + 1); });
+    });
+</script>
+{% endblock %}

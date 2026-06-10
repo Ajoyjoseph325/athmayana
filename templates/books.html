@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Atmayana - Our Books{% endblock %}
+
+{% block nav_publications %}active{% endblock %}
+
+{% block content %}
+
+<a href="#" id="back-to-top"></a>
+<div id="de-loader"></div>
+
+<!-- SUBHEADER -->
+<section id="subheader" class="relative jarallax text-light" data-bgimage="url({% static 'images/background/sb5.webp' %})">
+    <div class="de-gradient-edge-top"></div>
+    <div class="container relative z-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="clearfix"></div>
+                <h1 class="cam-style">Our Books</h1>
+            </div>
+        </div>
+    </div>
+    <div class="crumb-wrapper">
+        <ul class="crumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li class="active">Our Books</li>
+        </ul>
+    </div>
+    <img src="{% static 'images/misc/d2.webp' %}" class="abs w-20 end-0 bottom-min-100 z-2" alt="">
+    <div class="sw-overlay op-4"></div>
+</section>
+
+<!-- BOOKS SECTION -->
+<section class="bg-light">
+    <div class="container">
+        <div class="row g-4 align-items-center">
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/aadhikailsa.jpg' %}" alt="Aadhikailasa Yathra">
+                    <p>Aadhikailasa Yathra<br><br></p>
+                    <a href="https://www.amazon.in/AADIKAILASAYATHRA-RAMACHANDRAN-M-K/dp/812260787X/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/dakini.jpg' %}" alt="Daikinimarude Hridhayabhoomiyiloode">
+                    <p>Daikinimarude Hridhayabhoomiyiloode</p>
+                    <a href="https://www.amazon.in/Dakinimarude-Hridayabhoomiyiloode/dp/8122613721/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/4.webp' %}" alt="Himalaya Samathalangaliloode">
+                    <p>Himalaya Samathalangaliloode</p>
+                    <a href="https://www.amazon.in/Himalaya-Samathalangaliloode-M-K-RAMACHANDRAN/dp/B09YRB3DZ2/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/nakshathrangalsakshi.jpg' %}" alt="Nakshathrangale Sakshi">
+                    <p>Nakshathrangale Sakshi<br><br></p>
+                    <a href="https://www.amazon.in/Nakshathrangale-Sakshi-M-K-Ramachandran/dp/B0FHWNNSFZ/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/5.jpg' %}" alt="Utharkhandiloode Kailas Manasasarassu Yathra">
+                    <p>Utharkhandiloode Kailas Manasasarassu Yathra</p>
+                    <a href="https://www.amazon.in/Utharkhandiloode-Kailas-Manasasarassu-Yathra-M-K-Ramachandran/dp/8122613195/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/6.jpg' %}" alt="Devabhumiyiloode">
+                    <p>Devabhumiyiloode<br><br></p>
+                    <a href="https://www.amazon.in/DEVABHUMIYILUDE-MK-RAMACHANDRAN/dp/8122611087/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/7.jpg' %}" alt="Thapobhoomi Utharkhand">
+                    <p>Thapobhoomi Utharkhand<br><br></p>
+                    <a href="https://www.amazon.in/Thapobhoomi-Utharkhand-M-K-Ramachandran/dp/8122613799/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/8.jpg' %}" alt="The Journey to Adi Kailash">
+                    <p>The Journey to Adi Kailash<br><br></p>
+                    <a href="https://www.amazon.in/Journey-Adi-Kailash-M-K-Ramachandran-ebook/dp/B0CLRPFC4D/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/9.jpg' %}" alt="5 Himalaya Yathrakal">
+                    <p>5 Himalaya Yathrakal<br><br></p>
+                    <a href="https://www.amazon.in/5-Himalaya-Yathrakal-M-K-Ramachandran/dp/938964903X/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="book-item">
+                    <img src="{% static 'images/books/10.jpg' %}" alt="Aa">
+                    <p>Aa<br><br></p>
+                    <a href="https://www.amazon.in/Aa-Sarath-Krishnan/dp/B0F6JYMX4X/" target="_blank" class="w-100 text-center">View on Amazon</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

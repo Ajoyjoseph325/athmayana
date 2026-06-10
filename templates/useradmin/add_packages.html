@@ -1,0 +1,387 @@
+Here is your `add_packages.html` converted properly for Django using your `useradmin/base_admin.html`. 
+
+```html id="3x1r0h"
+{% extends 'useradmin/base_admin.html' %}
+{% load static %}
+
+{% block title %}Add Packages{% endblock %}
+
+{% block nav_packages %}active{% endblock %}
+
+{% block content %}
+
+<div class="min-vh-100 position-relative">
+
+    <div class="page-wrapper">
+
+        <div class="container-fluid">
+
+            <!-- Page Heading -->
+            <div class="gap-2 page-heading mb-3 d-flex flex-column flex-md-row">
+
+                <h6 class="flex-grow-1 mb-0">
+                    Add Packages
+                </h6>
+
+                <ul class="breadcrumb flex-shrink-0 mb-0">
+
+                    <li class="breadcrumb-item">
+                        <a href="">
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="breadcrumb-item active">
+                        Packages
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="row">
+
+                <!-- FORM -->
+                <div class="col-md-4">
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                  <form enctype="multipart/form-data"
+    method="POST"
+    action="{% if package %}{% url 'update_package' package.id %}{% else %}{% url 'add_packages' %}{% endif %}">
+
+    {% csrf_token %}
+
+    <div class="row gy-2 gx-5">
+
+        <!-- Package Name -->
+        <div class="col-md-12">
+
+            <div class="form-floating">
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Name"
+                    value="{{ package.name|default:'' }}"
+                    required
+                >
+
+                <label for="name" class="text-dark">
+                    Name
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- Category -->
+        <div class="col-md-6">
+
+            <select
+                class="form-select form-control"
+                name="category"
+                style="height: 55px;"
+                required
+            >
+
+                <option disabled>
+                    Select Category
+                </option>
+
+                {% for category in categories %}
+
+                <option
+                    value="{{ category.id }}"
+                    {% if package.category.id == category.id %}selected{% endif %}
+                >
+                    {{ category.categoryname }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <!-- Image -->
+<div class="col-md-12">
+
+    <label class="mb-2">
+        Package Image
+    </label>
+
+    <input
+        type="file"
+        class="form-control"
+        name="image"
+        accept="image/*"
+    >
+
+    {% if package.image %}
+    
+        <img 
+            src="{{ package.image.url }}" 
+            width="120"
+            class="mt-2"
+        >
+
+    {% endif %}
+
+</div>
+
+        <!-- Duration -->
+        <div class="col-md-6">
+
+            <div class="form-floating">
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="duration"
+                    name="duration"
+                    placeholder="Duration"
+                    value="{{ package.duration|default:'' }}"
+                    required
+                >
+
+                <label for="duration" class="text-dark">
+                    Duration
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- Amount -->
+        <div class="col-md-6">
+
+            <div class="form-floating">
+
+                <input
+                    type="number"
+                    class="form-control"
+                    id="amount"
+                    name="amount"
+                    placeholder="Amount"
+                    value="{{ package.amount|default:'' }}"
+                    required
+                >
+
+                <label for="amount" class="text-dark">
+                    Amount
+                </label>
+
+            </div>
+
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-6">
+
+            <select
+                class="form-select form-control"
+                name="status"
+                style="height: 55px;"
+                required
+            >
+
+                <option disabled>
+                    Select Status
+                </option>
+
+                <option
+                    value="Active"
+                    {% if package.status == 'Active' %}selected{% endif %}
+                >
+                    Active
+                </option>
+
+                <option
+                    value="Inactive"
+                    {% if package.status == 'Inactive' %}selected{% endif %}
+                >
+                    Inactive
+                </option>
+
+            </select>
+
+        </div>
+
+        <!-- Submit -->
+        <div class="col-md-12 mt-5">
+
+            <button
+                type="submit"
+                class="btn btn-dark w-100"
+            >
+
+                {% if package %}
+
+                    Update Package
+
+                {% else %}
+
+                    Submit
+
+                {% endif %}
+
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TABLE -->
+                <div class="col-md-8">
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+
+                                <table class="table text-nowrap mb-0">
+
+                                    <thead>
+
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Duration</th>
+                                            <th>Amount</th>
+                                            <th>Image</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        {% for package in packages %}
+
+                                        <tr>
+
+                                            <td>
+                                                {{ package.name }}
+                                            </td>
+
+                                            <td>
+                                                {{ package.category.categoryname }}
+                                            </td>
+
+                                            <td>
+                                                {{ package.duration }}
+                                            </td>
+
+                                            <td>
+                                                {{ package.amount }}
+                                            </td>
+
+                                            <td>
+
+    {% if package.image %}
+
+    <img
+        src="{{ package.image.url }}"
+        width="70"
+        height="70"
+        style="object-fit: cover; border-radius: 8px;"
+    >
+
+    {% else %}
+
+    No Image
+
+    {% endif %}
+
+</td>
+
+                                            <td>
+
+                                                {% if package.status == 'Active' %}
+
+                                                <span class="badge bg-success">
+                                                    Active
+                                                </span>
+
+                                                {% else %}
+
+                                                <span class="badge bg-danger">
+                                                    Inactive
+                                                </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+                                            <td>
+
+                                                <!-- Edit -->
+                                                <a
+                                                    href="{% url 'edit_package' package.id %}"
+                                                    class="link link-warning"
+                                                >
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+
+                                                <!-- Delete -->
+                                                <a
+                                                    href="{% url 'delete_package' package.id %}"
+                                                    class="link link-danger"
+                                                    onclick="return confirm('Are you sure?')"
+                                                >
+                                                    <i class="bi bi-trash3"></i>
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+
+                                        {% empty %}
+
+                                        <tr>
+
+                                            <td colspan="6" class="text-center">
+                                                No packages found
+                                            </td>
+
+                                        </tr>
+
+                                        {% endfor %}
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

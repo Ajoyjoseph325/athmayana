@@ -1,0 +1,1 @@
+import"../../admin.bundle-BD84ghkN.js";/* empty css          *//* empty css      *//* empty css    */import"../../main-dpGOw9z9.js";const t=document.getElementById("message"),n=document.getElementById("charCount");function o(){t.style.height="auto",t.style.height=t.scrollHeight+"px"}function i(){const e=t.value.length;n.textContent=e}t.addEventListener("input",()=>{o(),i()});
