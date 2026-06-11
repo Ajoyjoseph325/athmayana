@@ -31,6 +31,7 @@
                             <form method="post" enctype="multipart/form-data" action="{% url 'add_package_highlights' %}">
                             {% endif %}
                                 {% csrf_token %}
+                                <input type="hidden" name="page_number" value="{{ highlights.number }}">
                                 <div class="row gy-2 gx-5">
 
                          
@@ -115,9 +116,12 @@
                                             </td>
                                             <td>{{ highlight.status }}</td>
                                             <td>
-                                                <a href="{% url 'edit_highlight' highlight.id %}" class="link link-warning">
+                                                <!-- <a href="{% url 'edit_highlight' highlight.id %}" class="link link-warning">
                                                     <i class="bi bi-pencil-square"></i>
-                                                </a>
+                                                </a> -->
+                                                <a href="{% url 'edit_highlight' highlight.id %}?page={{ highlights.number }}" class="link link-warning">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </a>
                                                 <a href="{% url 'delete_highlight' highlight.id %}" class="link link-danger"
                                                     onclick="return confirm('Are you sure you want to delete this?')">
                                                     <i class="bi bi-trash3"></i>

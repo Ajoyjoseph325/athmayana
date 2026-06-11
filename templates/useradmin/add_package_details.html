@@ -118,6 +118,7 @@
 <form method="post" enctype="multipart/form-data" action="{% url 'add_package_details' %}">
 {% endif %}
     {% csrf_token %}
+    <input type="hidden" name="page_number" value="{{ package_details.number }}">
     <div class="row gy-2 gx-5">
 
         <!-- Select Package -->
@@ -156,22 +157,7 @@
             </div>
         </div>
 
-        <!-- Tour Highlights Multi-Select -->
-        <!-- <div class="col-md-12">
-            <div class="gxq_wrap_91">
-                <select id="rtx_select_84" name="tour_highlights" multiple>
-                    <option value="" disabled>Transportation Facilities</option>
-                    {% for highlight in highlights %}
-                    <option value="{{ highlight.id }}">{{ highlight.name }}</option>
-                    {% endfor %}
-                </select>
-                <div class="jkp_box_33" id="asd_box_11">Select Tour Highlights</div>
-                <div class="qwe_drop_19" id="dropdown_77">
-                    <input type="text" id="bnm_search_55" placeholder="Search here...">
-                    <div class="poi_list_88" id="list_66"></div>
-                </div>
-            </div>
-        </div> -->
+       
 
 
         <!-- Tour Highlights Multi-Select -->
@@ -280,6 +266,16 @@
         </div>
 
         <!-- Submit -->
+
+
+        {% if error_message %}
+            <div class="col-md-12">
+                <div class="alert alert-danger py-2">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    {{ error_message }}
+                </div>
+            </div>
+    {% endif %}
         <div class="col-md-12 mt-5">
             <button type="submit" class="btn btn-dark w-100">
                 {% if edit_detail %}Update{% else %}Submit{% endif %}
@@ -309,8 +305,12 @@
         <tr>
             <td>{{ detail.package.name }}</td>
             <td>
-                <a href="{% url 'edit_package_detail' detail.id %}" class="link link-warning">
+                <!-- <a href="{% url 'edit_package_detail' detail.id %}" class="link link-warning">
                     <i class="bi bi-pencil-square"></i>
+                </a> -->
+
+                <a href="{% url 'edit_package_detail' detail.id %}?page={{ package_details.number }}" class="link link-warning">
+                <i class="bi bi-pencil-square"></i>
                 </a>
                 <a href="{% url 'delete_package_detail' detail.id %}" class="link link-danger"
                     onclick="return confirm('Are you sure you want to delete this?')">

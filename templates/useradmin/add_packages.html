@@ -54,6 +54,8 @@ Here is your `add_packages.html` converted properly for Django using your `usera
 
     {% csrf_token %}
 
+    <input type="hidden" name="page_number" value="{{ packages.number }}">
+
     <div class="row gy-2 gx-5">
 
         <!-- Package Name -->
@@ -245,135 +247,109 @@ Here is your `add_packages.html` converted properly for Django using your `usera
                 </div>
 
                 <!-- TABLE -->
-                <div class="col-md-8">
+              <!-- TABLE -->
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table text-nowrap mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Duration</th>
+                            <th>Amount</th>
+                            <th>Image</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in packages %}
+                        <tr>
+                            <td>{{ packages.start_index|add:forloop.counter0 }}</td>
+                            <td>{{ package.name }}</td>
+                            <td>{{ package.category.categoryname }}</td>
+                            <td>{{ package.duration }}</td>
+                            <td>{{ package.amount }}</td>
+                            <td>
+                                {% if package.image %}
+                                <img src="{{ package.image.url }}" width="70" height="70"
+                                    style="object-fit:cover; border-radius:8px;">
+                                {% else %}
+                                No Image
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if package.status == 'Active' %}
+                                <span class="badge bg-success">Active</span>
+                                {% else %}
+                                <span class="badge bg-danger">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <!-- <a href="{% url 'edit_package' package.id %}?page={{ packages.number }}"
+                                    class="link link-warning">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a> -->
 
-                    <div class="card">
+                                <a href="{% url 'edit_package' package.id %}?page={{ packages.number }}"
+                                    class="link link-warning">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="{% url 'delete_package' package.id %}"
+                                    class="link link-danger"
+                                    onclick="return confirm('Are you sure?')">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-3">No packages found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-                        <div class="card-body">
+    <!-- Pagination -->
+    <div class="d-flex justify-content-end w-100 mt-2">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if packages.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ packages.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+                {% endif %}
 
-                            <div class="table-responsive">
+                {% for num in packages.paginator.page_range %}
+                <li class="page-item {% if packages.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
 
-                                <table class="table text-nowrap mb-0">
+                {% if packages.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ packages.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
 
-                                    <thead>
-
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Category</th>
-                                            <th>Duration</th>
-                                            <th>Amount</th>
-                                            <th>Image</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-
-                                        {% for package in packages %}
-
-                                        <tr>
-
-                                            <td>
-                                                {{ package.name }}
-                                            </td>
-
-                                            <td>
-                                                {{ package.category.categoryname }}
-                                            </td>
-
-                                            <td>
-                                                {{ package.duration }}
-                                            </td>
-
-                                            <td>
-                                                {{ package.amount }}
-                                            </td>
-
-                                            <td>
-
-    {% if package.image %}
-
-    <img
-        src="{{ package.image.url }}"
-        width="70"
-        height="70"
-        style="object-fit: cover; border-radius: 8px;"
-    >
-
-    {% else %}
-
-    No Image
-
-    {% endif %}
-
-</td>
-
-                                            <td>
-
-                                                {% if package.status == 'Active' %}
-
-                                                <span class="badge bg-success">
-                                                    Active
-                                                </span>
-
-                                                {% else %}
-
-                                                <span class="badge bg-danger">
-                                                    Inactive
-                                                </span>
-
-                                                {% endif %}
-
-                                            </td>
-
-                                            <td>
-
-                                                <!-- Edit -->
-                                                <a
-                                                    href="{% url 'edit_package' package.id %}"
-                                                    class="link link-warning"
-                                                >
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-
-                                                <!-- Delete -->
-                                                <a
-                                                    href="{% url 'delete_package' package.id %}"
-                                                    class="link link-danger"
-                                                    onclick="return confirm('Are you sure?')"
-                                                >
-                                                    <i class="bi bi-trash3"></i>
-                                                </a>
-
-                                            </td>
-
-                                        </tr>
-
-                                        {% empty %}
-
-                                        <tr>
-
-                                            <td colspan="6" class="text-center">
-                                                No packages found
-                                            </td>
-
-                                        </tr>
-
-                                        {% endfor %}
-
-                                    </tbody>
-
-                                </table>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+</div>
 
             </div>
 

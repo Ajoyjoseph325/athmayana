@@ -5,6 +5,8 @@ from django.contrib import messages
 from .models import Category,Package
 from django.core.paginator import Paginator
 from django.urls import reverse
+from django.db import IntegrityError
+
 
 # dhjhdhj
 
@@ -65,14 +67,17 @@ def contact(request):
 
 
 def view_packages(request):
-    categories = Category.objects.all().order_by('-id')
-    packages = Package.objects.all().order_by('-id')
-    context = {
-        'categories': categories,
-        'packages': packages
-    }
-    return render(request, 'useradmin/add_packages.html',context)
+    package_list = Package.objects.all().order_by('-id')
+    paginator = Paginator(package_list, 4)
+    page = request.GET.get('page')
+    packages = paginator.get_page(page)
 
+    categories = Category.objects.filter(status='Active')
+
+    return render(request, 'useradmin/add_packages.html', {
+        'packages': packages,
+        'categories': categories,
+    })
 
 
 
@@ -127,6 +132,12 @@ def edit_package(request, id):
     categories = Category.objects.filter(status='Active')
 
     packages = Package.objects.all().order_by('-id')
+
+    page_number = request.GET.get('page', 1)
+
+    package_list = Package.objects.all().order_by('-id')
+    paginator = Paginator(package_list, 4)
+    packages = paginator.get_page(page_number)
 
     context = {
             'package': package,
@@ -359,25 +370,21 @@ def kailash_detail(request, id):
 
 
 
+# new add pacakagedetail function with error handling 
 
-
-
-
-
-
-# new add pacakge details 
 def add_package_details(request, edit_id=None):
     packages = Package.objects.all()
     highlights = TourHighlight.objects.all()
-    package_details = PackageDetailsTwo.objects.all()
     edit_detail = None
+    error_message = None
+    page_number = request.POST.get('page_number') or request.GET.get('page', 1)
 
     if edit_id:
-        edit_detail = PackageDetailsTwo.objects.get(id=edit_id)
+        edit_detail = get_object_or_404(PackageDetailsTwo, id=edit_id)
 
     if request.method == 'POST':
         package_id = request.POST.get('package')
-        package = Package.objects.get(id=package_id)
+        package = get_object_or_404(Package, id=package_id)
         highlight_ids = request.POST.getlist('tour_highlights')
 
         data = {
@@ -401,7 +408,6 @@ def add_package_details(request, edit_id=None):
         map_image = request.FILES.get('map_image')
 
         if edit_id:
-            # UPDATE
             for key, value in data.items():
                 setattr(edit_detail, key, value)
             if main_image:
@@ -411,25 +417,37 @@ def add_package_details(request, edit_id=None):
             edit_detail.package = package
             edit_detail.save()
             edit_detail.tour_highlights.set(highlight_ids)
-            return redirect('add_package_details')
+            return redirect(f"{reverse('add_package_details')}?page={page_number}")
+
         else:
-            # CREATE
-            detail = PackageDetailsTwo(package=package, **data)
-            if main_image:
-                detail.main_image = main_image
-            if map_image:
-                detail.map_image = map_image
-            detail.save()
-            detail.tour_highlights.set(highlight_ids)
-            return redirect('add_package_details')
+            # Check if details already exist for this package
+            if PackageDetailsTwo.objects.filter(package=package).exists():
+                error_message = f'Package details already exist for "{package.name}". Please edit the existing record instead.'
+            else:
+                try:
+                    detail = PackageDetailsTwo(package=package, **data)
+                    if main_image:
+                        detail.main_image = main_image
+                    if map_image:
+                        detail.map_image = map_image
+                    detail.save()
+                    detail.tour_highlights.set(highlight_ids)
+                    return redirect(f"{reverse('add_package_details')}?page={page_number}")
+                except IntegrityError:
+                    error_message = f'Package details already exist for "{package.name}". Please edit the existing record instead.'
+
+    # Pagination
+    detail_list = PackageDetailsTwo.objects.all().order_by('-id')
+    paginator = Paginator(detail_list, 1)
+    package_details = paginator.get_page(page_number)
 
     return render(request, "useradmin/add_package_details.html", {
         'packages': packages,
         'highlights': highlights,
         'edit_detail': edit_detail,
         'package_details': package_details,
+        'error_message': error_message,
     })
-
 
 
 
@@ -437,8 +455,6 @@ def delete_package_detail(request, id):
     detail = PackageDetailsTwo.objects.get(id=id)
     detail.delete()
     return redirect('add_package_details')
-
-
 
 
 
@@ -453,20 +469,14 @@ def package_highlights(request):
 
 
 
-
-
-
-
-
 def add_package_highlights(request, edit_id=None):
     packages = Package.objects.all()
-    highlights = TourHighlight.objects.all()
     edit_highlight = None
+    page_number = request.POST.get('page_number') or request.GET.get('page', 1)
 
     if edit_id:
-        edit_highlight = TourHighlight.objects.get(id=edit_id)
+        edit_highlight = get_object_or_404(TourHighlight, id=edit_id)
 
- 
     if request.method == 'POST' and not edit_id:
         name = request.POST.get('name')
         icon = request.FILES.get('icon')
@@ -477,18 +487,21 @@ def add_package_highlights(request, edit_id=None):
             icon=icon,
             status=status,
         )
-        return redirect('add_package_highlights')
-
+        return redirect(f"{reverse('add_package_highlights')}?page={page_number}")
 
     if request.method == 'POST' and edit_id:
-        highlight = TourHighlight.objects.get(id=edit_id)
+        highlight = get_object_or_404(TourHighlight, id=edit_id)
         highlight.name = request.POST.get('name')
         highlight.status = request.POST.get('status')
         icon = request.FILES.get('icon')
         if icon:
             highlight.icon = icon
         highlight.save()
-        return redirect('add_package_highlights')
+        return redirect(f"{reverse('add_package_highlights')}?page={page_number}")
+
+    highlight_list = TourHighlight.objects.all().order_by('-id')
+    paginator = Paginator(highlight_list, 4)
+    highlights = paginator.get_page(page_number)
 
     return render(request, "useradmin/add_tour_highlights_new.html", {
         'packages': packages,
@@ -509,34 +522,17 @@ def delete_highlight(request, id):
 
 
 
-def add_package_itinerary(request):
-    packages = Package.objects.all()
-    itinerary_list = PackageItinerary.objects.select_related('package').order_by('-id')
-
-    from django.core.paginator import Paginator
-    paginator = Paginator(itinerary_list, 10)
-    page_number = request.GET.get('page')
-    itineraries = paginator.get_page(page_number)
-
-    return render(request, 'useradmin/add_package_itneraries.html', {
-        'packages': packages,
-        'itineraries': itineraries,
-    })
-
-
-
-
-
 def add_package_itinerary(request, edit_id=None):
     packages = Package.objects.all()
     edit_itinerary = None
+    page_number = request.POST.get('page_number') or request.GET.get('page', 1)
 
     if edit_id:
-        edit_itinerary = PackageItineraryTwo.objects.get(id=edit_id)
+        edit_itinerary = get_object_or_404(PackageItineraryTwo, id=edit_id)
 
     if request.method == 'POST':
         package_id = request.POST.get('package')
-        package = Package.objects.get(id=package_id)
+        package = get_object_or_404(Package, id=package_id)
         itinerary = request.POST.get('itinerary')
         status = request.POST.get('status')
         images = request.FILES.get('images')
@@ -548,7 +544,6 @@ def add_package_itinerary(request, edit_id=None):
             if images:
                 edit_itinerary.images = images
             edit_itinerary.save()
-            return redirect('add_package_itinerary')
         else:
             PackageItineraryTwo.objects.create(
                 package=package,
@@ -556,11 +551,11 @@ def add_package_itinerary(request, edit_id=None):
                 status=status,
                 images=images,
             )
-            return redirect('add_package_itinerary')
+
+        return redirect(f"{reverse('add_package_itinerary')}?page={page_number}")
 
     itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('-id')
-    paginator = Paginator(itinerary_list, 10)
-    page_number = request.GET.get('page')
+    paginator = Paginator(itinerary_list, 1)  # changed from 1 to 5
     itineraries = paginator.get_page(page_number)
 
     return render(request, 'useradmin/add_package_itneraries.html', {
@@ -568,6 +563,7 @@ def add_package_itinerary(request, edit_id=None):
         'itineraries': itineraries,
         'edit_itinerary': edit_itinerary,
     })
+
 
 
 def delete_package_itinerary(request, id):

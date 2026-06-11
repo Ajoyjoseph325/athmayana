@@ -106,6 +106,7 @@
 <form method="POST" enctype="multipart/form-data" action="{% url 'add_package_itinerary' %}">
 {% endif %}
     {% csrf_token %}
+    <input type="hidden" name="page_number" value="{{ itineraries.number }}">
     <div class="row gy-2 gx-5">
 
         <!-- Select Package -->
@@ -193,11 +194,18 @@
                                         {% for item in itineraries %}
                                         <tr>
                                             <td>{{ item.package.name }}</td>
-                                            <td>{{ item.image.name }}</td>
+                                           <td>
+                                                {% if item.images %}
+                                                <img src="{{ item.images.url }}" width="60" height="60"
+                                                    style="object-fit:cover; border-radius:8px;">
+                                                {% else %}
+                                                No Image
+                                                {% endif %}
+                                            </td>
                                             <td>{{ item.itinerary|truncatewords:10 }}</td>
                                             <td>{{ item.status|capfirst }}</td>
                                             <td>
-                                             <a href="{% url 'edit_package_itinerary' item.id %}" class="link link-warning">
+ <a href="{% url 'edit_package_itinerary' item.id %}?page={{ itineraries.number }}" class="link link-warning">
     <i class="bi bi-pencil-square"></i>
 </a>
 <a href="{% url 'delete_package_itinerary' item.id %}" class="link link-danger"
