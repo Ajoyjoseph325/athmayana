@@ -113,8 +113,8 @@
 
                                     <li><a class="menu-item {% block nav_products %}{% endblock %}" href="">Products</a></li>
                                     <li><a class="menu-item {% block nav_testimonials %}{% endblock %}" href="">Testimonials</a></li>
-                                    <li><a class="menu-item {% block nav_about %}{% endblock %}" href="">About Us</a></li>
-                                    <li><a class="menu-item {% block nav_contact %}{% endblock %}" href="">Contact</a></li>
+                                    <li><a class="menu-item {% block nav_about %}{% endblock %}" href="{% url 'about' %}">About Us</a></li>
+                                    <li><a class="menu-item {% block nav_contact %}{% endblock %}" href="{% url 'contact' %}">Contact</a></li>
                                 </ul>
                             </div>
 
@@ -245,8 +245,8 @@
 
 
     <!-- Theme JS (copy these from your PHP project into static/js/) -->
-    <!-- <script src="{% static 'js/plugins.js' %}"></script> -->
-    <!-- <script src="{% static 'js/designesia.js' %}"></script> -->
+    <!-- <script src="{% static 'js/plugins.js' %}"></script>
+     <script src="{% static 'js/designesia.js' %}"></script> -->
 
     {% block extra_js %}{% endblock %}
 

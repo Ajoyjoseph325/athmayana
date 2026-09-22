@@ -253,6 +253,12 @@ class PackageItineraryTwo(models.Model):
         related_name='itineraries_two'
     )
 
+    heading = models.CharField(max_length=255, null=True, blank=True)
+
+    day = models.PositiveIntegerField(
+        help_text="Day number of the itinerary (e.g., 1 for Day 1, 2 for Day 2)"
+    )
+
     images = models.ImageField(
         upload_to='itineraries_two/',
         null=True,
@@ -260,6 +266,14 @@ class PackageItineraryTwo(models.Model):
     )
 
     itinerary = models.TextField(null=True, blank=True)
+
+    distance_duration = models.CharField(max_length=255, null=True, blank=True)
+
+    altitude = models.CharField(max_length=255, null=True, blank=True)
+
+    accommodation = models.CharField(max_length=255, null=True, blank=True)
+
+    meals = models.CharField(max_length=255, null=True, blank=True)
 
     status = models.CharField(
         max_length=10,

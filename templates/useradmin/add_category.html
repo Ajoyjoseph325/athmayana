@@ -13,10 +13,10 @@
 
             <!-- Page Heading -->
             <div class="gap-2 page-heading mb-3 flex-column flex-md-row">
-                <h6 class="flex-grow-1 mb-0">Add Category</h6>
+                <h6 class="flex-grow-1 mb-0">Add Package</h6>
                 <ul class="breadcrumb flex-shrink-0 mb-0">
                     <li class="breadcrumb-item"><a href="">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Category</li>
+                    <li class="breadcrumb-item active">package</li>
                 </ul>
             </div>
 
@@ -47,7 +47,7 @@
                                                    placeholder="Category Name"
                                                    value="{% if edit_category %}{{ edit_category.categoryname }}{% endif %}"
                                                    required>
-                                            <label for="categoryname" class="text-dark">Category Name</label>
+                                            <label for="categoryname" class="text-dark">Package Name</label>
                                         </div>
                                     </div>
 
@@ -86,7 +86,7 @@
 <div class="col-md-12">
 
     <label class="mb-2">
-        Category Image
+        Package Image
     </label>
 
     <input
@@ -94,7 +94,7 @@
         class="form-control"
         name="image"
         accept="image/*"
-    >
+    {% if not edit_category %}required{% endif %}>
 
     {% if edit_category.image %}
 
@@ -165,7 +165,7 @@
 
                                             <td>{{ forloop.counter }}</td>
                                              <td>
-    {{ category.categoryname }}
+    {{ category.categoryname | upper }}
 </td>
 <td>
 
@@ -191,7 +191,7 @@
 
 
 <td style="max-width:250px;white-space:normal;">
-    {{ category.short_description }}
+    {{ category.short_description | upper }}
 </td>                                            
                                             <td>
                                                 {% if category.status == 'Active' %}

@@ -20,7 +20,7 @@ Here is your `add_packages.html` converted properly for Django using your `usera
             <div class="gap-2 page-heading mb-3 d-flex flex-column flex-md-row">
 
                 <h6 class="flex-grow-1 mb-0">
-                    Add Packages
+                    Add Sub Packages
                 </h6>
 
                 <ul class="breadcrumb flex-shrink-0 mb-0">
@@ -81,34 +81,39 @@ Here is your `add_packages.html` converted properly for Django using your `usera
 
         </div>
 
+
+
         <!-- Category -->
-        <div class="col-md-6">
+<div class="col-md-6">
 
-            <select
-                class="form-select form-control"
-                name="category"
-                style="height: 55px;"
-                required
-            >
+    <select
+        class="form-select form-control"
+        name="category"
+        style="height: 55px;"
+        required
+    >
 
-                <option disabled>
-                    Select Category
-                </option>
+        <option disabled {% if not package %}selected{% endif %} value="">
+            Select Package
+        </option>
 
-                {% for category in categories %}
+        {% for category in categories %}
 
-                <option
-                    value="{{ category.id }}"
-                    {% if package.category.id == category.id %}selected{% endif %}
-                >
-                    {{ category.categoryname }}
-                </option>
+        <option
+            value="{{ category.id }}"
+            {% if package.category.id == category.id %}selected{% endif %}
+        >
+            {{ category.categoryname }}
+        </option>
 
-                {% endfor %}
+        {% endfor %}
 
-            </select>
+    </select>
 
-        </div>
+</div>
+
+
+
 
         <!-- Image -->
 <div class="col-md-12">
@@ -122,7 +127,7 @@ Here is your `add_packages.html` converted properly for Django using your `usera
         class="form-control"
         name="image"
         accept="image/*"
-    >
+    {% if not package %}required{% endif %}>
 
     {% if package.image %}
     
@@ -183,7 +188,7 @@ Here is your `add_packages.html` converted properly for Django using your `usera
         </div>
 
         <!-- Status -->
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
 
             <select
                 class="form-select form-control"
@@ -212,29 +217,54 @@ Here is your `add_packages.html` converted properly for Django using your `usera
 
             </select>
 
-        </div>
+        </div> -->
+
+
+
+        <div class="col-md-6">
+    <select
+        class="form-select form-control"
+        name="status"
+        style="height: 55px;"
+        required
+    >
+        <option disabled value="" {% if not package %}selected{% endif %}>
+            Select Status
+        </option>
+
+        <option value="Active" {% if package.status == 'Active' %}selected{% endif %}>
+            Active
+        </option>
+
+        <option value="Inactive" {% if package.status == 'Inactive' %}selected{% endif %}>
+            Inactive
+        </option>
+
+    </select>
+</div>
 
         <!-- Submit -->
-        <div class="col-md-12 mt-5">
+       <!-- Submit -->
+<div class="col-md-12 mt-5 d-flex gap-2">
 
-            <button
-                type="submit"
-                class="btn btn-dark w-100"
-            >
+    <button
+        type="submit"
+        class="btn btn-dark w-100"
+    >
+        {% if package %}
+            Update Package
+        {% else %}
+            Submit
+        {% endif %}
+    </button>
 
-                {% if package %}
+    {% if package %}
+        <a href="{% url 'add_packages' %}?page={{ packages.number }}" class="btn btn-secondary w-100">
+            Cancel
+        </a>
+    {% endif %}
 
-                    Update Package
-
-                {% else %}
-
-                    Submit
-
-                {% endif %}
-
-            </button>
-
-        </div>
+</div>
 
     </div>
 
@@ -269,8 +299,8 @@ Here is your `add_packages.html` converted properly for Django using your `usera
                         {% for package in packages %}
                         <tr>
                             <td>{{ packages.start_index|add:forloop.counter0 }}</td>
-                            <td>{{ package.name }}</td>
-                            <td>{{ package.category.categoryname }}</td>
+                            <td>{{ package.name | upper }}</td>
+                            <td>{{ package.category.categoryname | upper }}</td>
                             <td>{{ package.duration }}</td>
                             <td>{{ package.amount }}</td>
                             <td>

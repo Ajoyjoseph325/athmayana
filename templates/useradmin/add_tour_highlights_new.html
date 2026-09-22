@@ -40,7 +40,7 @@
                                     <div class="col-md-12">
                                         <div class="form-floating">
                                             <input type="text" class="form-control" name="name" id="Name"
-                                                placeholder="Name" value="{{ edit_highlight.name|default:'' }}">
+                                                placeholder="Name" value="{{ edit_highlight.name|default:'' }}" required>
                                             <label for="Name" class="text-dark">Name</label>
                                         </div>
                                     </div>
@@ -54,11 +54,11 @@
                                             {% endif %}
                                         {% endif %}
                                         <input type="file" class="filepond" name="icon"
-                                            data-allow-reorder="true" data-max-file-size="3MB">
+                                            data-allow-reorder="true" data-max-file-size="3MB" {% if not edit_highlight %}required{% endif %}>
                                     </div>
 
                                     <!-- Status -->
-                                    <div class="col-md-12">
+                                    <!-- <div class="col-md-12">
                                         <select class="form-select form-control" name="status" style="height: 55px;">
                                             <option disabled>Select Status</option>
                                             {% if edit_highlight and edit_highlight.status == 'Active' %}
@@ -72,14 +72,37 @@
                                             <option value="Inactive">Inactive</option>
                                             {% endif %}
                                         </select>
+                                    </div> -->
+
+                                    <div class="col-md-12">
+                                    <select class="form-select form-control" name="status" style="height: 55px;" required>
+                                        <option disabled value="" {% if not edit_highlight %}selected{% endif %}>Select Status</option>
+                                        {% if edit_highlight and edit_highlight.status == 'Active' %}
+                                        <option value="Active" selected>Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        {% elif edit_highlight and edit_highlight.status == 'Inactive' %}
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive" selected>Inactive</option>
+                                        {% else %}
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        {% endif %}
+                                    </select>
                                     </div>
 
                                     <!-- Submit -->
-                                    <div class="col-md-12 mt-5">
-                                        <button type="submit" class="btn btn-dark w-100">
-                                            {% if edit_highlight %}Update{% else %}Submit{% endif %}
-                                        </button>
-                                    </div>
+                                    <!-- Submit -->
+<div class="col-md-12 mt-5 d-flex gap-2">
+    <button type="submit" class="btn btn-dark w-100">
+        {% if edit_highlight %}Update{% else %}Submit{% endif %}
+    </button>
+
+    {% if edit_highlight %}
+        <a href="{% url 'add_package_highlights' %}?page={{ highlights.number }}" class="btn btn-secondary w-100">
+            Cancel
+        </a>
+    {% endif %}
+</div>
 
                                 </div>
                             </form>
@@ -104,7 +127,7 @@
                                     <tbody>
                                         {% for highlight in highlights %}
                                         <tr>
-                                            <td>{{ highlight.name }}</td>
+                                            <td>{{ highlight.name | upper }}</td>
                                             <td>
                                                 {% if highlight.icon %}
                                                 <a href="{{ highlight.icon.url }}" target="_blank">
@@ -114,7 +137,13 @@
                                                 —
                                                 {% endif %}
                                             </td>
-                                            <td>{{ highlight.status }}</td>
+                                            <td>
+                                                {% if highlight.status == 'Active' %}
+                                                    <span class="badge bg-success">Active</span>
+                                                {% else %}
+                                                    <span class="badge bg-danger">Inactive</span>
+                                                {% endif %}
+                                            </td>
                                             <td>
                                                 <!-- <a href="{% url 'edit_highlight' highlight.id %}" class="link link-warning">
                                                     <i class="bi bi-pencil-square"></i>

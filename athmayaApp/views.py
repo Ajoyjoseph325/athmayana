@@ -7,6 +7,11 @@ from django.core.paginator import Paginator
 from django.urls import reverse
 from django.db import IntegrityError
 
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError
+from django.contrib.auth import logout
 
 # dhjhdhj
 
@@ -26,6 +31,12 @@ def home(request):
     # return render(request, 'index.html')
 
 
+def contact(request):
+  
+    return render(request, 'contact.html')
+
+
+
 
 def spiritual_packages(request, category_id):
 
@@ -35,6 +46,10 @@ def spiritual_packages(request, category_id):
         category_id=category_id,
         status='Active'
     )
+
+    # packages = Package.objects.select_related('category').filter(
+    # category_id=category_id, status='Active'
+    # )
 
     context = {
         'packages': packages,
@@ -52,52 +67,44 @@ def books(request):
 def wellness_packages(request):
     pass
 
+def about(request):
+    return render(request, 'about.html')
+
+
+
 
 
 def publications(request):
     pass
 
-def contact(request):
+# def contact(request):
 
 
 
-    pass
-
-
-
-
-def view_packages(request):
-    package_list = Package.objects.all().order_by('-id')
-    paginator = Paginator(package_list, 4)
-    page = request.GET.get('page')
-    packages = paginator.get_page(page)
-
-    categories = Category.objects.filter(status='Active')
-
-    return render(request, 'useradmin/add_packages.html', {
-        'packages': packages,
-        'categories': categories,
-    })
+#     pass
 
 
 
 
+
+
+
+
+
+
+
+
+
+@login_required(login_url='backoffice')
 def add_packages(request):
 
     if request.method == "POST":
-
         name = request.POST.get('name')
-
         category_id = request.POST.get('category')
-
         duration = request.POST.get('duration')
-
         amount = request.POST.get('amount')
-
         status = request.POST.get('status')
-
         image = request.FILES.get('image')
-
 
         category = Category.objects.get(id=category_id)
 
@@ -113,10 +120,36 @@ def add_packages(request):
         return redirect('add_packages')
 
     categories = Category.objects.filter(status='Active')
+    package_list = Package.objects.select_related('category').order_by('-id')
 
-    packages = Package.objects.all().order_by('-id')
+    # ✅ Added pagination here
+    paginator = Paginator(package_list, 4)
+    page = request.GET.get('page')
+    packages = paginator.get_page(page)
 
     context = {
+        'categories': categories,
+        'packages': packages      # now a Page object, not a QuerySet
+    }
+
+    return render(request, 'useradmin/add_packages.html', context)
+
+
+@login_required(login_url='backoffice')
+def edit_package(request, id):
+
+    package = get_object_or_404(Package, id=id)
+    categories = Category.objects.filter(status='Active')
+
+    package_list = Package.objects.select_related('category').order_by('-id')
+
+    # ✅ Reads ?page= from URL (passed via edit link)
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(package_list, 4)
+    packages = paginator.get_page(page_number)
+
+    context = {
+        'package': package,
         'categories': categories,
         'packages': packages
     }
@@ -125,17 +158,22 @@ def add_packages(request):
 
 
 
+
+
+@login_required(login_url='backoffice')
 def edit_package(request, id):
 
     package = get_object_or_404(Package, id=id)
 
     categories = Category.objects.filter(status='Active')
 
-    packages = Package.objects.all().order_by('-id')
+    # packages = Package.objects.all().order_by('-id')
 
     page_number = request.GET.get('page', 1)
 
-    package_list = Package.objects.all().order_by('-id')
+    # package_list = Package.objects.all().order_by('-id')
+    package_list = Package.objects.select_related('category').order_by('-id')
+
     paginator = Paginator(package_list, 4)
     packages = paginator.get_page(page_number)
 
@@ -149,38 +187,89 @@ def edit_package(request, id):
 
 
 
+# @login_required(login_url='backoffice')
+# def update_package(request, id):
+
+#     package = get_object_or_404(Package, id=id)
+
+#     if request.method == "POST":
+
+#         package.name = request.POST.get('name')
+
+#         category_id = request.POST.get('category')
+
+#         package.category = Category.objects.get(id=category_id)
+
+#         package.duration = request.POST.get('duration')
+
+#         package.amount = request.POST.get('amount')
+
+#         package.status = request.POST.get('status')
+#         image = request.FILES.get('image')
+
+#         # Update image only if new image uploaded
+#         if image:
+#             package.image = image
+
+#         package.save()
+
+#         return redirect('add_packages')
+
+#     return redirect('edit_package', id=id)
+
 
 def update_package(request, id):
-
     package = get_object_or_404(Package, id=id)
 
     if request.method == "POST":
-
-        package.name = request.POST.get('name')
-
+        name = request.POST.get('name')
         category_id = request.POST.get('category')
-
-        package.category = Category.objects.get(id=category_id)
-
-        package.duration = request.POST.get('duration')
-
-        package.amount = request.POST.get('amount')
-
-        package.status = request.POST.get('status')
+        duration = request.POST.get('duration')
+        amount = request.POST.get('amount')
+        status = request.POST.get('status')
         image = request.FILES.get('image')
 
-        # Update image only if new image uploaded
+        page_number = request.POST.get('page_number', 1)  # ✅ read page from form
+
+        package.name = name
+        package.category = Category.objects.get(id=category_id)
+        package.duration = duration
+        package.amount = amount
+        package.status = status
+
         if image:
             package.image = image
 
         package.save()
 
-        return redirect('add_packages')
+        return redirect(f"/add-packages/?page={page_number}")  # ✅ back to same pagedef update_package(request, id):
+    package = get_object_or_404(Package, id=id)
 
-    return redirect('edit_package', id=id)
+    if request.method == "POST":
+        name = request.POST.get('name')
+        category_id = request.POST.get('category')
+        duration = request.POST.get('duration')
+        amount = request.POST.get('amount')
+        status = request.POST.get('status')
+        image = request.FILES.get('image')
+
+        page_number = request.POST.get('page_number', 1)  # ✅ read page from form
+
+        package.name = name
+        package.category = Category.objects.get(id=category_id)
+        package.duration = duration
+        package.amount = amount
+        package.status = status
+
+        if image:
+            package.image = image
+
+        package.save()
+
+        return redirect(f"/add-packages/?page={page_number}")  # ✅ back to same page
 
 
-
+@login_required(login_url='backoffice')
 def delete_package(request, id):
 
     package = get_object_or_404(Package, id=id)
@@ -194,11 +283,115 @@ def delete_package(request, id):
 
 
 
+# @login_required(login_url='backoffice')
+# def add_category(request):
 
+#     edit_category = None
+
+#     edit_id = request.GET.get('edit')
+
+#     if edit_id:
+#         edit_category = get_object_or_404(Category, id=edit_id)
+
+#     if request.method == 'POST':
+
+#         categoryname = request.POST.get('categoryname', '').strip()
+
+#         short_description = request.POST.get(
+#             'short_description',
+#             ''
+#         ).strip()
+
+#         status = request.POST.get('status', '').strip()
+
+#         image = request.FILES.get('image')
+
+#         edit_id = request.POST.get('edit_id')
+
+#         # Validation
+#         if not categoryname:
+
+#             messages.error(
+#                 request,
+#                 'Category name is required.'
+#             )
+
+#         elif not status:
+
+#             messages.error(
+#                 request,
+#                 'Please select a status.'
+#             )
+
+#         else:
+
+#             if edit_id:
+
+#                 # UPDATE
+#                 category = get_object_or_404(
+#                     Category,
+#                     id=edit_id
+#                 )
+
+#                 category.categoryname = categoryname
+
+#                 category.short_description = short_description
+
+#                 category.status = status
+
+#                 # Update image only if uploaded
+#                 if image:
+#                     category.image = image
+
+#                 category.save()
+
+#                 messages.success(
+#                     request,
+#                     'Category updated successfully!'
+#                 )
+
+#             else:
+
+#                 # CREATE
+#                 Category.objects.create(
+#                     categoryname=categoryname,
+#                     short_description=short_description,
+#                     image=image,
+#                     status=status
+#                 )
+
+#                 messages.success(
+#                     request,
+#                     'Category added successfully!'
+#                 )
+
+#             # return redirect('add_category')
+#             page_number = request.POST.get('page_number', 1)
+#             if edit_id:
+#                 return redirect(f"{reverse('add_category')}?edit={edit_id}&page={page_number}")
+#             else:
+#                 return redirect(f"{reverse('add_category')}?page={page_number}")
+
+#     categories = Category.objects.all().order_by('-created_at')
+
+#     paginator = Paginator(categories, 1)
+
+#     page = request.GET.get('page')
+
+#     categories = paginator.get_page(page)
+
+#     return render(request, 'useradmin/add_category.html', {
+#         'categories': categories,
+#         'edit_category': edit_category,
+#     })
+
+
+
+
+@login_required(login_url='backoffice')
 def add_category(request):
 
     edit_category = None
-
     edit_id = request.GET.get('edit')
 
     if edit_id:
@@ -207,88 +400,69 @@ def add_category(request):
     if request.method == 'POST':
 
         categoryname = request.POST.get('categoryname', '').strip()
-
-        short_description = request.POST.get(
-            'short_description',
-            ''
-        ).strip()
-
+        short_description = request.POST.get('short_description', '').strip()
         status = request.POST.get('status', '').strip()
-
         image = request.FILES.get('image')
-
         edit_id = request.POST.get('edit_id')
 
         # Validation
         if not categoryname:
-
-            messages.error(
-                request,
-                'Category name is required.'
-            )
+            messages.error(request, 'Category name is required.')
 
         elif not status:
-
-            messages.error(
-                request,
-                'Please select a status.'
-            )
+            messages.error(request, 'Please select a status.')
 
         else:
 
             if edit_id:
+                # ✅ Check duplicate on UPDATE — exclude current category
+                duplicate = Category.objects.filter(
+                    categoryname__iexact=categoryname
+                ).exclude(id=edit_id).exists()
 
-                # UPDATE
-                category = get_object_or_404(
-                    Category,
-                    id=edit_id
-                )
+                if duplicate:
+                    messages.error(request, f'Category "{categoryname}" already exists.')
 
-                category.categoryname = categoryname
+                else:
+                    category = get_object_or_404(Category, id=edit_id)
+                    category.categoryname = categoryname
+                    category.short_description = short_description
+                    category.status = status
 
-                category.short_description = short_description
+                    if image:
+                        category.image = image
 
-                category.status = status
+                    category.save()
+                    messages.success(request, 'package updated successfully!')
 
-                # Update image only if uploaded
-                if image:
-                    category.image = image
-
-                category.save()
-
-                messages.success(
-                    request,
-                    'Category updated successfully!'
-                )
+                    page_number = request.POST.get('page_number', 1)
+                    # return redirect(f"{reverse('add_category')}?edit={edit_id}&page={page_number}")
+                    return redirect(f"{reverse('add_category')}?page={page_number}")
 
             else:
+                # ✅ Check duplicate on CREATE
+                duplicate = Category.objects.filter(
+                    categoryname__iexact=categoryname
+                ).exists()
 
-                # CREATE
-                Category.objects.create(
-                    categoryname=categoryname,
-                    short_description=short_description,
-                    image=image,
-                    status=status
-                )
+                if duplicate:
+                    messages.error(request, f'pacakage "{categoryname}" already exists.')
 
-                messages.success(
-                    request,
-                    'Category added successfully!'
-                )
+                else:
+                    Category.objects.create(
+                        categoryname=categoryname,
+                        short_description=short_description,
+                        image=image,
+                        status=status
+                    )
+                    messages.success(request, 'package added successfully!')
 
-            # return redirect('add_category')
-            page_number = request.POST.get('page_number', 1)
-            if edit_id:
-                return redirect(f"{reverse('add_category')}?edit={edit_id}&page={page_number}")
-            else:
-                return redirect(f"{reverse('add_category')}?page={page_number}")
+                    page_number = request.POST.get('page_number', 1)
+                    return redirect(f"{reverse('add_category')}?page={page_number}")
 
     categories = Category.objects.all().order_by('-created_at')
-
     paginator = Paginator(categories, 4)
-
     page = request.GET.get('page')
-
     categories = paginator.get_page(page)
 
     return render(request, 'useradmin/add_category.html', {
@@ -298,61 +472,35 @@ def add_category(request):
 
 
 
-
  
- 
+@login_required(login_url='backoffice')
 def delete_category(request, pk):
     category = get_object_or_404(Category, id=pk)
     category.delete()
-    messages.success(request, 'Category deleted successfully!')
+    messages.success(request, 'package deleted successfully!')
     return redirect('add_category')
 
 
 
 
-
-# # package detail page
 def kailash_detail(request, id):
-    package = Package.objects.get(id=id)
+    # package = Package.objects.get(id=id)
+    package = Package.objects.select_related('category', 'details_two').get(id=id)
     
     try:
         details = package.details_two
     except:
         details = None
 
-    itineraries = PackageItineraryTwo.objects.filter(
-        package=package, 
-        status='active'
-    ).order_by('id')
-
-    highlights = TourHighlight.objects.none()
-    if details:
-        highlights = details.tour_highlights.filter(status='Active')
-
-    context = {
-        'package': package,
-        'details': details,
-        'itineraries': itineraries,
-        'highlights': highlights,
-    }
-   
-    return render(request, 'kailash_detail_new.html')
-
-
-
-
-def kailash_detail(request, id):
-    package = Package.objects.get(id=id)
-    
-    try:
-        details = package.details_two
-    except:
-        details = None
+    # itineraries = PackageItineraryTwo.objects.filter(
+    #     package=package, 
+    #     status='active'
+    # ).order_by('id')
 
     itineraries = PackageItineraryTwo.objects.filter(
-        package=package, 
-        status='active'
-    ).order_by('id')
+    package=package, 
+    status='active'
+    ).order_by('day')
 
     highlights = TourHighlight.objects.none()
     if details:
@@ -371,9 +519,10 @@ def kailash_detail(request, id):
 
 
 # new add pacakagedetail function with error handling 
-
+@login_required(login_url='backoffice')
 def add_package_details(request, edit_id=None):
-    packages = Package.objects.all()
+    # packages = Package.objects.all()
+    packages = Package.objects.select_related('category').all()
     highlights = TourHighlight.objects.all()
     edit_detail = None
     error_message = None
@@ -437,8 +586,11 @@ def add_package_details(request, edit_id=None):
                     error_message = f'Package details already exist for "{package.name}". Please edit the existing record instead.'
 
     # Pagination
-    detail_list = PackageDetailsTwo.objects.all().order_by('-id')
-    paginator = Paginator(detail_list, 1)
+    # detail_list = PackageDetailsTwo.objects.all().order_by('-id')
+    detail_list = PackageDetailsTwo.objects.select_related('package').prefetch_related(
+        'tour_highlights'
+        ).order_by('-id')
+    paginator = Paginator(detail_list, 4)
     package_details = paginator.get_page(page_number)
 
     return render(request, "useradmin/add_package_details.html", {
@@ -450,6 +602,7 @@ def add_package_details(request, edit_id=None):
     })
 
 
+@login_required(login_url='backoffice')
 
 def delete_package_detail(request, id):
     detail = PackageDetailsTwo.objects.get(id=id)
@@ -457,7 +610,7 @@ def delete_package_detail(request, id):
     return redirect('add_package_details')
 
 
-
+@login_required(login_url='backoffice')
 def package_highlights(request):
     packages = Package.objects.all()
     highlights = TourHighlight.objects.all()
@@ -468,9 +621,10 @@ def package_highlights(request):
 
 
 
-
+@login_required(login_url='backoffice')
 def add_package_highlights(request, edit_id=None):
-    packages = Package.objects.all()
+    # packages = Package.objects.all()
+    packages = Package.objects.select_related('category').all()
     edit_highlight = None
     page_number = request.POST.get('page_number') or request.GET.get('page', 1)
 
@@ -521,9 +675,106 @@ def delete_highlight(request, id):
 
 
 
+# @login_required(login_url='backoffice')
+# def add_package_itinerary(request, edit_id=None):
+#     # packages = Package.objects.all()
+#     packages = Package.objects.select_related('category').all()
+#     edit_itinerary = None
+#     page_number = request.POST.get('page_number') or request.GET.get('page', 1)
 
+#     if edit_id:
+#         edit_itinerary = get_object_or_404(PackageItineraryTwo, id=edit_id)
+
+#     if request.method == 'POST':
+#         package_id = request.POST.get('package')
+#         package = get_object_or_404(Package, id=package_id)
+#         itinerary = request.POST.get('itinerary')
+#         status = request.POST.get('status')
+#         images = request.FILES.get('images')
+
+#         if edit_id:
+#             edit_itinerary.package = package
+#             edit_itinerary.itinerary = itinerary
+#             edit_itinerary.status = status
+#             if images:
+#                 edit_itinerary.images = images
+#             edit_itinerary.save()
+#         else:
+#             PackageItineraryTwo.objects.create(
+#                 package=package,
+#                 itinerary=itinerary,
+#                 status=status,
+#                 images=images,
+#             )
+
+#         return redirect(f"{reverse('add_package_itinerary')}?page={page_number}")
+
+#     itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('-id')
+#     paginator = Paginator(itinerary_list, 1)  # changed from 1 to 5
+#     itineraries = paginator.get_page(page_number)
+
+#     return render(request, 'useradmin/add_package_itneraries.html', {
+#         'packages': packages,
+#         'itineraries': itineraries,
+#         'edit_itinerary': edit_itinerary,
+#     })
+
+
+
+
+# new itneray with day added
+# @login_required(login_url='backoffice')
+# def add_package_itinerary(request, edit_id=None):
+#     packages = Package.objects.select_related('category').all()
+#     edit_itinerary = None
+#     page_number = request.POST.get('page_number') or request.GET.get('page', 1)
+
+#     if edit_id:
+#         edit_itinerary = get_object_or_404(PackageItineraryTwo, id=edit_id)
+
+#     if request.method == 'POST':
+#         package_id = request.POST.get('package')
+#         package = get_object_or_404(Package, id=package_id)
+#         itinerary = request.POST.get('itinerary')
+#         status = request.POST.get('status')
+#         images = request.FILES.get('images')
+#         day = request.POST.get('day')  # ✅ get day from POST data
+
+#         if edit_id:
+#             edit_itinerary.package = package
+#             edit_itinerary.day = day          # ✅ update day
+#             edit_itinerary.itinerary = itinerary
+#             edit_itinerary.status = status
+#             if images:
+#                 edit_itinerary.images = images
+#             edit_itinerary.save()
+#         else:
+#             PackageItineraryTwo.objects.create(
+#                 package=package,
+#                 day=day,                      # ✅ save day on create
+#                 itinerary=itinerary,
+#                 status=status,
+#                 images=images,
+#             )
+
+#         return redirect(f"{reverse('add_package_itinerary')}?page={page_number}")
+
+#     itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('day')  # ✅ order by day
+#     paginator = Paginator(itinerary_list, 1)
+#     itineraries = paginator.get_page(page_number)
+
+#     return render(request, 'useradmin/add_package_itneraries.html', {
+#         'packages': packages,
+#         'itineraries': itineraries,
+#         'edit_itinerary': edit_itinerary,
+#     })
+
+
+
+# new view function with heading added
+@login_required(login_url='backoffice')
 def add_package_itinerary(request, edit_id=None):
-    packages = Package.objects.all()
+    packages = Package.objects.select_related('category').all()
     edit_itinerary = None
     page_number = request.POST.get('page_number') or request.GET.get('page', 1)
 
@@ -534,28 +785,68 @@ def add_package_itinerary(request, edit_id=None):
         package_id = request.POST.get('package')
         package = get_object_or_404(Package, id=package_id)
         itinerary = request.POST.get('itinerary')
+        heading = request.POST.get('heading')  # ✅ get heading from POST data
+        distance_duration = request.POST.get('distance_duration')
+        altitude = request.POST.get('altitude')
+        accommodation = request.POST.get('accommodation')
+        meals = request.POST.get('meals')
         status = request.POST.get('status')
         images = request.FILES.get('images')
+        day = request.POST.get('day')
 
         if edit_id:
             edit_itinerary.package = package
+            edit_itinerary.day = day
+            edit_itinerary.heading = heading  # ✅ update heading
             edit_itinerary.itinerary = itinerary
+            edit_itinerary.distance_duration = distance_duration
+            edit_itinerary.altitude = altitude
+            edit_itinerary.accommodation = accommodation
+            edit_itinerary.meals = meals
             edit_itinerary.status = status
             if images:
                 edit_itinerary.images = images
-            edit_itinerary.save()
+            try:
+                edit_itinerary.save()
+            except IntegrityError:
+                itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('day')
+                paginator = Paginator(itinerary_list, 1)
+                itineraries = paginator.get_page(page_number)
+                return render(request, 'useradmin/add_package_itneraries.html', {
+                    'packages': packages,
+                    'itineraries': itineraries,
+                    'edit_itinerary': edit_itinerary,
+                    'error': 'Day already exists for this package.'
+                })
         else:
-            PackageItineraryTwo.objects.create(
-                package=package,
-                itinerary=itinerary,
-                status=status,
-                images=images,
-            )
+            try:
+                PackageItineraryTwo.objects.create(
+                    package=package,
+                    day=day,
+                    heading=heading,  # ✅ save heading on create
+                    itinerary=itinerary,
+                    distance_duration=distance_duration,
+                    altitude=altitude,
+                    accommodation=accommodation,
+                    meals=meals,
+                    status=status,
+                    images=images,
+                )
+            except IntegrityError:
+                itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('day')
+                paginator = Paginator(itinerary_list, 1)
+                itineraries = paginator.get_page(page_number)
+                return render(request, 'useradmin/add_package_itneraries.html', {
+                    'packages': packages,
+                    'itineraries': itineraries,
+                    'edit_itinerary': edit_itinerary,
+                    'error': 'Day already exists for this package.'
+                })
 
         return redirect(f"{reverse('add_package_itinerary')}?page={page_number}")
 
-    itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('-id')
-    paginator = Paginator(itinerary_list, 1)  # changed from 1 to 5
+    itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('day')
+    paginator = Paginator(itinerary_list, 4)
     itineraries = paginator.get_page(page_number)
 
     return render(request, 'useradmin/add_package_itneraries.html', {
@@ -566,7 +857,36 @@ def add_package_itinerary(request, edit_id=None):
 
 
 
+
+
+
 def delete_package_itinerary(request, id):
     itinerary = PackageItineraryTwo.objects.get(id=id)
     itinerary.delete()
     return redirect('add_package_itinerary')
+
+
+
+
+def backoffice(request):
+    # if request.user.is_authenticated:
+    #     return redirect('home')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.is_staff:
+            login(request, user)
+            return redirect('add_category')
+        else:
+            messages.error(request, 'Invalid username or password.')
+
+    return render(request, "useradmin/adminlogin.html")
+
+
+def admin_logout(request):
+    logout(request)
+    return redirect('backoffice')

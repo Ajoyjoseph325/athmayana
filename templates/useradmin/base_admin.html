@@ -65,7 +65,7 @@
             </a>
 
             <!-- Sidebar Profile Dropdown -->
-            <div class="dropdown profile-dropdown">
+             <div class="dropdown profile-dropdown">
                 <a href="#!" class="btn d-flex align-items-center w-100 gap-2 p-4 text-start" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <img src="{% static 'assets/images/user-56.webp' %}" loading="lazy" alt="" class="size-10 rounded">
@@ -144,13 +144,13 @@
                     <li class="nav-item">
                         <a class="nav-link {% block nav_category %}{% endblock %}" href="{% url 'add_category' %}">
                             <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
-                            <span class="content">Add Category</span>
+                            <span class="content">Add Packages</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% block nav_packages %}{% endblock %}" href="{% url 'view_packages' %}">
                             <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
-                            <span class="content">Add Packages</span>
+                            <span class="content">Add Sub Packages</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -161,22 +161,23 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% block nav_gallery %}{% endblock %}" href="{% url 'add_package_itinerary' %}">
+                            <span class="icons"><i class="bi bi-images"></i></span>
+                            <span class="content">Add package itneraries</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {% block nav_packagedetails %}{% endblock %}"
                             href="{% url 'add_package_details' %}">
                             <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
                             <span class="content">Add Package Details</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% block nav_gallery %}{% endblock %}" href="{% url 'add_package_itinerary' %}">
-                            <span class="icons"><i class="bi bi-images"></i></span>
-                            <span class="content">Add package itneraries</span>
-                        </a>
-                    </li>
+                    
 
                     <li class="nav-menu-title">Account</li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{% url 'admin_logout' %}">
                             <span class="icons"><i class="bi bi-box-arrow-right"></i></span>
                             <span class="content">Logout</span>
                         </a>
@@ -209,10 +210,10 @@
         </div>
 
         <div class="align-items-center d-none d-lg-flex">
-            <div class="position-relative navbar-search">
+            <!-- <div class="position-relative navbar-search">
                 <i class="mgc_search_ai_line icon"></i>
                 <input type="search" class="form-control border-0 shadow-none" placeholder="Search...">
-            </div>
+            </div> -->
         </div>
 
         <div class="d-flex align-items-center gap-2 ms-auto">
@@ -224,7 +225,7 @@
             </button>
 
             <!-- Profile Dropdown -->
-            <div class="dropdown profile-dropdown">
+            <!-- <div class="dropdown profile-dropdown">
                 <button class="btn topbar-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="{% static 'assets/images/user-56.webp' %}" loading="lazy" alt="User"
                         class="object-fit-cover rounded size-8">
@@ -263,7 +264,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </header>

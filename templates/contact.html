@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Atmayana - Contact Us{% endblock %}
+
+{% block nav_contact %}active{% endblock %}
+
+{% block content %}
+
+<!-- back to top button -->
+<a href="#" id="back-to-top"></a>
+
+<!-- preloader -->
+<div id="de-loader"></div>
+
+<!-- Subheader -->
+<section id="subheader" class="relative jarallax text-light" data-bgimage="url({% static 'images/background/sb5.webp' %})">
+    <div class="de-gradient-edge-top"></div>
+    <div class="container relative z-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="subtitle s2 text-light wow fadeInUp mb-2">What Do We</div>
+                <div class="clearfix"></div>
+                <h1 class="cam-style">Contact Us</h1>
+            </div>
+        </div>
+    </div>
+    <div class="crumb-wrapper">
+        <ul class="crumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li class="active">Contact Us</li>
+        </ul>
+    </div>
+    <img src="{% static 'images/misc/d2.webp' %}" class="abs w-20 end-0 bottom-min-100 z-2" alt="">
+    <div class="sw-overlay op-4"></div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact_form" class="relative">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+
+            <!-- Contact Info -->
+            <div class="col-lg-6">
+                <div class="subtitle">Write a Message</div>
+                <h2 class="wow fadeInUp">Get In Touch</h2>
+
+                <p class="col-lg-8">Have a question, suggestion, or just want to say hi? We're here and happy to hear from you!</p>
+
+                <div class="spacer-single"></div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <i class="abs fs-28 p-3 bg-color text-light rounded-1 icofont-location-pin"></i>
+                        <div class="ms-80px">
+                            <h4 class="mb-0">Address</h4>
+                            Thrissur, Kerala, India
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <i class="abs fs-28 p-3 bg-color text-light rounded-1 icofont-envelope"></i>
+                        <div class="ms-80px">
+                            <h4 class="mb-0">Email</h4>
+                            <a href="mailto:Info@atmayanaexperiences.com">Info@atmayanaexperiences.com</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <i class="abs fs-28 p-3 bg-color text-light rounded-1 icofont-phone"></i>
+                        <div class="ms-80px">
+                            <h4 class="mb-0">Phone</h4>
+                            <a href="tel:8111855899">8111 855 899</a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <i class="abs fs-28 p-3 bg-color text-light rounded-1 icofont-whatsapp"></i>
+                        <div class="ms-80px">
+                            <h4 class="mb-0">Whatsapp</h4>
+                            <a href="https://wa.me/919567439393" target="_blank">9567 439 393</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-6">
+                <div class="bg-color-op-1 rounded-1 p-40 relative">
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} mb-3">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form name="contactForm" id="contact_form_submit" method="post" action="{% url 'contact' %}">
+                        {% csrf_token %}
+                        <div class="row g-4">
+
+                            <div class="col-md-6">
+                                <h5>Name</h5>
+                                <input type="text" name="name" id="name" class="bg-white form-control" placeholder="Your Name" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5>Email</h5>
+                                <input type="email" name="email" id="email" class="bg-white form-control" placeholder="Your Email" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5>Phone</h5>
+                                <input type="text" name="phone" id="phone" class="bg-white form-control" placeholder="Your Phone" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h5>Subject</h5>
+                                <select name="subject" id="subject" class="bg-white form-control">
+                                    <option value="" selected disabled>Select Option</option>
+                                    <option value="Grievances">Grievances</option>
+                                    <option value="Product Enquiry">Product Enquiry</option>
+                                    <option value="Package Enquiry">Package Enquiry</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-12">
+                                <h5>Message</h5>
+                                <textarea name="message" id="message" class="bg-white form-control h-100px" placeholder="Your Message" required></textarea>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div id="submit">
+                                    <input type="submit" id="send_message" value="Send Message" class="btn-main">
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

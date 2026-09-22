@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="{% static 'assets/css/filepond-plugin-image-preview.css' %}">
 <style>
     .gxq_wrap_91 {
-        width: 350px;
+        width: 100%;
         position: relative;
     }
 
@@ -55,7 +55,8 @@
         margin-top: 8px;
         overflow: hidden;
         display: none;
-        z-index: 99;
+        z-index: 1050;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     }
 
     .qwe_drop_19.active {
@@ -93,7 +94,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="min-vh-100 position-relative">
+<div class="position-relative">
     <div class="page-wrapper">
         <div class="container-fluid">
 
@@ -112,179 +113,219 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
-                           {% if edit_detail %}
-<form method="post" enctype="multipart/form-data" action="{% url 'edit_package_detail' edit_detail.id %}">
-{% else %}
-<form method="post" enctype="multipart/form-data" action="{% url 'add_package_details' %}">
-{% endif %}
-    {% csrf_token %}
-    <input type="hidden" name="page_number" value="{{ package_details.number }}">
-    <div class="row gy-2 gx-5">
+    {% if edit_detail %}
+    <form method="post" enctype="multipart/form-data" action="{% url 'edit_package_detail' edit_detail.id %}">
+    {% else %}
+    <form method="post" enctype="multipart/form-data" action="{% url 'add_package_details' %}">
+    {% endif %}
+        {% csrf_token %}
+        <input type="hidden" name="page_number" value="{{ package_details.number }}">
+        <div class="row gy-2 gx-5">
 
-        <!-- Select Package -->
-        <div class="col-md-12">
-            <select class="form-select form-control" name="package" style="height: 55px;">
-                <option disabled>Select Package</option>
-                {% for package in packages %}
-                    {% if edit_detail and edit_detail.package.id == package.id %}
-                    <option value="{{ package.id }}" selected>{{ package.name }}</option>
-                    {% else %}
-                    <option value="{{ package.id }}">{{ package.name }}</option>
-                    {% endif %}
-                {% endfor %}
-            </select>
-        </div>
+          
 
-        <!-- About Package -->
-        <div class="col-md-12">
-            <textarea class="form-control" name="about_package" rows="3"
-                placeholder="About Package">{{ edit_detail.about_package|default:'' }}</textarea>
-        </div>
+            <div class="col-md-12">
+                <label class="form-label text-dark fw-semibold">Select Sub Package</label>
+                <select class="form-select form-control" name="package" style="height: 55px;" required>
+                    <option disabled value="" {% if not edit_detail %}selected{% endif %}>Select Sub Package</option>
+                    {% for package in packages %}
+                        {% if edit_detail and edit_detail.package.id == package.id %}
+                        <option value="{{ package.id }}" selected>{{ package.name }}</option>
+                        {% else %}
+                        <option value="{{ package.id }}">{{ package.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
 
-        <!-- Main Image -->
-        <div class="col-md-12">
-            <div class="card card-h-100">
-                <div class="card-header">
-                    <h6 class="mb-0 card-title">Select Main Image</h6>
-                </div>
-                <div class="card-body">
-                    {% if edit_detail and edit_detail.main_image %}
-                    <img src="{{ edit_detail.main_image.url }}" height="50" class="mb-2">
-                    {% endif %}
-                    <input type="file" class="filepond" name="main_image"
-                        data-allow-reorder="true" data-max-file-size="3MB">
+            <!-- About Package -->
+            <div class="col-md-12">
+                <label class="form-label text-dark fw-semibold">About Package</label>
+                <textarea class="form-control" name="about_package" rows="3"
+                    placeholder="About Package">{{ edit_detail.about_package|default:'' }}</textarea>
+            </div>
+
+            <!-- Main Image -->
+            <div class="col-md-12">
+                <div class="card card-h-100">
+                    <div class="card-header">
+                        <h6 class="mb-0 card-title">Select Main Image</h6>
+                    </div>
+                    <div class="card-body">
+                        {% if edit_detail and edit_detail.main_image %}
+                        <img src="{{ edit_detail.main_image.url }}" height="50" class="mb-2">
+                        {% endif %}
+                        <input type="file" class="filepond" name="main_image"
+                            data-allow-reorder="true" data-max-file-size="3MB" {% if not edit_detail %}required{% endif %}>
+                    </div>
                 </div>
             </div>
-        </div>
 
-       
+            <!-- Tour Highlights Multi-Select -->
+            <div class="col-md-12">
+                <label class="form-label text-dark fw-semibold">Tour Highlights</label>
+                <div class="gxq_wrap_91">
+                    <select id="rtx_select_84" name="tour_highlights" multiple>
+                        {% for highlight in highlights %}
+                            {% if edit_detail %}
+                                {% if highlight in edit_detail.tour_highlights.all %}
+                                <option value="{{ highlight.id }}" selected>{{ highlight.name }}</option>
+                                {% else %}
+                                <option value="{{ highlight.id }}">{{ highlight.name }}</option>
+                                {% endif %}
+                            {% else %}
+                            <option value="{{ highlight.id }}">{{ highlight.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="jkp_box_33" id="asd_box_11">Select Tour Highlights</div>
+                    <div class="qwe_drop_19" id="dropdown_77">
+                        <input type="text" id="bnm_search_55" placeholder="Search here...">
+                        <div class="poi_list_88" id="list_66"></div>
+                    </div>
+                </div>
+            </div>
 
-
-        <!-- Tour Highlights Multi-Select -->
-<div class="col-md-12">
-    <div class="gxq_wrap_91">
-        <select id="rtx_select_84" name="tour_highlights" multiple>
-            {% for highlight in highlights %}
-                {% if edit_detail %}
-                    {% if highlight in edit_detail.tour_highlights.all %}
-                    <option value="{{ highlight.id }}" selected>{{ highlight.name }}</option>
-                    {% else %}
-                    <option value="{{ highlight.id }}">{{ highlight.name }}</option>
-                    {% endif %}
-                {% else %}
-                <option value="{{ highlight.id }}">{{ highlight.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <div class="jkp_box_33" id="asd_box_11">Select Tour Highlights</div>
-        <div class="qwe_drop_19" id="dropdown_77">
-            <input type="text" id="bnm_search_55" placeholder="Search here...">
-            <div class="poi_list_88" id="list_66"></div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-        <!-- Map Name -->
-        <div class="col-md-12 mt-2">
-            <div class="form-floating">
+            <!-- Map Name -->
+            <div class="col-md-12 mt-2">
+                <label for="mapName" class="form-label text-dark fw-semibold">Map Name</label>
                 <input type="text" class="form-control" name="map_name" id="mapName"
-                    placeholder="Map Name" value="{{ edit_detail.map_name|default:'' }}">
-                <label for="mapName" class="text-dark">Map Name</label>
+                    placeholder="Enter Map Name" value="{{ edit_detail.map_name|default:'' }}"
+                    style="height: 55px;">
             </div>
-        </div>
 
-        <!-- Map Details -->
-        <div class="col-md-12">
-            <textarea class="form-control editor" name="map_details" rows="3"
-                placeholder="Map Details">{{ edit_detail.map_details|default:'' }}</textarea>
-        </div>
+            <!-- Map Details -->
+            <div class="col-md-12">
+                <label class="form-label text-dark fw-semibold">Map Details</label>
+                <textarea class="form-control editor" name="map_details" rows="3"
+                    placeholder="Map Details">{{ edit_detail.map_details|default:'' }}</textarea>
+            </div>
 
-        <!-- Map Image -->
-        <div class="col-md-12">
-            <div class="card card-h-100">
-                <div class="card-header">
-                    <h6 class="mb-0 card-title">Select Map Image</h6>
-                </div>
-                <div class="card-body">
-                    {% if edit_detail and edit_detail.map_image %}
-                    <img src="{{ edit_detail.map_image.url }}" height="50" class="mb-2">
-                    {% endif %}
-                    <input type="file" class="filepond" name="map_image"
-                        data-allow-reorder="true" data-max-file-size="3MB">
+            <!-- Map Image -->
+            <div class="col-md-12">
+                <div class="card card-h-100">
+                    <div class="card-header">
+                        <h6 class="mb-0 card-title">Select Map Image</h6>
+                    </div>
+                    <div class="card-body">
+                        {% if edit_detail and edit_detail.map_image %}
+                        <img src="{{ edit_detail.map_image.url }}" height="50" class="mb-2">
+                        {% endif %}
+                        <input type="file" class="filepond" name="map_image"
+                            data-allow-reorder="true" data-max-file-size="3MB" {% if not edit_detail %}required{% endif %}>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Rich Text Editors -->
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="included" rows="3"
-                placeholder="Whats Included">{{ edit_detail.included|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="not_included" rows="3"
-                placeholder="Whats Not Included">{{ edit_detail.not_included|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="eligible" rows="3"
-                placeholder="Who's Eligible">{{ edit_detail.eligible|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="tibet_visa" rows="3"
-                placeholder="Tibet Visa & Travel Guides">{{ edit_detail.tibet_visa|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="payment_terms" rows="3"
-                placeholder="Payment Terms">{{ edit_detail.payment_terms|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="regular_clothing" rows="3"
-                placeholder="Regular Clothing">{{ edit_detail.regular_clothing|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="trekking_gear" rows="3"
-                placeholder="Trekking & Cold-Weather Gear">{{ edit_detail.trekking_gear|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="bath_kit" rows="3"
-                placeholder="Personal & Bath Kit">{{ edit_detail.bath_kit|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="health_essentials" rows="3"
-                placeholder="High-Altitude & Health Essentials">{{ edit_detail.health_essentials|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="travel_utility" rows="3"
-                placeholder="Travel & Utility Items">{{ edit_detail.travel_utility|default:'' }}</textarea>
-        </div>
-        <div class="col-md-12 mb-3">
-            <textarea class="form-control editor" name="documents_money" rows="3"
-                placeholder="Documents & Money">{{ edit_detail.documents_money|default:'' }}</textarea>
-        </div>
+            <!-- What's Included -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">What's Included</label>
+                <textarea class="form-control editor" name="included" rows="3"
+                    placeholder="What's Included">{{ edit_detail.included|default:'' }}</textarea>
+            </div>
 
-        <!-- Submit -->
+            <!-- What's Not Included -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">What's Not Included</label>
+                <textarea class="form-control editor" name="not_included" rows="3"
+                    placeholder="What's Not Included">{{ edit_detail.not_included|default:'' }}</textarea>
+            </div>
 
+            <!-- Who's Eligible -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">Who's Eligible</label>
+                <textarea class="form-control editor" name="eligible" rows="3"
+                    placeholder="Who's Eligible">{{ edit_detail.eligible|default:'' }}</textarea>
+            </div>
 
-        {% if error_message %}
+            <!-- Tibet Visa & Travel Guides -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">Visa & Travel Guides</label>
+                <textarea class="form-control editor" name="tibet_visa" rows="3"
+                    placeholder="Tibet Visa & Travel Guides">{{ edit_detail.tibet_visa|default:'' }}</textarea>
+            </div>
+
+            <!-- Payment Terms -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">Payment Terms</label>
+                <textarea class="form-control editor" name="payment_terms" rows="3"
+                    placeholder="Payment Terms">{{ edit_detail.payment_terms|default:'' }}</textarea>
+            </div>
+
+            <!-- Recommended Packing List Heading -->
+            <div class="col-md-12 mt-3">
+                <h6 class="fw-bold text-dark border-bottom pb-2">Recommended Packing List</h6>
+            </div>
+
+            <!-- Regular Clothing -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">Regular Clothing</label>
+                <textarea class="form-control editor" name="regular_clothing" rows="3"
+                    placeholder="Regular Clothing">{{ edit_detail.regular_clothing|default:'' }}</textarea>
+            </div>
+
+            <!-- Trekking & Cold-Weather Gear -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">Trekking & Cold-Weather Gear</label>
+                <textarea class="form-control editor" name="trekking_gear" rows="3"
+                    placeholder="Trekking & Cold-Weather Gear">{{ edit_detail.trekking_gear|default:'' }}</textarea>
+            </div>
+
+            <!-- Personal & Bath Kit -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">Personal & Bath Kit</label>
+                <textarea class="form-control editor" name="bath_kit" rows="3"
+                    placeholder="Personal & Bath Kit">{{ edit_detail.bath_kit|default:'' }}</textarea>
+            </div>
+
+            <!-- High-Altitude & Health Essentials -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">High-Altitude & Health Essentials</label>
+                <textarea class="form-control editor" name="health_essentials" rows="3"
+                    placeholder="High-Altitude & Health Essentials">{{ edit_detail.health_essentials|default:'' }}</textarea>
+            </div>
+
+            <!-- Travel & Utility Items -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">Travel & Utility Items</label>
+                <textarea class="form-control editor" name="travel_utility" rows="3"
+                    placeholder="Travel & Utility Items">{{ edit_detail.travel_utility|default:'' }}</textarea>
+            </div>
+
+            <!-- Documents & Money -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label text-dark fw-semibold">Documents & Money</label>
+                <textarea class="form-control editor" name="documents_money" rows="3"
+                    placeholder="Documents & Money">{{ edit_detail.documents_money|default:'' }}</textarea>
+            </div>
+
+            <!-- Error Message -->
+            {% if error_message %}
             <div class="col-md-12">
                 <div class="alert alert-danger py-2">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     {{ error_message }}
                 </div>
             </div>
-    {% endif %}
-        <div class="col-md-12 mt-5">
-            <button type="submit" class="btn btn-dark w-100">
-                {% if edit_detail %}Update{% else %}Submit{% endif %}
-            </button>
-        </div>
+            {% endif %}
 
-    </div>
-</form>
-                        </div>
+            <!-- Submit -->
+            <!-- Submit -->
+<div class="col-md-12 mt-5 d-flex gap-2">
+    <button type="submit" class="btn btn-dark w-100">
+        {% if edit_detail %}Update{% else %}Submit{% endif %}
+    </button>
+
+    {% if edit_detail %}
+        <a href="{% url 'add_package_details' %}?page={{ package_details.number }}" class="btn btn-secondary w-100">
+            Cancel
+        </a>
+    {% endif %}
+</div>
+
+        </div>
+    </form>
+</div>
                     </div>
                 </div>
 
@@ -303,7 +344,7 @@
     <tbody>
         {% for detail in package_details %}
         <tr>
-            <td>{{ detail.package.name }}</td>
+            <td>{{ detail.package.name | upper }}</td>
             <td>
                 <!-- <a href="{% url 'edit_package_detail' detail.id %}" class="link link-warning">
                     <i class="bi bi-pencil-square"></i>
@@ -382,6 +423,14 @@
 
     let selectedValues = [];
 
+    selectedValues = [...selectEl.options]
+    .filter(opt => opt.selected)
+    .map(opt => opt.value);
+
+    
+
+
+
     function renderOptions(filter = "") {
         listEl.innerHTML = "";
         [...selectEl.options].forEach(option => {
@@ -441,6 +490,7 @@
     });
 
     renderOptions();
+    renderTags();
 </script>
 
 <!-- CKEditor -->
@@ -449,5 +499,64 @@
     document.querySelectorAll('.editor').forEach((el) => {
         ClassicEditor.create(el).catch(error => console.error(error));
     });
+
+
+
+
+document.querySelector('form').addEventListener('submit', function(e) {
+    // Remove previous errors
+    document.querySelectorAll('.ck-editor-error').forEach(el => el.remove());
+
+    let valid = true;
+    let firstError = null;
+
+    // Define which fields are required with their labels
+    const requiredFields = [
+        { name: 'map_details',       label: 'Map Details' },
+        { name: 'included',          label: "What's Included" },
+        { name: 'not_included',      label: "What's Not Included" },
+        { name: 'eligible',          label: "Who's Eligible" },
+        { name: 'tibet_visa',        label: 'Visa & Travel Guides' },
+        { name: 'payment_terms',     label: 'Payment Terms' },
+        { name: 'regular_clothing',  label: 'Regular Clothing' },
+        { name: 'trekking_gear',     label: 'Trekking & Cold-Weather Gear' },
+        { name: 'bath_kit',          label: 'Personal & Bath Kit' },
+        { name: 'health_essentials', label: 'High-Altitude & Health Essentials' },
+        { name: 'travel_utility',    label: 'Travel & Utility Items' },
+        { name: 'documents_money',   label: 'Documents & Money' },
+    ];
+
+    requiredFields.forEach(function(field) {
+        const textarea = document.querySelector(`textarea[name="${field.name}"]`);
+        if (!textarea) return;
+
+        // Get the CKEditor wrapper next to this textarea
+        const ckEditor = textarea.nextElementSibling;
+        if (!ckEditor || !ckEditor.classList.contains('ck-editor')) return;
+
+        const content = ckEditor.querySelector('.ck-content').innerText.trim();
+
+        if (!content) {
+            valid = false;
+
+            const err = document.createElement('div');
+            err.className = 'text-danger mt-1 ck-editor-error';
+            err.textContent = `${field.label} is required.`;
+            ckEditor.parentNode.appendChild(err);
+
+            if (!firstError) firstError = ckEditor;
+        }
+    });
+
+    if (!valid) {
+        e.preventDefault();
+        // Scroll to first error
+        if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+});
+
+
+
+
 </script>
 {% endblock %}

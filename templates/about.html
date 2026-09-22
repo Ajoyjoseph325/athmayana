@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Atmayana - About Us{% endblock %}
+
+{% block nav_about %}active{% endblock %}
+
+{% block content %}
+
+<!-- back to top button -->
+<a href="#" id="back-to-top"></a>
+
+<!-- preloader -->
+<div id="de-loader"></div>
+
+<!-- Subheader -->
+<section id="subheader" class="relative jarallax text-light" data-bgimage="url({% static 'images/background/sb5.webp' %})">
+    <div class="de-gradient-edge-top"></div>
+    <div class="container relative z-2">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="subtitle s2 text-light wow fadeInUp mb-2">What Do We</div>
+                <div class="clearfix"></div>
+                <h1 class="cam-style">About Us</h1>
+            </div>
+        </div>
+    </div>
+    <div class="crumb-wrapper">
+        <ul class="crumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li class="active">About Us</li>
+        </ul>
+    </div>
+    <img src="{% static 'images/misc/d2.webp' %}" class="abs w-20 end-0 bottom-min-100 z-2" alt="">
+    <div class="sw-overlay op-4"></div>
+</section>
+
+<!-- About Our Practice -->
+<section class="bg-light">
+    <div class="container">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-8">
+                <div class="subtitle wow fadeInUp" data-wow-delay=".0s">About Our Practice</div>
+                <h2 class="split">Compassionate Psychological Support for Emotional Well-Being</h2>
+
+                <div class="de-tab wow fadeInUp" data-wow-delay=".4s">
+                    <ul class="d-tab-nav mb-4 border-bottom pb-4 d-flex">
+                        <li class="active-tab">Our Mission</li>
+                        <li>Our Vision</li>
+                        <li>Our Values</li>
+                    </ul>
+
+                    <ul class="d-tab-content">
+                        <li>
+                            Our mission is to provide compassionate, evidence-based psychological care that empowers individuals to understand their emotions, overcome personal challenges, and build healthier lives. Through personalized counseling, we help clients develop resilience, confidence, and emotional balance.
+                        </li>
+                        <li>
+                            Our vision is to create a supportive environment where mental health is prioritized and individuals feel safe seeking guidance. We strive to become a trusted counseling practice known for empathy, professionalism, and meaningful transformation in the lives of our clients.
+                        </li>
+                        <li>
+                            We believe in empathy, confidentiality, and respect in every therapeutic relationship. Our values focus on creating a safe space for open dialogue, providing ethical and professional care, and supporting long-term emotional growth and personal well-being.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <img src="{% static 'images/trekking.png' %}" alt="" class="img-fluid" style="border-radius:20px;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our History -->
+<section class="bg-color-op-2">
+    <div class="container">
+        <div class="row g-4 gx-5 justify-content-center">
+            <div class="col-md-6">
+                <!-- <div class="h-100 rounded-1 mh-300 wow fadeInUp" data-bgimage="url({% static 'images/misc/s4.webp' %}) center">
+                </div> -->
+
+                <div class="h-100 rounded-1 mh-300 wow fadeInUp" 
+     style="background-image: url('{% static 'images/misc/s4.webp' %}'); background-position: center; background-size: cover;">
+                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="subtitle s2 mb-3 wow fadeInUp" data-wow-delay=".0s">Our History</div>
+                <h2 class="split">A Legacy of Devotion, A Journey of Faith</h2>
+
+                <div class="de-timeline-s2 wow fadeInUp">
+                    <p>Sri M K Ramachandran ignited the sacred flame of Kailash Yatra
+                    in the hearts of Malayalis. Empowered by his vision, his wife
+                    Smt Geetha Ramachandran and son Sarathkrishnan now steer
+                    the revered Kailash Manasarovar pilgrimage.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats / Counters -->
+<section>
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="de_count wow fadeInRight" data-wow-delay=".0s">
+                    <h3 class="hs-2 mb-0"><span class="timer" data-to="65250" data-speed="3000">0</span>+</h3>
+                    Therapy Hours Completed
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="de_count wow fadeInRight" data-wow-delay=".2s">
+                    <h3 class="hs-2 mb-0"><span class="timer" data-to="23160" data-speed="3000">0</span>+</h3>
+                    Clients Supported
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="de_count wow fadeInRight" data-wow-delay=".4s">
+                    <h3 class="hs-2 mb-0"><span class="timer" data-to="150" data-speed="3000">0</span>+</h3>
+                    Workshops &amp; Programs
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="de_count wow fadeInRight" data-wow-delay=".6s">
+                    <h3 class="hs-2 mb-0"><span class="timer" data-to="20" data-speed="3000">0</span>+</h3>
+                    Years of Experience
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+
+    document.querySelectorAll('.d-tab-nav li').forEach(function(tab, index) {
+    tab.addEventListener('click', function() {
+        document.querySelectorAll('.d-tab-nav li').forEach(t => t.classList.remove('active-tab'));
+        document.querySelectorAll('.d-tab-content li').forEach(c => c.style.display = 'none');
+        tab.classList.add('active-tab');
+        document.querySelectorAll('.d-tab-content li')[index].style.display = 'list-item';
+    });
+});
+// Show first tab by default
+document.querySelectorAll('.d-tab-content li').forEach((c, i) => {
+    c.style.display = i === 0 ? 'list-item' : 'none';
+});
+
+
+
+// Tab switcher
+document.querySelectorAll('.d-tab-nav li').forEach(function(tab, index) {
+    tab.addEventListener('click', function() {
+        document.querySelectorAll('.d-tab-nav li').forEach(t => t.classList.remove('active-tab'));
+        document.querySelectorAll('.d-tab-content li').forEach(c => c.style.display = 'none');
+        tab.classList.add('active-tab');
+        document.querySelectorAll('.d-tab-content li')[index].style.display = 'list-item';
+    });
+});
+document.querySelectorAll('.d-tab-content li').forEach((c, i) => {
+    c.style.display = i === 0 ? 'list-item' : 'none';
+});
+
+// Counter animation
+function animateCounter(el) {
+    const target = parseInt(el.getAttribute('data-to'));
+    const speed  = parseInt(el.getAttribute('data-speed'));
+    const step   = target / (speed / 16);
+    let current  = 0;
+    el.textContent = '0';
+    const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+            el.textContent = target.toLocaleString();
+            clearInterval(timer);
+        } else {
+            el.textContent = Math.floor(current).toLocaleString();
+        }
+    }, 16);
+}
+
+// Trigger counters when they scroll into view
+const counters = document.querySelectorAll('.timer');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+counters.forEach(counter => observer.observe(counter));
+</script>
+
+{% endblock %}

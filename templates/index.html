@@ -14,16 +14,46 @@
  <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 
     <!-- Bootstrap Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
 
     <!-- Bootstrap CSS in <head> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+<style>
 
 
 
+.owl-single-dots .owl-dots {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    /* gap: 8px !important; */
+    margin-top: 30px !important;
+}
+.owl-single-dots .owl-dot span {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    margin: 0 !important;
+    display: block !important;
+    transition: all 0.3s !important;
+}
+.owl-single-dots .owl-dot.active span {
+    
+    /* width: 14px !important; */
+    /* height: 14px !important; */
+    background: #ffffff !important;
+}
+
+
+
+
+
+</style>
 
 {% endblock %}
 
@@ -190,10 +220,10 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="relative">
-                        <div class="de-custom-nav d-flex flex-end" data-target="#sc-carousel">
+                        <!-- <div class="de-custom-nav d-flex flex-end" data-target="#sc-carousel">
                             <div class="d-prev circle wow zoomIn" data-wow-delay=".2s"></div>
                             <div class="d-next circle wow zoomIn" data-wow-delay=".3s"></div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -242,17 +272,7 @@
 
 {% endfor %}
 
-                        <!-- Wellness Packages -->
-                        <!-- <div class="item" style="height: 100%;">
-                            <div class="xp9v-cardbox">
-                                <img src="{% static 'images/wellness.png' %}" alt="">
-                                <div class="kz4m-overlaytxt">
-                                    <h2>Wellness Packages</h2>
-                                    <p>Experience divine journeys with handpicked spiritual destinations, peaceful retreats and unforgettable memories.</p>
-                                    <a class="btn-line mt-2 text-white" href="">View Details</a>
-                                </div>
-                            </div>
-                        </div> -->
+                      
 
                     </div>
                 </div>
@@ -476,7 +496,8 @@
                     <div class="col-lg-5">
                         <div class="me-lg-3">
                             <div class="py-5 my-5">
-                                <div class="owl-single-dots owl-carousel owl-theme wow fadeInLeft">
+                                <div class="owl-single-dots owl-carousel owl-theme">
+                                
 
                                     <div class="item">
                                         <i class="icofont-quote-left id-color-2 fs-40 mb-4"></i>
@@ -565,13 +586,39 @@
         <img class="jtr-popup-img">
     </div>
 
-</div><!-- #content end -->
+</div>
+
+<!-- #content end -->
+
 
 {% endblock %}
 
 {% block extra_js %}
+
+
+
+
+
 <script src="{% static 'js/vendors.js' %}"></script>
 <script src="{% static 'js/custom-marquee.js' %}"></script>
 <script src="{% static 'js/swiper.js' %}"></script>
 <script src="{% static 'js/custom-swiper.js' %}"></script>
+
+
+<script>
+$(document).ready(function(){
+    $('.owl-single-dots').owlCarousel({
+        items: 1,
+        loop: true,
+        dots: true,
+        nav: false,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        animateOut: 'fadeOut',
+        checkVisible: false
+    });
+});
+</script>
+
+
 {% endblock %}

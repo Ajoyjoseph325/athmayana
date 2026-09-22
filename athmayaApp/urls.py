@@ -25,13 +25,16 @@ urlpatterns = [
     path('packages/wellness/',  views.wellness_packages,   name='wellness_packages'),
     path('kailash/',            views.kailash_detail,      name='kailash_detail'),
     path('publications/',       views.publications,        name='publications'),
-    path('contact/',            views.contact,             name='contact'),
+    # path('contact/',            views.contact,             name='contact'),
     path('category/', views.add_category, name='add_category'),
       
     path('books/', views.books, name='books'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    
 
         
-    path('pacakgeadmin/', views.view_packages, name='view_packages'),
+    path('pacakgeadmin/', views.add_packages, name='view_packages'),
     path('add-packages/', views.add_packages, name='add_packages'),
     path('edit-package/<int:id>/',views.edit_package,name='edit_package'),
     path('update-package/<int:id>/',views.update_package,name='update_package'),
@@ -59,6 +62,10 @@ urlpatterns = [
     path('addpackageitinerary/', views.add_package_itinerary, name='add_package_itinerary'),
     path('addpackageitinerary/edit/<int:edit_id>/', views.add_package_itinerary, name='edit_package_itinerary'),
     path('addpackageitinerary/delete/<int:id>/', views.delete_package_itinerary, name='delete_package_itinerary'),
+
+
+    path('backoffice/',views.backoffice,name='backoffice'),
+    path('backoffice/logout/', views.admin_logout, name='admin_logout'),
 
 
     
