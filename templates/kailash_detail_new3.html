@@ -131,7 +131,7 @@
 
     ._rx301 {
         max-width: 1240px;
-        margin: 36px auto 16px;
+        margin: 12px auto 8px;
         padding: 0px 24px;
         position: relative;
     }
@@ -141,8 +141,8 @@
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid #e5d8c8;
-        padding-bottom: 12px;
-        margin-bottom: 22px;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
     }
 
     ._rx304 {
@@ -159,10 +159,10 @@
 
     ._rx305 {
         display: flex;
-        gap: 20px;
+        gap: 14px;
         overflow-x: auto;
         scroll-behavior: smooth;
-        padding: 6px 4px 14px;
+        padding: 4px 4px 6px;
         scrollbar-width: none;
         -ms-overflow-style: none;
         cursor: grab;
@@ -182,20 +182,20 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        min-width: 96px;
+        min-width: 76px;
         flex-shrink: 0;
         cursor: pointer;
         transition: transform 0.2s;
     }
 
     ._rx307 {
-        width: 78px;
-        height: 78px;
+        width: 58px;
+        height: 58px;
         border-radius: 50%;
         overflow: hidden;
-        border: 2.5px solid #d4a77e;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-        margin-bottom: 8px;
+        border: 2px solid #d4a77e;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 6px;
         transition: transform 0.25s, border-color 0.25s;
     }
 
@@ -221,8 +221,8 @@
     /* Itinerary Carousel */
     ._rx401 {
         max-width: 1240px;
-        margin: 44px auto;
-        padding: 50px 24px;
+        margin: 16px auto 30px;
+        padding: 16px 24px;
     }
 
     ._rx402 {
@@ -1236,9 +1236,614 @@
         }
     }
 
+    @media (max-width: 767px) {
+        /* Mobile Viewport & Root Container Overflow Safeguard */
+        html, body, #wrapper {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            max-width: 100vw !important;
+        }
+
+        .container, .container-fluid {
+            max-width: 100% !important;
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        .row {
+            margin-left: -6px !important;
+            margin-right: -6px !important;
+            max-width: calc(100% + 12px) !important;
+        }
+
+        /* Mobile Hero Subheader Optimization (Light/White Theme & Ultra-Compact Height) */
+        #subheader {
+            background-image: none !important;
+            background: #ffffff !important;
+            padding: 10px 15px 12px 15px !important;
+            margin-top: 0 !important;
+            min-height: auto !important;
+            border-bottom: 1px solid #f0e8df;
+        }
+
+        #subheader .container {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+
+        #subheader .jarallax-container {
+            display: none !important;
+        }
+
+        #subheader .de-gradient-edge-top,
+        #subheader .sw-overlay,
+        #subheader img.abs {
+            display: none !important;
+        }
+
+        #subheader .subtitle {
+            font-size: 11px !important;
+            letter-spacing: 2px !important;
+            text-transform: uppercase !important;
+            color: #c06934 !important;
+            font-weight: 600 !important;
+            margin-top: 0 !important;
+            margin-bottom: 4px !important;
+        }
+
+        #subheader h1.cam-style {
+            font-size: 21px !important;
+            line-height: 1.25 !important;
+            font-weight: 700 !important;
+            margin: 0 !important;
+            color: #2b1f1a !important;
+            text-shadow: none !important;
+            word-break: break-word !important;
+        }
+
+        /* Overview Section on Mobile */
+        .overview-section {
+            padding: 18px 0 0px 0 !important;
+            max-width: 100% !important;
+            overflow-x: hidden !important;
+        }
+
+        .overview-main-img {
+            min-height: unset !important;
+            max-height: 240px !important;
+            height: 220px !important;
+            width: 100% !important;
+            object-fit: cover !important;
+        }
+
+        .overview-title {
+            font-size: 24px !important;
+            line-height: 1.25 !important;
+            margin-top: 10px !important;
+            word-break: break-word !important;
+        }
+
+        /* Journey Highlights Section on Mobile */
+        ._rx301 {
+            margin: 26px auto 10px !important;
+            padding: 16px 12px 0 12px !important;
+            border-top: 1px solid #f2e8de;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+        }
+
+        ._rx302 {
+            margin-bottom: 10px !important;
+            padding-bottom: 8px !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 8px !important;
+            max-width: 100% !important;
+        }
+
+        ._rx303 {
+            font-size: clamp(18px, 5.5vw, 23px) !important;
+            font-weight: 700 !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+            display: inline-block !important;
+            margin-bottom: 2px !important;
+            line-height: 1.25 !important;
+            color: #2c221e !important;
+            max-width: 100% !important;
+        }
+
+        ._rx304 {
+            display: block !important;
+            margin-left: 0 !important;
+            font-size: 11px !important;
+            color: #8c7e73 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            max-width: 180px !important;
+        }
+
+        ._rx310 {
+            flex-shrink: 0 !important;
+            display: flex !important;
+            gap: 6px !important;
+        }
+
+        ._rx407 {
+            width: 32px !important;
+            height: 32px !important;
+            min-width: 32px !important;
+            padding: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        /* Detailed Itinerary Section on Mobile */
+        ._rx401 {
+            margin: 0 auto !important;
+            padding: 16px 12px 20px 12px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        ._rx402 {
+            margin-bottom: 10px !important;
+            align-items: flex-start !important;
+        }
+
+        ._rx403 {
+            font-size: 10px !important;
+            letter-spacing: 2px !important;
+            margin-bottom: 2px !important;
+        }
+
+        ._rx404 {
+            font-size: 23px !important;
+            line-height: 1.25 !important;
+            margin-bottom: 2px !important;
+            color: #2c221e !important;
+            word-break: break-word !important;
+        }
+
+        ._rx405 {
+            font-size: 11.5px !important;
+            margin-top: 2px !important;
+            line-height: 1.35 !important;
+            color: #7b6f65 !important;
+        }
+
+        ._rx409 {
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+
+        /* Detail Boxes Grid on Mobile (Distance & Driving Time in 1 Row, Altitude Below) */
+        ._rx420 {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            margin-bottom: 12px !important;
+            max-width: 100% !important;
+        }
+
+        ._rx421 {
+            padding: 9px 10px !important;
+            gap: 6px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            min-width: 0 !important;
+            overflow: hidden !important;
+        }
+
+        ._rx421 > div {
+            min-width: 0 !important;
+            overflow: hidden !important;
+        }
+
+        ._rx424 {
+            font-size: 11.5px !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+
+        ._rx421:nth-child(3) {
+            grid-column: 1 / -1 !important;
+        }
+
+        /* Itinerary Card Padding & Highlights Points Spacing on Mobile */
+        ._rx416 {
+            padding: 16px 12px 14px 12px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+
+        ._rx418 {
+            font-size: clamp(16px, 5vw, 20px) !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+
+        ._rx419 {
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+
+        ._rx425 {
+            margin-bottom: 6px !important;
+            font-size: 10px !important;
+        }
+
+        ._rx426 {
+            gap: 5px 0 !important;
+            margin-bottom: 0 !important;
+            grid-template-columns: 1fr !important;
+        }
+
+        ._rx427 {
+            font-size: 12px !important;
+            gap: 6px !important;
+            line-height: 1.3 !important;
+            word-break: break-word !important;
+        }
+
+        ._rx428 {
+            width: 13px !important;
+            height: 13px !important;
+        }
+
+        ._rx429 {
+            margin-top: 10px !important;
+        }
+
+        /* Health & Pilgrimage Readiness Section on Mobile */
+        ._rx601 {
+            margin: 24px auto 20px !important;
+            padding: 20px 12px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+
+        ._rx602 {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        ._rx604 {
+            font-size: 11px !important;
+            letter-spacing: 2px !important;
+            margin-bottom: 4px !important;
+        }
+
+        ._rx603 {
+            font-size: clamp(20px, 6vw, 27px) !important;
+            font-weight: 700 !important;
+            line-height: 1.25 !important;
+            color: #2c221e !important;
+            margin-bottom: 8px !important;
+            word-break: break-word !important;
+        }
+
+        ._rx605 {
+            font-size: 12.5px !important;
+            line-height: 1.5 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            color: #5c5045 !important;
+            word-break: break-word !important;
+        }
+
+        ._rx606 {
+            min-width: unset !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            gap: 10px !important;
+            text-align: left !important;
+            padding: 10px 12px !important;
+            margin-top: 6px !important;
+            border-left: 3px solid #b85b24 !important;
+            border-radius: 0 8px 8px 0 !important;
+        }
+
+        ._rx607 {
+            margin-bottom: 0 !important;
+            flex-shrink: 0 !important;
+            width: 18px !important;
+            height: 18px !important;
+        }
+
+        ._rx608 {
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            font-style: italic !important;
+            color: #4a3d33 !important;
+            line-height: 1.35 !important;
+            word-break: break-word !important;
+        }
+
+        ._rx609 {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+            max-width: 100% !important;
+        }
+
+        ._rx610 {
+            padding: 14px 12px !important;
+            border-radius: 10px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        ._rx613 {
+            font-size: 15px !important;
+            word-break: break-word !important;
+        }
+
+        ._rx615 {
+            font-size: 11.5px !important;
+            line-height: 1.4 !important;
+            word-break: break-word !important;
+        }
+
+        ._rx616 {
+            padding: 10px 12px !important;
+            margin-top: 12px !important;
+            font-size: 11.5px !important;
+            line-height: 1.4 !important;
+            border-radius: 8px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Documents & Additional Visits Section on Mobile */
+        ._rx701 {
+            margin: 0 auto !important;
+            padding: 18px 12px 24px 12px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+        }
+
+        ._rx702 {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+            max-width: 100% !important;
+        }
+
+        ._rx703 {
+            padding: 16px 12px !important;
+            border-radius: 12px !important;
+            margin-bottom: 0 !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: auto !important;
+        }
+
+        ._rx704 {
+            gap: 10px !important;
+            margin-bottom: 12px !important;
+            align-items: center !important;
+        }
+
+        ._rx705 {
+            width: 32px !important;
+            height: 32px !important;
+            flex-shrink: 0 !important;
+        }
+
+        ._rx706 {
+            font-size: clamp(16px, 5.2vw, 20px) !important;
+            font-weight: 700 !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+            margin-bottom: 2px !important;
+            line-height: 1.25 !important;
+            color: #2c221e !important;
+            max-width: 100% !important;
+        }
+
+        ._rx707 {
+            font-size: 11px !important;
+            line-height: 1.3 !important;
+            color: #b85b24 !important;
+            word-break: break-word !important;
+        }
+
+        ._rx708 {
+            gap: 8px !important;
+            margin-bottom: 10px !important;
+        }
+
+        ._rx709 {
+            font-size: 11.5px !important;
+            line-height: 1.4 !important;
+            word-break: break-word !important;
+        }
+
+        ._rx711 {
+            font-size: 11px !important;
+            margin-top: 10px !important;
+            padding-top: 10px !important;
+            line-height: 1.4 !important;
+            word-break: break-word !important;
+        }
+
+        /* Payment Schedule & Cancellation Tables Section on Mobile */
+        ._rx801 {
+            margin: 0 auto !important;
+            padding: 18px 12px 24px 12px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+        }
+
+        ._rx802 {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+            max-width: 100% !important;
+        }
+
+        ._rx803 {
+            padding: 14px 10px !important;
+            border-radius: 12px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        ._rx804 {
+            gap: 8px !important;
+            margin-bottom: 12px !important;
+            padding: 0 2px !important;
+        }
+
+        ._rx805 {
+            font-size: clamp(16px, 5vw, 20px) !important;
+            font-weight: 700 !important;
+            color: #2c221e !important;
+            line-height: 1.25 !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+        }
+
+        /* Force All Mobile Tables To Wrap & Fit 100% Perfectly */
+        ._rx806,
+        ._rx803_rich table,
+        ._rx909_rich table,
+        ._rx703_rich table,
+        table {
+            display: table !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            table-layout: fixed !important;
+            border-collapse: collapse !important;
+            margin-bottom: 10px !important;
+            font-size: 11px !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+
+        ._rx808,
+        ._rx810,
+        ._rx803_rich th,
+        ._rx803_rich td,
+        ._rx909_rich th,
+        ._rx909_rich td,
+        ._rx703_rich th,
+        ._rx703_rich td,
+        th,
+        td {
+            padding: 6px 4px !important;
+            font-size: 11px !important;
+            line-height: 1.25 !important;
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+            hyphens: auto !important;
+        }
+
+        ._rx811,
+        ._rx803_rich p {
+            font-size: 11px !important;
+            line-height: 1.35 !important;
+            margin-top: 6px !important;
+            word-break: break-word !important;
+        }
+
+        /* Travel Tips & Packing Checklist Section on Mobile */
+        ._rx902 {
+            margin: 0 auto !important;
+            padding: 18px 12px 24px 12px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: hidden !important;
+        }
+
+        ._rx903 {
+            grid-template-columns: 1fr !important;
+            gap: 14px !important;
+            max-width: 100% !important;
+        }
+
+        ._rx904 {
+            padding: 14px 10px !important;
+            border-radius: 12px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+
+        ._rx904 h3 {
+            font-size: clamp(16px, 5.2vw, 20px) !important;
+            font-weight: 700 !important;
+            color: #2c221e !important;
+            margin-bottom: 2px !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+            line-height: 1.25 !important;
+            max-width: 100% !important;
+        }
+
+        ._rx905 {
+            grid-template-columns: 1fr !important;
+            gap: 8px !important;
+        }
+
+        ._rx906 {
+            padding: 9px 10px !important;
+            gap: 8px !important;
+            border-radius: 8px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        ._rx908 {
+            font-size: 11.5px !important;
+            word-break: break-word !important;
+        }
+
+        ._rx909 {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+            max-width: 100% !important;
+        }
+
+        ._rx909_rich p,
+        ._rx909_rich li {
+            font-size: 11px !important;
+            line-height: 1.4 !important;
+            margin-bottom: 4px !important;
+            word-break: break-word !important;
+        }
+
+        ._rx913 {
+            padding: 8px 10px !important;
+            font-size: 11px !important;
+            line-height: 1.35 !important;
+            margin-top: 10px !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            word-break: break-word !important;
+        }
+    }
+
     @media (max-width: 600px) {
 
-        ._rx420,
         ._rx426,
         ._rx905,
         ._rx909 {
@@ -1267,33 +1872,27 @@
             </div>
         </div>
     </div>
-    <div class="crumb-wrapper">
-        <ul class="crumb">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li class="active">Kumaon Region</li>
-        </ul>
-    </div>
-    <img src="{% static 'images/misc/d2.webp' %}" class="abs w-20 end-0 bottom-min-100 z-2" alt="" />
+    <img src="{% static 'images/misc/d2.webp' %}" class="abs w-20 end-0 bottom-min-100 z-2 d-none d-md-block" alt="" />
     <div class="sw-overlay op-4"></div>
 </section>
 
 <!-- OVERVIEW SECTION -->
-<section style="padding: 50px 0 0px 0">
+<section class="overview-section" style="padding: 50px 0 0px 0">
     <div class="container relative z-2">
         <div class="row g-4 gx-5 align-items-stretch position-relative">
             <div class="col-lg-5 col-md-6">
                 {% if details and details.main_image %}
-                <img src="{{ details.main_image.url }}" class="w-100 h-100 rounded-2 object-fit-cover"
+                <img src="{{ details.main_image.url }}" class="overview-main-img w-100 h-100 rounded-2 object-fit-cover"
                     style="min-height: 380px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);"
                     alt="{% if package %}{{ package.name }}{% else %}Sacred Kumaon Region{% endif %}" />
                 {% else %}
-                <img src="{% static 'images/gallery46.png' %}" class="w-100 h-100 rounded-2 object-fit-cover"
+                <img src="{% static 'images/gallery46.png' %}" class="overview-main-img w-100 h-100 rounded-2 object-fit-cover"
                     style="min-height: 380px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);"
                     alt="{% if package %}{{ package.name }}{% else %}Sacred Kumaon Region{% endif %}" />
                 {% endif %}
             </div>
             <div class="col-lg-7 col-md-6">
-                <h2 class="split" style="margin-bottom: 0 !important">
+                <h2 class="split overview-title" style="margin-bottom: 0 !important">
                     {% if package %}{{ package.name }}{% else %}Sacred Kumaon Region With Adi Kailash{% endif %}
                 </h2>
 
@@ -1348,7 +1947,7 @@
     </div>
 </section>
 
-<hr />
+<hr class="d-none d-md-block" style="margin: 8px 0; opacity: 0.15;" />
 
 <!-- HIGHLIGHTS (11 CIRCLES) - INTERACTIVE CAROUSEL -->
 <section class="_rx301" id="highlights">
@@ -2140,10 +2739,9 @@
 <div style="background-color: #fdf5ec">
     <section class="_rx902">
         <div class="_rx903">
-            {% if details and details.additional_place_heading or details and details.additional_place_content %}
             <div class="_rx904" style="display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px">
+                    <div class="_rx704">
                         <div class="_rx705">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                                 <path
@@ -2151,22 +2749,27 @@
                             </svg>
                         </div>
                         <div>
-                            <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 24px">
-                                {{ details.additional_place_heading|default:"Additional Place Visit" }}
+                            <h3 class="_rx706">
+                                {{ details.additional_place_heading|default:"Optional Places to Visit (Lipulekh Pass)" }}
                             </h3>
-                            <div style="font-size: 12px; color: #b85b24; font-weight: 600">
-                                Important Information
+                            <div class="_rx707">
+                                Subject to Permit & Weather Conditions
                             </div>
                         </div>
                     </div>
-                    {% if details.additional_place_content %}
+                    {% if details and details.additional_place_content %}
                     <div class="_rx909_rich" style="margin-bottom: 14px;">
                         {{ details.additional_place_content|safe }}
                     </div>
+                    {% else %}
+                    <ul class="_rx614" style="margin-bottom: 14px;">
+                        <li class="_rx615"><strong>Lipulekh Pass (Kailash View Point):</strong> Participants may choose to undertake an optional visit towards Lipulekh Pass for a view of Mt. Kailash from Indian territory.</li>
+                        <li class="_rx615"><strong>Local Excursion Charges:</strong> Any local vehicle or pony charges for optional excursions are payable directly on spot.</li>
+                    </ul>
                     {% endif %}
                 </div>
-                {% if details.additional_permission_details %}
-                <div class="_rx712" style="margin-top: 14px;">
+                {% if details and details.additional_permission_details %}
+                <div class="_rx712" style="margin-top: 12px;">
                     <svg width="18" height="18" fill="#b85b24" style="flex-shrink: 0; margin-top: 2px"
                         viewBox="0 0 24 24">
                         <path d="M20 2v3H4V2H2v20h2v-3h16v3h2V2h-2zm0 15H4V7h16v10z" />
@@ -2175,9 +2778,18 @@
                         {{ details.additional_permission_details|safe }}
                     </div>
                 </div>
+                {% else %}
+                <div class="_rx712" style="margin-top: 12px;">
+                    <svg width="18" height="18" fill="#b85b24" style="flex-shrink: 0; margin-top: 2px"
+                        viewBox="0 0 24 24">
+                        <path d="M20 2v3H4V2H2v20h2v-3h16v3h2V2h-2zm0 15H4V7h16v10z" />
+                    </svg>
+                    <div>
+                        Optional visits depend strictly on ITBP/SDM border permits, road conditions, and weather clearances.
+                    </div>
+                </div>
                 {% endif %}
             </div>
-            {% endif %}
 
             <div class="_rx904">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px">
