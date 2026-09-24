@@ -483,28 +483,27 @@ def delete_category(request, pk):
 
 
 
-def kailash_detail(request, id):
-    # package = Package.objects.get(id=id)
-    package = Package.objects.select_related('category', 'details_two').get(id=id)
-    
-    try:
-        details = package.details_two
-    except:
-        details = None
+def kailash_detail(request, id=None):
+    if id:
+        package = get_object_or_404(Package.objects.select_related('category', 'details_two'), id=id)
+    else:
+        package = Package.objects.select_related('category', 'details_two').first()
 
-    # itineraries = PackageItineraryTwo.objects.filter(
-    #     package=package, 
-    #     status='active'
-    # ).order_by('id')
+    details = None
+    itineraries = []
+    highlights = []
 
-    itineraries = PackageItineraryTwo.objects.filter(
-    package=package, 
-    status='active'
-    ).order_by('day')
+    if package:
+        try:
+            details = package.details_two
+        except Exception:
+            details = None
 
-    highlights = TourHighlight.objects.none()
-    if details:
-        highlights = details.tour_highlights.filter(status='Active')
+        itineraries = list(package.itineraries_two.filter(status='active').order_by('day'))
+        if details:
+            highlights = list(details.tour_highlights.filter(status='Active'))
+        else:
+            highlights = []
 
     context = {
         'package': package,
@@ -512,8 +511,8 @@ def kailash_detail(request, id):
         'itineraries': itineraries,
         'highlights': highlights,
     }
-   
-    return render(request, 'kailash_detail_new.html', context)
+
+    return render(request, 'kailash_detail_new3.html', context)
 
 
 
@@ -538,31 +537,29 @@ def add_package_details(request, edit_id=None):
 
         data = {
             'about_package': request.POST.get('about_package'),
-            'map_name': request.POST.get('map_name'),
-            'map_details': request.POST.get('map_details'),
             'included': request.POST.get('included'),
             'not_included': request.POST.get('not_included'),
-            'eligible': request.POST.get('eligible'),
-            'tibet_visa': request.POST.get('tibet_visa'),
-            'payment_terms': request.POST.get('payment_terms'),
-            'regular_clothing': request.POST.get('regular_clothing'),
-            'trekking_gear': request.POST.get('trekking_gear'),
-            'bath_kit': request.POST.get('bath_kit'),
-            'health_essentials': request.POST.get('health_essentials'),
-            'travel_utility': request.POST.get('travel_utility'),
-            'documents_money': request.POST.get('documents_money'),
+            'who_can_participate': request.POST.get('who_can_participate'),
+            'who_should_avoid': request.POST.get('who_should_avoid'),
+            'medical_fitness': request.POST.get('medical_fitness'),
+            'documents_required': request.POST.get('documents_required'),
+            'travel_advisory': request.POST.get('travel_advisory'),
+            'payment_schedule': request.POST.get('payment_schedule'),
+            'travel_tips': request.POST.get('travel_tips'),
+            'additional_place_heading': request.POST.get('additional_place_heading'),
+            'additional_place_content': request.POST.get('additional_place_content'),
+            'additional_permission_details': request.POST.get('additional_permission_details'),
+            'packing_checklist': request.POST.get('packing_checklist'),
+            'packing_note': request.POST.get('packing_note'),
         }
 
         main_image = request.FILES.get('main_image')
-        map_image = request.FILES.get('map_image')
 
         if edit_id:
             for key, value in data.items():
                 setattr(edit_detail, key, value)
             if main_image:
                 edit_detail.main_image = main_image
-            if map_image:
-                edit_detail.map_image = map_image
             edit_detail.package = package
             edit_detail.save()
             edit_detail.tour_highlights.set(highlight_ids)
@@ -577,8 +574,6 @@ def add_package_details(request, edit_id=None):
                     detail = PackageDetailsTwo(package=package, **data)
                     if main_image:
                         detail.main_image = main_image
-                    if map_image:
-                        detail.map_image = map_image
                     detail.save()
                     detail.tour_highlights.set(highlight_ids)
                     return redirect(f"{reverse('add_package_details')}?page={page_number}")
@@ -785,9 +780,18 @@ def add_package_itinerary(request, edit_id=None):
         package_id = request.POST.get('package')
         package = get_object_or_404(Package, id=package_id)
         itinerary = request.POST.get('itinerary')
-        heading = request.POST.get('heading')  # ✅ get heading from POST data
+        eyebrow = request.POST.get('eyebrow')
+        heading = request.POST.get('heading')
+        location_pin = request.POST.get('location_pin')
+        distance = request.POST.get('distance')
+        driving_time = request.POST.get('driving_time')
         distance_duration = request.POST.get('distance_duration')
         altitude = request.POST.get('altitude')
+        highlights_list = request.POST.getlist('day_highlights')
+        if highlights_list:
+            day_highlights = "\n".join([h.strip() for h in highlights_list if h.strip()])
+        else:
+            day_highlights = (request.POST.get('day_highlights') or '').strip()
         accommodation = request.POST.get('accommodation')
         meals = request.POST.get('meals')
         status = request.POST.get('status')
@@ -797,10 +801,15 @@ def add_package_itinerary(request, edit_id=None):
         if edit_id:
             edit_itinerary.package = package
             edit_itinerary.day = day
-            edit_itinerary.heading = heading  # ✅ update heading
+            edit_itinerary.eyebrow = eyebrow
+            edit_itinerary.heading = heading
+            edit_itinerary.location_pin = location_pin
             edit_itinerary.itinerary = itinerary
+            edit_itinerary.distance = distance
+            edit_itinerary.driving_time = driving_time
             edit_itinerary.distance_duration = distance_duration
             edit_itinerary.altitude = altitude
+            edit_itinerary.day_highlights = day_highlights
             edit_itinerary.accommodation = accommodation
             edit_itinerary.meals = meals
             edit_itinerary.status = status
@@ -823,10 +832,15 @@ def add_package_itinerary(request, edit_id=None):
                 PackageItineraryTwo.objects.create(
                     package=package,
                     day=day,
-                    heading=heading,  # ✅ save heading on create
+                    eyebrow=eyebrow,
+                    heading=heading,
+                    location_pin=location_pin,
                     itinerary=itinerary,
+                    distance=distance,
+                    driving_time=driving_time,
                     distance_duration=distance_duration,
                     altitude=altitude,
+                    day_highlights=day_highlights,
                     accommodation=accommodation,
                     meals=meals,
                     status=status,
@@ -890,3 +904,34 @@ def backoffice(request):
 def admin_logout(request):
     logout(request)
     return redirect('backoffice')
+
+
+def kailash_detail_new3(request, id=None):
+    package = None
+    details = None
+    itineraries = []
+    highlights = []
+
+    if id:
+        package = get_object_or_404(Package.objects.select_related('category', 'details_two'), id=id)
+    else:
+        package = Package.objects.select_related('category', 'details_two').first()
+
+    if package:
+        try:
+            details = package.details_two
+        except Exception:
+            details = None
+
+        itineraries = list(package.itineraries_two.filter(status='active').order_by('day'))
+        if details:
+            highlights = list(details.tour_highlights.filter(status='Active'))
+        else:
+            highlights = []
+
+    return render(request, 'kailash_detail_new3.html', {
+        'package': package,
+        'details': details,
+        'itineraries': itineraries,
+        'highlights': highlights,
+    })

@@ -51,9 +51,9 @@
             <!-- Sidebar Logo -->
             <a href="" class="navbar-brand">
                 <div class="logo-lg">
-                    <img src="{% static 'assets/images/main-logo.webp' %}" loading="lazy" alt="Logo" height="26"
+                    <img src="{% static 'images/main-logo.webp' %}" loading="lazy" alt="Logo" height="26"
                         class="mx-auto logo-dark">
-                    <img src="{% static 'assets/images/logo-white.webp' %}" loading="lazy" alt="Logo" height="26"
+                    <img src="{% static 'images/logo-02-01-01.png' %}" loading="lazy" alt="Logo" height="26"
                         class="mx-auto logo-light">
                 </div>
                 <div class="logo-sm">
@@ -65,7 +65,7 @@
             </a>
 
             <!-- Sidebar Profile Dropdown -->
-             <div class="dropdown profile-dropdown">
+            <div class="dropdown profile-dropdown">
                 <a href="#!" class="btn d-flex align-items-center w-100 gap-2 p-4 text-start" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <img src="{% static 'assets/images/user-56.webp' %}" loading="lazy" alt="" class="size-10 rounded">
@@ -157,11 +157,12 @@
                         <a class="nav-link {% block nav_highlights %}{% endblock %}"
                             href="{% url 'add_package_highlights' %}">
                             <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
-                            <span class="content">Add Tour Highlights</span>
+                            <span class="content">Add Journey Highlights</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% block nav_gallery %}{% endblock %}" href="{% url 'add_package_itinerary' %}">
+                        <a class="nav-link {% block nav_gallery %}{% endblock %}"
+                            href="{% url 'add_package_itinerary' %}">
                             <span class="icons"><i class="bi bi-images"></i></span>
                             <span class="content">Add package itneraries</span>
                         </a>
@@ -173,7 +174,7 @@
                             <span class="content">Add Package Details</span>
                         </a>
                     </li>
-                    
+
 
                     <li class="nav-menu-title">Account</li>
                     <li class="nav-item">
@@ -198,10 +199,10 @@
         <div class="navbar-brand">
             <div class="logos">
                 <a href="{% url 'home' %}" aria-label="Topbar Logo">
-                    <img src="{% static 'assets/images/main-logo.webp' %}" loading="lazy" height="24" alt="Main Logo"
+                    <img src="{% static 'images/main-logo.webp' %}" loading="lazy" height="24" alt="Main Logo"
                         class="logo-dark">
-                    <img src="{% static 'assets/images/logo-white.webp' %}" loading="lazy" height="24" alt="Logo White"
-                        class="logo-light">
+                    <img src="{% static 'assets/images/logo-02-01-01.png' %}" loading="lazy" height="24"
+                        alt="Logo White" class="logo-light">
                 </a>
             </div>
             <button type="button" id="toggleSidebar" class="sidebar-toggle btn p-0" aria-label="sidebar-toggle">

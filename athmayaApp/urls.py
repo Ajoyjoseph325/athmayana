@@ -67,8 +67,6 @@ urlpatterns = [
     path('backoffice/',views.backoffice,name='backoffice'),
     path('backoffice/logout/', views.admin_logout, name='admin_logout'),
 
-
-    
-  
-
+    path('kailash-new3/', views.kailash_detail_new3, name='kailash_detail_new3'),
+    path('kailash-new3/<int:id>/', views.kailash_detail_new3, name='kailash_detail_new3_id'),
 ]

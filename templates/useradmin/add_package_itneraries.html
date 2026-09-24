@@ -155,13 +155,31 @@
                                 style="height: 55px;" required>
                         </div>
 
-                        <!-- ✅ Heading -->
+                        <!-- Eyebrow / Tagline -->
                         <div class="col-md-12">
-                              <label for="Heading" class="form-label text-dark fw-semibold">Heading</label>
+                            <label class="form-label text-dark fw-semibold">Tagline / Eyebrow</label>
+                            <input type="text" class="form-control" name="eyebrow"
+                                placeholder="e.g. ANCIENT STONE TEMPLES & SACRED PEAKS"
+                                value="{{ edit_itinerary.eyebrow|default:'' }}"
+                                style="height: 55px;">
+                        </div>
+
+                        <!-- ✅ Heading / Route -->
+                        <div class="col-md-12">
+                            <label for="Heading" class="form-label text-dark fw-semibold">Route / Heading</label>
                             <input type="text" class="form-control" name="heading"
-                                placeholder="Enter Itinerary Heading"
+                                placeholder="e.g. Jageshwar → Kasar Devi → Katarmal → Pithoragarh"
                                 value="{{ edit_itinerary.heading|default:'' }}"
                                 style="height: 55px;" required>
+                        </div>
+
+                        <!-- Location Pin -->
+                        <div class="col-md-12">
+                            <label class="form-label text-dark fw-semibold">Location Pin Tag</label>
+                            <input type="text" class="form-control" name="location_pin"
+                                placeholder="e.g. Jageshwar Dham • 124 Stone Temples"
+                                value="{{ edit_itinerary.location_pin|default:'' }}"
+                                style="height: 55px;">
                         </div>
 
                         <!-- Itinerary Image -->
@@ -182,17 +200,26 @@
 
                         <!-- Itinerary Text -->
                         <div class="col-md-12 mb-3">
-                              <label for="mapName" class="form-label text-dark fw-semibold">Itnerary Description</label>
+                            <label class="form-label text-dark fw-semibold">Itinerary Description</label>
                             <textarea class="form-control editor" name="itinerary" rows="3"
-                                placeholder="Add Itineraries">{{ edit_itinerary.itinerary|default:'' }}</textarea>
+                                placeholder="Add Itinerary Description">{{ edit_itinerary.itinerary|default:'' }}</textarea>
                         </div>
 
-                        <!-- Distance / Duration -->
-                        <div class="col-md-12 mb-2">
-                            <label class="form-label text-dark fw-semibold">Distance / Duration</label>
-                            <input type="text" class="form-control" name="distance_duration"
-                                placeholder="e.g. Approx. 30-minute drive from the airport"
-                                value="{{ edit_itinerary.distance_duration|default:'' }}"
+                        <!-- Distance -->
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label text-dark fw-semibold">Distance</label>
+                            <input type="text" class="form-control" name="distance"
+                                placeholder="e.g. ~140 Kms"
+                                value="{{ edit_itinerary.distance|default:'' }}"
+                                style="height: 55px;">
+                        </div>
+
+                        <!-- Driving Time -->
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label text-dark fw-semibold">Driving Time</label>
+                            <input type="text" class="form-control" name="driving_time"
+                                placeholder="e.g. 6 - 7 Hours"
+                                value="{{ edit_itinerary.driving_time|default:'' }}"
                                 style="height: 55px;">
                         </div>
 
@@ -200,27 +227,44 @@
                         <div class="col-md-12 mb-2">
                             <label class="form-label text-dark fw-semibold">Altitude</label>
                             <input type="text" class="form-control" name="altitude"
-                                placeholder="e.g. approx. 1,400 m"
+                                placeholder="e.g. Kasar Devi: 2,116 M • Katarmal: 2,114 M"
                                 value="{{ edit_itinerary.altitude|default:'' }}"
                                 style="height: 55px;">
                         </div>
 
-                        <!-- Accommodation -->
+                        <!-- Day Highlights (Dynamic Inputs) -->
                         <div class="col-md-12 mb-2">
-                            <label class="form-label text-dark fw-semibold">Accommodation</label>
-                            <input type="text" class="form-control" name="accommodation"
-                                placeholder="e.g. 5-star hotel or similar category"
-                                value="{{ edit_itinerary.accommodation|default:'' }}"
-                                style="height: 55px;">
-                        </div>
-
-                        <!-- Meals -->
-                        <div class="col-md-12 mb-2">
-                            <label class="form-label text-dark fw-semibold">Meals</label>
-                            <input type="text" class="form-control" name="meals"
-                                placeholder="e.g. Breakfast, Lunch, and Dinner"
-                                value="{{ edit_itinerary.meals|default:'' }}"
-                                style="height: 55px;">
+                            <label class="form-label text-dark fw-semibold">Day Highlights</label>
+                            <div id="highlights-container" class="d-flex flex-column gap-2">
+                                {% if edit_itinerary and edit_itinerary.get_highlights_list %}
+                                    {% for item in edit_itinerary.get_highlights_list %}
+                                    <div class="input-group highlight-item">
+                                        <input type="text" class="form-control" name="day_highlights"
+                                            placeholder="Enter highlight (e.g. Meditate at Kasar Devi)"
+                                            value="{{ item }}" style="height: 48px;">
+                                        <button type="button" class="btn btn-outline-danger btn-remove-highlight d-flex align-items-center justify-content-center" title="Remove highlight" style="width: 44px;">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-add-highlight d-flex align-items-center justify-content-center" title="Add another highlight" style="width: 44px;">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </button>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="input-group highlight-item">
+                                        <input type="text" class="form-control" name="day_highlights"
+                                            placeholder="e.g. Meditate at Kasar Devi geomagnetic zone"
+                                            value="" style="height: 48px;">
+                                        <button type="button" class="btn btn-outline-danger btn-remove-highlight d-flex align-items-center justify-content-center" title="Remove highlight" style="width: 44px;">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-add-highlight d-flex align-items-center justify-content-center" title="Add another highlight" style="width: 44px;">
+                                            <i class="bi bi-plus-lg"></i>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <small class="text-muted">Click <strong class="text-primary">+</strong> to add another highlight or <strong class="text-danger"><i class="bi bi-trash3"></i></strong> to remove.</small>
                         </div>
 
                         <!-- Status -->
@@ -388,85 +432,67 @@
 </script>
 
 <script>
-    const selectEl = document.getElementById("rtx_select_84");
-    const boxEl = document.getElementById("asd_box_11");
-    const dropdownEl = document.getElementById("dropdown_77");
-    const searchEl = document.getElementById("bnm_search_55");
-    const listEl = document.getElementById("list_66");
-
-    let selectedValues = [];
-
-    function renderOptions(filter = "") {
-        listEl.innerHTML = "";
-        [...selectEl.options].forEach(option => {
-            if (option.text.toLowerCase().includes(filter.toLowerCase())) {
-                const item = document.createElement("div");
-                item.className = "poi_item_44";
-                if (selectedValues.includes(option.value)) item.classList.add("active");
-                item.textContent = option.text;
-                item.onclick = () => toggleOption(option.value, option.text);
-                listEl.appendChild(item);
-            }
-        });
-    }
-
-    function toggleOption(value, text) {
-        if (selectedValues.includes(value)) {
-            selectedValues = selectedValues.filter(v => v !== value);
-        } else {
-            selectedValues.push(value);
-        }
-        [...selectEl.options].forEach(opt => { opt.selected = selectedValues.includes(opt.value); });
-        renderTags();
-        renderOptions(searchEl.value);
-    }
-
-    function renderTags() {
-        boxEl.innerHTML = "";
-        if (selectedValues.length === 0) { boxEl.innerHTML = "Select Tour Highlights"; return; }
-        selectedValues.forEach(value => {
-            const option = [...selectEl.options].find(o => o.value === value);
-            const tag = document.createElement("div");
-            tag.className = "zxc_tag_72";
-            tag.innerHTML = `${option.text}<span data-val="${value}">&times;</span>`;
-            tag.querySelector("span").onclick = (e) => { e.stopPropagation(); toggleOption(value, option.text); };
-            boxEl.appendChild(tag);
-        });
-    }
-
-    if (boxEl) boxEl.onclick = () => dropdownEl.classList.toggle("active");
-    if (searchEl) searchEl.addEventListener("keyup", () => renderOptions(searchEl.value));
-
-    document.addEventListener("click", (e) => {
-        if (!e.target.closest(".gxq_wrap_91")) dropdownEl.classList.remove("active");
-    });
-
-    if (selectEl) renderOptions();
-
-
 
     document.querySelector('form').addEventListener('submit', function(e) {
-    let valid = true;
+        let valid = true;
 
-    document.querySelectorAll('.ck-editor').forEach(function(ckEl) {
-        const editorData = ckEl.querySelector('.ck-content').innerText.trim();
+        document.querySelectorAll('.ck-editor').forEach(function(ckEl) {
+            const editorData = ckEl.querySelector('.ck-content').innerText.trim();
 
-        if (!editorData) {
-            valid = false;
-            let err = ckEl.parentNode.querySelector('.ck-editor-error');
-            if (!err) {
-                err = document.createElement('div');
-                err.className = 'text-danger mt-1 ck-editor-error';
-                err.textContent = 'This field is required.';
-                ckEl.parentNode.appendChild(err);
+            if (!editorData) {
+                valid = false;
+                let err = ckEl.parentNode.querySelector('.ck-editor-error');
+                if (!err) {
+                    err = document.createElement('div');
+                    err.className = 'text-danger mt-1 ck-editor-error';
+                    err.textContent = 'This field is required.';
+                    ckEl.parentNode.appendChild(err);
+                }
+            } else {
+                const err = ckEl.parentNode.querySelector('.ck-editor-error');
+                if (err) err.remove();
             }
-        } else {
-            const err = ckEl.parentNode.querySelector('.ck-editor-error');
-            if (err) err.remove();
-        }
+        });
+
+        if (!valid) e.preventDefault();
     });
 
-    if (!valid) e.preventDefault();
-});
+    // Day Highlights dynamic rows management
+    const highlightsContainer = document.getElementById('highlights-container');
+
+    if (highlightsContainer) {
+        highlightsContainer.addEventListener('click', function(e) {
+            const addBtn = e.target.closest('.btn-add-highlight');
+            const removeBtn = e.target.closest('.btn-remove-highlight');
+
+            if (addBtn) {
+                const currentRow = addBtn.closest('.highlight-item');
+                const newRow = document.createElement('div');
+                newRow.className = 'input-group highlight-item';
+                newRow.innerHTML = `
+                    <input type="text" class="form-control" name="day_highlights"
+                        placeholder="Enter highlight (e.g. Meditate at Kasar Devi)" style="height: 48px;">
+                    <button type="button" class="btn btn-outline-danger btn-remove-highlight d-flex align-items-center justify-content-center" title="Remove highlight" style="width: 44px;">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-add-highlight d-flex align-items-center justify-content-center" title="Add another highlight" style="width: 44px;">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                `;
+                currentRow.after(newRow);
+                newRow.querySelector('input').focus();
+            }
+
+            if (removeBtn) {
+                const row = removeBtn.closest('.highlight-item');
+                const rows = highlightsContainer.querySelectorAll('.highlight-item');
+                if (rows.length > 1) {
+                    row.remove();
+                } else {
+                    row.querySelector('input').value = '';
+                }
+            }
+        });
+    }
 </script>
 {% endblock %}
