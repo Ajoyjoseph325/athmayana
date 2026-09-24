@@ -766,12 +766,13 @@ def delete_highlight(request, id):
 
 
 
-# new view function with heading added
+# new view function with heading added and subpackage filtering
 @login_required(login_url='backoffice')
 def add_package_itinerary(request, edit_id=None):
-    packages = Package.objects.select_related('category').all()
+    packages = Package.objects.select_related('category').all().order_by('name')
     edit_itinerary = None
     page_number = request.POST.get('page_number') or request.GET.get('page', 1)
+    package_filter = request.GET.get('package_filter') or request.POST.get('package_filter') or ''
 
     if edit_id:
         edit_itinerary = get_object_or_404(PackageItineraryTwo, id=edit_id)
@@ -818,13 +819,17 @@ def add_package_itinerary(request, edit_id=None):
             try:
                 edit_itinerary.save()
             except IntegrityError:
-                itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('day')
-                paginator = Paginator(itinerary_list, 1)
+                itinerary_qs = PackageItineraryTwo.objects.select_related('package')
+                if package_filter and package_filter.isdigit():
+                    itinerary_qs = itinerary_qs.filter(package_id=package_filter)
+                itinerary_list = itinerary_qs.order_by('day')
+                paginator = Paginator(itinerary_list, 10)
                 itineraries = paginator.get_page(page_number)
                 return render(request, 'useradmin/add_package_itneraries.html', {
                     'packages': packages,
                     'itineraries': itineraries,
                     'edit_itinerary': edit_itinerary,
+                    'selected_package_id': package_filter,
                     'error': 'Day already exists for this package.'
                 })
         else:
@@ -847,37 +852,56 @@ def add_package_itinerary(request, edit_id=None):
                     images=images,
                 )
             except IntegrityError:
-                itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('day')
-                paginator = Paginator(itinerary_list, 1)
+                itinerary_qs = PackageItineraryTwo.objects.select_related('package')
+                if package_filter and package_filter.isdigit():
+                    itinerary_qs = itinerary_qs.filter(package_id=package_filter)
+                itinerary_list = itinerary_qs.order_by('day')
+                paginator = Paginator(itinerary_list, 10)
                 itineraries = paginator.get_page(page_number)
                 return render(request, 'useradmin/add_package_itneraries.html', {
                     'packages': packages,
                     'itineraries': itineraries,
                     'edit_itinerary': edit_itinerary,
+                    'selected_package_id': package_filter,
                     'error': 'Day already exists for this package.'
                 })
 
-        return redirect(f"{reverse('add_package_itinerary')}?page={page_number}")
+        redirect_url = f"{reverse('add_package_itinerary')}?page={page_number}"
+        if package_filter:
+            redirect_url += f"&package_filter={package_filter}"
+        return redirect(redirect_url)
 
-    itinerary_list = PackageItineraryTwo.objects.select_related('package').order_by('day')
-    paginator = Paginator(itinerary_list, 4)
+    itinerary_qs = PackageItineraryTwo.objects.select_related('package')
+    if package_filter and package_filter.isdigit():
+        itinerary_qs = itinerary_qs.filter(package_id=package_filter)
+    itinerary_list = itinerary_qs.order_by('day')
+    paginator = Paginator(itinerary_list, 10)
     itineraries = paginator.get_page(page_number)
+
+    selected_package_name = None
+    if package_filter and package_filter.isdigit():
+        pkg_match = packages.filter(id=package_filter).first()
+        if pkg_match:
+            selected_package_name = pkg_match.name
 
     return render(request, 'useradmin/add_package_itneraries.html', {
         'packages': packages,
         'itineraries': itineraries,
         'edit_itinerary': edit_itinerary,
+        'selected_package_id': package_filter,
+        'selected_package_name': selected_package_name,
     })
 
 
-
-
-
-
 def delete_package_itinerary(request, id):
-    itinerary = PackageItineraryTwo.objects.get(id=id)
+    itinerary = get_object_or_404(PackageItineraryTwo, id=id)
     itinerary.delete()
-    return redirect('add_package_itinerary')
+    page_number = request.GET.get('page', 1)
+    package_filter = request.GET.get('package_filter', '')
+    redirect_url = f"{reverse('add_package_itinerary')}?page={page_number}"
+    if package_filter:
+        redirect_url += f"&package_filter={package_filter}"
+    return redirect(redirect_url)
 
 
 
