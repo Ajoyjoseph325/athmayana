@@ -161,19 +161,20 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% block nav_gallery %}{% endblock %}"
-                            href="{% url 'add_package_itinerary' %}">
-                            <span class="icons"><i class="bi bi-images"></i></span>
-                            <span class="content">Add package itneraries</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link {% block nav_packagedetails %}{% endblock %}"
                             href="{% url 'add_package_details' %}">
                             <span class="icons"><i class="bi bi-file-plus-fill"></i></span>
                             <span class="content">Add Package Details</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block nav_gallery %}{% endblock %}"
+                            href="{% url 'add_package_itinerary' %}">
+                            <span class="icons"><i class="bi bi-images"></i></span>
+                            <span class="content">Add package itneraries</span>
+                        </a>
+                    </li>
+
 
 
                     <li class="nav-menu-title">Account</li>
@@ -301,6 +302,21 @@
     <!-- ============================================================ -->
     <script src="{% static 'assets/libs/virtual-select-plugin/virtual-select.min.js' %}"></script>
     <script src="{% static 'assets/js/src/form-file-input.js' %}" type="module"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                const currentPath = window.location.pathname;
+                const navLinks = document.querySelectorAll('.main-sidebar .navbar-nav-menu a.nav-link');
+                navLinks.forEach(function (link) {
+                    const href = link.getAttribute('href');
+                    if (href && href !== '#' && href !== '' && href !== '/' && currentPath.startsWith(href)) {
+                        link.classList.add('active');
+                    }
+                });
+            }, 60);
+        });
+    </script>
 
     {% block extra_js %}{% endblock %}
 

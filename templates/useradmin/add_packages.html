@@ -1,6 +1,3 @@
-Here is your `add_packages.html` converted properly for Django using your `useradmin/base_admin.html`. 
-
-```html id="3x1r0h"
 {% extends 'useradmin/base_admin.html' %}
 {% load static %}
 
@@ -81,65 +78,60 @@ Here is your `add_packages.html` converted properly for Django using your `usera
 
         </div>
 
-
-
         <!-- Category -->
-<div class="col-md-6">
+        <div class="col-md-6">
 
-    <select
-        class="form-select form-control"
-        name="category"
-        style="height: 55px;"
-        required
-    >
+            <select
+                class="form-select form-control"
+                name="category"
+                style="height: 40px;"
+                required
+            >
 
-        <option disabled {% if not package %}selected{% endif %} value="">
-            Select Package
-        </option>
+                <option disabled {% if not package %}selected{% endif %} value="">
+                    Select Package
+                </option>
 
-        {% for category in categories %}
+                {% for category in categories %}
 
-        <option
-            value="{{ category.id }}"
-            {% if package.category.id == category.id %}selected{% endif %}
-        >
-            {{ category.categoryname }}
-        </option>
+                <option
+                    value="{{ category.id }}"
+                    {% if package.category.id == category.id %}selected{% endif %}
+                >
+                    {{ category.categoryname }}
+                </option>
 
-        {% endfor %}
+                {% endfor %}
 
-    </select>
+            </select>
 
-</div>
-
-
-
+        </div>
 
         <!-- Image -->
-<div class="col-md-12">
+        <div class="col-md-12">
 
-    <label class="mb-2">
-        Package Image
-    </label>
+            <label class="mb-2">
+                Package Image
+            </label>
 
-    <input
-        type="file"
-        class="form-control"
-        name="image"
-        accept="image/*"
-    {% if not package %}required{% endif %}>
+            <input
+                type="file"
+                class="form-control"
+                name="image"
+                accept="image/*"
+            {% if not package %}required{% endif %}>
 
-    {% if package.image %}
-    
-        <img 
-            src="{{ package.image.url }}" 
-            width="120"
-            class="mt-2"
-        >
+            {% if package.image %}
+            
+                <img 
+                    src="{{ package.image.url }}" 
+                    width="120"
+                    class="mt-2"
+                >
 
-    {% endif %}
+            {% endif %}
 
-</div>
+        </div>
 
         <!-- Duration -->
         <div class="col-md-6">
@@ -188,83 +180,49 @@ Here is your `add_packages.html` converted properly for Django using your `usera
         </div>
 
         <!-- Status -->
-        <!-- <div class="col-md-6">
-
+        <div class="col-md-6">
             <select
                 class="form-select form-control"
                 name="status"
-                style="height: 55px;"
+                style="height: 40px;"
                 required
             >
-
-                <option disabled>
+                <option disabled value="" {% if not package %}selected{% endif %}>
                     Select Status
                 </option>
 
-                <option
-                    value="Active"
-                    {% if package.status == 'Active' %}selected{% endif %}
-                >
+                <option value="Active" {% if package.status == 'Active' %}selected{% endif %}>
                     Active
                 </option>
 
-                <option
-                    value="Inactive"
-                    {% if package.status == 'Inactive' %}selected{% endif %}
-                >
+                <option value="Inactive" {% if package.status == 'Inactive' %}selected{% endif %}>
                     Inactive
                 </option>
 
             </select>
-
-        </div> -->
-
-
-
-        <div class="col-md-6">
-    <select
-        class="form-select form-control"
-        name="status"
-        style="height: 55px;"
-        required
-    >
-        <option disabled value="" {% if not package %}selected{% endif %}>
-            Select Status
-        </option>
-
-        <option value="Active" {% if package.status == 'Active' %}selected{% endif %}>
-            Active
-        </option>
-
-        <option value="Inactive" {% if package.status == 'Inactive' %}selected{% endif %}>
-            Inactive
-        </option>
-
-    </select>
-</div>
+        </div>
 
         <!-- Submit -->
-       <!-- Submit -->
-<div class="col-md-12 mt-5 d-flex gap-2">
+        <div class="col-md-12 mt-5 d-flex gap-2">
 
-    <button
-        type="submit"
-        class="btn btn-dark w-100"
-    >
-        {% if package %}
-            Update Package
-        {% else %}
-            Submit
-        {% endif %}
-    </button>
+            <button
+                type="submit"
+                class="btn btn-dark w-100"
+            >
+                {% if package %}
+                    Update Package
+                {% else %}
+                    Submit
+                {% endif %}
+            </button>
 
-    {% if package %}
-        <a href="{% url 'add_packages' %}?page={{ packages.number }}" class="btn btn-secondary w-100">
-            Cancel
-        </a>
-    {% endif %}
+            {% if package %}
+                <a href="{% url 'add_packages' %}?page={{ packages.number }}" class="btn btn-secondary w-100">
+                    Cancel
+                </a>
+            {% endif %}
 
-</div>
+        </div>
 
     </div>
 
@@ -277,109 +235,103 @@ Here is your `add_packages.html` converted properly for Django using your `usera
                 </div>
 
                 <!-- TABLE -->
-              <!-- TABLE -->
-<div class="col-md-8">
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table text-nowrap mb-0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Duration</th>
-                            <th>Amount</th>
-                            <th>Image</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for package in packages %}
-                        <tr>
-                            <td>{{ packages.start_index|add:forloop.counter0 }}</td>
-                            <td>{{ package.name | upper }}</td>
-                            <td>{{ package.category.categoryname | upper }}</td>
-                            <td>{{ package.duration }}</td>
-                            <td>{{ package.amount }}</td>
-                            <td>
-                                {% if package.image %}
-                                <img src="{{ package.image.url }}" width="70" height="70"
-                                    style="object-fit:cover; border-radius:8px;">
+                <div class="col-md-8">
+                    <div class="card shadow-sm border">
+                        <div class="card-body p-2">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle text-nowrap mb-0" style="font-size: 13.5px;">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th style="width: 40px;" class="text-center py-2">#</th>
+                                            <th class="py-2">Name</th>
+                                            <th class="py-2" style="width: 130px;">Category</th>
+                                            <th class="py-2" style="width: 90px;">Duration</th>
+                                            <th class="py-2" style="width: 90px;">Amount</th>
+                                            <th class="py-2 text-center" style="width: 65px;">Image</th>
+                                            <th class="py-2 text-center" style="width: 75px;">Status</th>
+                                            <th class="py-2 text-center" style="width: 70px;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for package in packages %}
+                                        <tr>
+                                            <td class="text-center text-muted py-2">{{ packages.start_index|add:forloop.counter0 }}</td>
+                                            <td class="fw-semibold text-dark py-2">{{ package.name | upper }}</td>
+                                            <td class="py-2"><span class="badge bg-light text-dark border">{{ package.category.categoryname | upper }}</span></td>
+                                            <td class="py-2">{{ package.duration }}</td>
+                                            <td class="py-2 fw-medium text-dark">{{ package.amount }}</td>
+                                            <td class="text-center py-2">
+                                                {% if package.image %}
+                                                <img src="{{ package.image.url }}" width="44" height="44"
+                                                    style="object-fit:cover; border-radius:6px;">
+                                                {% else %}
+                                                <span class="text-muted" style="font-size: 11px;">No Image</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center py-2">
+                                                {% if package.status == 'Active' %}
+                                                <span class="badge bg-success px-2 py-1" style="font-size: 11px;">Active</span>
+                                                {% else %}
+                                                <span class="badge bg-danger px-2 py-1" style="font-size: 11px;">Inactive</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center py-2">
+                                                <a href="{% url 'edit_package' package.id %}?page={{ packages.number }}"
+                                                    class="link link-warning me-2" title="Edit">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+                                                <a href="{% url 'delete_package' package.id %}"
+                                                    class="link link-danger"
+                                                    onclick="return confirm('Are you sure?')" title="Delete">
+                                                    <i class="bi bi-trash3"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="8" class="text-center text-muted py-4">No packages found.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-end w-100 mt-2">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination pagination-sm">
+                                {% if packages.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ packages.previous_page_number }}">Previous</a>
+                                </li>
                                 {% else %}
-                                No Image
+                                <li class="page-item disabled">
+                                    <span class="page-link">Previous</span>
+                                </li>
                                 {% endif %}
-                            </td>
-                            <td>
-                                {% if package.status == 'Active' %}
-                                <span class="badge bg-success">Active</span>
+
+                                {% for num in packages.paginator.page_range %}
+                                <li class="page-item {% if packages.number == num %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                                {% endfor %}
+
+                                {% if packages.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ packages.next_page_number }}">Next</a>
+                                </li>
                                 {% else %}
-                                <span class="badge bg-danger">Inactive</span>
+                                <li class="page-item disabled">
+                                    <span class="page-link">Next</span>
+                                </li>
                                 {% endif %}
-                            </td>
-                            <td>
-                                <!-- <a href="{% url 'edit_package' package.id %}?page={{ packages.number }}"
-                                    class="link link-warning">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a> -->
+                            </ul>
+                        </nav>
+                    </div>
 
-                                <a href="{% url 'edit_package' package.id %}?page={{ packages.number }}"
-                                    class="link link-warning">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <a href="{% url 'delete_package' package.id %}"
-                                    class="link link-danger"
-                                    onclick="return confirm('Are you sure?')">
-                                    <i class="bi bi-trash3"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="8" class="text-center text-muted py-3">No packages found.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pagination -->
-    <div class="d-flex justify-content-end w-100 mt-2">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                {% if packages.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ packages.previous_page_number }}">Previous</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">Previous</span>
-                </li>
-                {% endif %}
-
-                {% for num in packages.paginator.page_range %}
-                <li class="page-item {% if packages.number == num %}active{% endif %}">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                </li>
-                {% endfor %}
-
-                {% if packages.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ packages.next_page_number }}">Next</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">Next</span>
-                </li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
-
-</div>
+                </div>
 
             </div>
 
@@ -390,4 +342,3 @@ Here is your `add_packages.html` converted properly for Django using your `usera
 </div>
 
 {% endblock %}
-```

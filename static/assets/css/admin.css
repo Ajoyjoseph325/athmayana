@@ -53,4 +53,125 @@ html[data-layout="horizontal"] .main-footer {
     border-top-color: rgba(255, 255, 255, 0.08);
 }
 
+/* Sidebar Nav Item Styling & Active Highlight */
+.main-sidebar .navbar-nav-menu .nav-link {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7) !important;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+.main-sidebar .navbar-nav-menu .nav-link .icons,
+.main-sidebar .navbar-nav-menu .nav-link .icons i,
+.main-sidebar .navbar-nav-menu .nav-link .content {
+    color: rgba(255, 255, 255, 0.7) !important;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover State - White Highlight */
+.main-sidebar .navbar-nav-menu .nav-link:hover {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.main-sidebar .navbar-nav-menu .nav-link:hover .icons,
+.main-sidebar .navbar-nav-menu .nav-link:hover .icons i,
+.main-sidebar .navbar-nav-menu .nav-link:hover .content {
+    color: #ffffff !important;
+}
+
+/* Active State (Selected Page) - Highlighted in white just like mouse hover */
+.main-sidebar .navbar-nav-menu .nav-link.active,
+.main-sidebar .navbar-nav-menu .nav-item.active > .nav-link {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.18) !important;
+    font-weight: 600;
+}
+
+.main-sidebar .navbar-nav-menu .nav-link.active .icons,
+.main-sidebar .navbar-nav-menu .nav-link.active .icons i,
+.main-sidebar .navbar-nav-menu .nav-link.active .content,
+.main-sidebar .navbar-nav-menu .nav-item.active > .nav-link .icons,
+.main-sidebar .navbar-nav-menu .nav-item.active > .nav-link .icons i,
+.main-sidebar .navbar-nav-menu .nav-item.active > .nav-link .content {
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* ============================================================ */
+/* Form Controls & Dropdowns 40px Height Rule                    */
+/* ============================================================ */
+.form-control:not(textarea),
+.form-select,
+select.form-control,
+input.form-control,
+input[type="text"].form-control,
+input[type="password"].form-control,
+input[type="email"].form-control,
+input[type="number"].form-control,
+input[type="file"].form-control,
+input[type="search"].form-control,
+input[type="date"].form-control,
+.input-group .form-control,
+.input-group .form-select,
+.input-group .btn,
+.input-group .input-group-text,
+.vscomp-wrapper,
+.vscomp-toggle-button,
+.jkp_box_33 {
+    height: 40px !important;
+    min-height: 40px !important;
+    font-size: 14px;
+}
+
+.form-control:not(textarea),
+.form-select {
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+}
+
+input[type="file"].form-control {
+    padding-top: 0.45rem;
+    line-height: 1.2;
+}
+
+/* Form Floating 40px Adjustments */
+.form-floating {
+    height: 40px;
+}
+
+.form-floating > .form-control:not(textarea),
+.form-floating > .form-select {
+    height: 40px !important;
+    min-height: 40px !important;
+    line-height: 1.25;
+    padding-top: 1rem !important;
+    padding-bottom: 0.25rem !important;
+    padding-left: 0.75rem !important;
+    font-size: 13.5px;
+}
+
+.form-floating > textarea.form-control {
+    height: auto !important;
+    min-height: unset !important;
+}
+
+.form-floating > label {
+    padding: 0.55rem 0.75rem !important;
+    font-size: 13px !important;
+    line-height: 1.25;
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label,
+.form-floating > .form-select ~ label {
+    opacity: 0.75;
+    transform: scale(0.8) translateY(-0.5rem) translateX(0.15rem) !important;
+}
+
+
 

@@ -2738,6 +2738,7 @@
 <div style="background-color: #fdf5ec">
     <section class="_rx902">
         <div class="_rx903">
+            {% if details and details.additional_place_content or details.additional_place_heading %}
             <div class="_rx904" style="display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
                     <div class="_rx704">
@@ -2749,25 +2750,20 @@
                         </div>
                         <div>
                             <h3 class="_rx706">
-                                {{ details.additional_place_heading|default:"Optional Places to Visit (Lipulekh Pass)" }}
+                                {{ details.additional_place_heading|default:"Optional Places to Visit" }}
                             </h3>
                             <div class="_rx707">
                                 Subject to Permit & Weather Conditions
                             </div>
                         </div>
                     </div>
-                    {% if details and details.additional_place_content %}
+                    {% if details.additional_place_content %}
                     <div class="_rx909_rich" style="margin-bottom: 14px;">
                         {{ details.additional_place_content|safe }}
                     </div>
-                    {% else %}
-                    <ul class="_rx614" style="margin-bottom: 14px;">
-                        <li class="_rx615"><strong>Lipulekh Pass (Kailash View Point):</strong> Participants may choose to undertake an optional visit towards Lipulekh Pass for a view of Mt. Kailash from Indian territory.</li>
-                        <li class="_rx615"><strong>Local Excursion Charges:</strong> Any local vehicle or pony charges for optional excursions are payable directly on spot.</li>
-                    </ul>
                     {% endif %}
                 </div>
-                {% if details and details.additional_permission_details %}
+                {% if details.additional_permission_details %}
                 <div class="_rx712" style="margin-top: 12px;">
                     <svg width="18" height="18" fill="#b85b24" style="flex-shrink: 0; margin-top: 2px"
                         viewBox="0 0 24 24">
@@ -2789,6 +2785,7 @@
                 </div>
                 {% endif %}
             </div>
+            {% endif %}
 
             <div class="_rx904">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px">
